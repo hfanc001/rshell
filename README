@@ -1,0 +1,13 @@
+EADME FOR RSHELL FOR CS100
+  2 
+  3 comment does not work for echo
+  4 cannot compile with tag "-Wall -Werror -asin -pedantic" -> will have a error called "ISO C++forbids     variable-szie array"
+  5 cannot take multiple commands with connecters such as || && or ;
+  6 finger user does not work, shows "no such file"
+  7 u name -a does not work, shows "no such file"
+  8 who am i works
+  9 branch works
+ 10 opening, compiling and running a cpp file works
+ 11 cannot cat README
+ 12 can make a new file
+ 13 can remove a file

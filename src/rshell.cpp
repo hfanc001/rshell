@@ -5,9 +5,9 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include "rshell_fun.h"
 #include <vector>
 #include <sstream>
+#include <stdlib.h>
 using namespace std;
 
 int main(int argc, char ** argv)
@@ -35,7 +35,6 @@ int main(int argc, char ** argv)
 	//always print out $ and ask for input
 	while(1)
 	{
-		cout << "New" << endl;
 		//need to get input
 		string word = "";
 		int pos = 0;

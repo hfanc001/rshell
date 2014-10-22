@@ -1,0 +1,444 @@
+Script started on Tue 21 Oct 2014 11:38:46 PM PDT
+~
+hfanc001@hammer $ cd cs100/c[Kucr-cs100/assignmenrs[K[Kts/hw/hw0-rshell/s[Ksrc
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ dir
+rshell.cpp
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ g++ rshell.cpp
+rshell.cpp:8:24: error: rshell_fun.h: No such file or directory
+rshell.cpp: In function â€˜int main(int, char**)â€™:
+rshell.cpp:52: error: â€˜exitâ€™ was not declared in this scope
+rshell.cpp:179: error: â€˜exitâ€™ was not declared in this scope
+rshell.cpp:189: error: â€˜exitâ€™ was not declared in this scope
+rshell.cpp:192: error: â€˜exitâ€™ was not declared in this scope
+rshell.cpp:200: error: â€˜exitâ€™ was not declared in this scope
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ vim rshell.cpp
+7[?47h[?1h=[1;28r[m[H[2J[28;1H"rshell.cpp" 208L, 4772C[>c[1;1H[33m 70 [m[31C [34m//if comes into this if[m
+[33m 71 [m[31C [34m//there is a connecter[m
+[33m 72 [m[31C [34m//set connecter to true[m
+[33m 73 [m[31C connecter = [31mtrue[m;
+[33m 74 
+ 75 [m[31C [34m//if the connecter is a pipe[m
+[33m 76 [m[31C [34m//set the connecter_type as 1[m
+[33m 77 [m[31C [33mif[m(word.at(i) == [31m'|'[m)
+[33m 78 [m[31C {
+[33m 79 [m[39C connecter_type = [31m1[m;
+[33m 80 [m[31C }
+[33m 81 
+ 82 [m[31C [34m//if the connecter is an and[m
+[33m 83 [m[31C [34m//set the connecter_type as 2[m
+[33m 84 [m[31C [33mif[m(word.at(i) == [31m'&'[m)
+[33m 85 [m[31C {
+[33m 86 [m[39C connecter_type = [31m2[m;
+[33m 87 [m[31C }
+[33m 88 
+ 89 [m[31C [34m//if the connecter is an semicolon[m
+[33m 90 [m[31C [34m//set the connecter_type as 3[m
+[33m 91 [m[31C [33mif[m(word.at(i) == [31m';'[m)
+[33m 92 [m[31C {
+[33m 93 [m[39C connecter_type = [31m3[m;
+[33m 94 [m[31C }
+[33m 95 [m[23C }
+[33m 96 [m[15C }[28;86H83,5-33[7C38%[14;37HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[m[H[2J[1;1H[33m 39 [m[15C [34m//need to get input[m
+[33m 40 [m[15C string word = [31m""[m;
+[33m 41 [m[15C [32mint[m pos = [31m0[m;
+[33m 42 
+ 43 [m[15C [34m//take input from the user[m
+[33m 44 [m[15C [33mwhile[m(word == [31m""[m)
+[33m 45 [m[15C {
+[33m 46 [m[23C cout << username << [31m"@"[m << hostname1 << [31m"$ "[m;
+[33m 47 [m[23C getline(cin, word);
+[33m 48 [m[15C }
+[33m 49 
+ 50 [m[15C [33mif[m(word == [31m"exit"[m)
+[33m 51 [m[15C {
+[33m 52 [m[23C exit([31m0[m);
+[33m 53 [m[15C }
+[33m 54 
+ 55 [m[15C [34m//the bool that check if there is a connecter in the command entered[m
+[33m 56 [m[15C [32mbool[m connecter = [31mfalse[m;
+[33m 57 [m[15C [34m//check and know what connecter type it is[m
+[33m 58 [m[15C [32mint[m connecter_type = [31m0[m;
+[33m 59 [m[15C [34m//so the program knows how many more commands to do[m
+[33m 60 [m[15C [34m//used for connecter[m
+[33m 61 [m[15C [32mint[m commandsToDo = [31m0[m;
+[33m 62 
+ 63 [m[15C [32mint[m wsize = word.size();
+[33m 64 [m[15C [34m//check if there is a connector [m
+[33m 65 [m[15C [33mfor[m([32mint[m i = [31m0[m; i < wsize; i++)[28;86H52,4-25[7C20%[14;29H[13;21H[46m{[15;21H}[m[28;87H1,3-17[13;21H{[15;21H}[28;87H2,4-25[14;29H[13;21H[46m{[15;21H}[m[28;87H1,3-17[13;21H{[15;21H}[28;87H0,11-25[12;29H[28;86H49,1-8  [11;12H[7;21H[46m{[10;21H}[m[28;87H8,3-17[10;21H[7;21H{[10;21H}[28;87H7,4-25[9;29H[28;87H6[8;29H[7;21H[46m{[10;21H}[m[28;87H5,3-17[7;21H{[10;21H}[28;87H4,11-25[6;29H[28;87H3[5;29H[28;87H2,0-1  [4;5H[28;87H1,11-25[3;29H[28;87H0[2;29H[28;86H39[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 38 [m[15C cout << [31m"New"[m << endl;[28;86H[K[28;86H38,11-25      20%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 37 [m[7C {[28;86H[K[28;86H37,2-9[8C19%[1;13H[1;27r[1;1H[L[1;28r[1;1H[33m 36 [m[7C [33mwhile[m[46m([m[31m1[m[46m)[m[28;86H[K[28;86H36,9-16[7C19%[1;20H[1;27r[1;1H[L[1;28r[1;1H[33m 35 [m[7C [34m//always print out $ and ask for input[m[2;18H([1C)[28;86H[K[28;86H35,18-25      18%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 34 [m[28;86H[K[28;86H34,2-16[7C18%[1;20H[1;27r[1;1H[L[1;28r[1;1H[33m 33 [m[7C }[28;86H[K[28;86H33,2-9[8C17%[1;13H[1;27r[1;1H[L[1;28r[1;1H[33m 32 [m[15C perror([31m"An error occured in gethostname"[m);[28;86H[K[28;86H32,11-25      17%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 31 [m[7C [46m{[3;13H}[m[28;86H[K[28;86H31,2-9[8C16%[1;13H[1;27r[1;1H[L[1;28r[1;1H[33m 30 [m[7C [33mif[m(hostname2 != [31m0[m)[2;13H{[4;13H}[28;86H[K[28;86H30,18-25      16%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 29 [m[28;86H[K[28;86H29,1-8[8C15%[1;12H[1;27r[1;1H[L[1;28r[1;1H[33m 28 [m[7C [32mint[m hostname2 = gethostname(hostname1, [33msizeof[m(hostname1) - [31m1[m);[28;86H[K[28;86H28,18-25      14%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 27 [m[7C [34m//call gethostname and check if it works[m[28;86H[K[28;86H27,18-25      14%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 26 [m[28;86H[K[28;86H26,0-1[8C13%[1;5H[1;27r[1;1H[L[1;28r[1;1H[33m 25 [m[7C }[28;86H[K[28;86H25,2-9[8C13%[1;13H[1;27r[1;1H[L[1;28r[1;1H[33m 24 [m[15C perror([31m"An error occured in getlogin()"[m);[28;86H[K[28;86H24,11-25      12%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 23 [m[7C [46m{[3;13H}[m[28;86H[K[28;86H23,2-9[8C12%[1;13H[1;27r[1;1H[L[1;28r[1;1H[33m 22 [m[7C [33mif[m[46m([mlogin != [31m0[m[46m)[m[2;13H{[4;13H}[28;86H[K[28;86H22,15-22      11%[1;26H[1;27r[1;1H[L[1;28r[1;1H[33m 21 [m[7C [32mint[m login = getlogin_r(username, [33msizeof[m(username - [31m1[m));[2;15H([10C)[28;86H[K[28;86H21,18-25      11%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 20 [m[7C [34m//call getlogin_r and check if it works[m[28;86H[K[28;86H20,18-25      10%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 19 [m[28;86H[K[28;86H19,1-8[9C9%[1;12H[1;27r[1;1H[L[1;28r[1;1H[33m 18 [m[7C [32mchar[m hostname1[[31m100[m];[28;86H[K[28;86H18,18-25[7C9%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 17 [m[7C [32mchar[m username[[31m100[m];[28;86H[K[28;86H17,18-25[7C8%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 16 [m[7C [34m//and then set it as 100 so there could be a lot of space for it[m[28;86H[K[28;86H16,18-25[7C8%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 15 [m[7C [34m//first set the size of the username and the hostname[m[28;86H[K[28;86H15,18-25[7C7%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 14 [m{[28;86H[K[28;86H14,1[11C7%[1;5H[1;27r[1;1H[L[1;28r[1;1H[33m 13 [m[32mint[m main([32mint[m argc, [32mchar[m ** argv)[28;86H[K[28;86H13,25[10C6%[1;29H[1;27r[1;1H[L[1;28r[1;1H[33m 12 [m[28;86H[K[28;86H12,0-1[9C6%[1;5H[1;27r[1;1H[L[1;28r[1;1H[33m 11 using[m [32mnamespace[m std;[28;86H[K[28;86H11,20[10C5%[1;24H[1;27r[1;1H[L[1;28r[1;1H[33m 10 [m[35m#include [m[31m<sstream>[m[28;86H[K[28;86H10,18[10C4%[1;22H[1;27r[1;1H[L[1;28r[1;1H[33m  9 [m[35m#include [m[31m<vector>[m[28;86H[K[28;86H9,17[11C4%[1;21H[1;27r[1;1H[L[1;28r[1;1H[33m  8 [m[35m#include [m[31m"rshell_fun.h"[m[28;86H[K[28;86H8,23[11C3%[1;27H[1;27r[1;1H[L[1;28r[1;1H[33m  7 [m[35m#include [m[31m<sys/wait.h>[m[28;86H[K[28;86H7,21[11C3%[1;25H[1;27r[1;1H[L[1;28r[1;1H[33m  6 [m[35m#include [m[31m<sys/types.h>[m[28;86H[K[28;86H6,22[11C2%[1;26H[1;27r[1;1H[L[1;28r[1;1H[33m  5 [m[35m#include [m[31m<string.h>[m[28;86H[K[28;86H5,19[11C2%[1;23H[1;27r[1;1H[L[1;28r[1;1H[33m  4 [m[35m#include [m[31m<string>[m[28;86H[K[28;86H4,17[11C1%[1;21H[1;27r[1;1H[L[1;28r[1;1H[33m  3 [m[35m#include [m[31m<iostream>[m[28;86H[K[28;86H3,19[11C1%[1;23H[1;27r[1;1H[L[1;28r[1;1H[33m  2 [m[35m#include [m[31m<stdio.h>[m[28;86H[K[28;86H2,18[11C0%[1;22H[1;27r[1;1H[L[1;28r[1;1H[33m  1 [m[35m#include [m[31m<unistd.h>[m[28;86H[K[28;86H1,19[10CTop[1;23H[28;86H2,18[2;22H[28;86H3,19[3;23H[28;86H4,17[4;21H[28;86H5,19[5;23H[28;86H6,22[6;26H[28;86H7,21[7;25H[28;86H8,23[8;27H[28;86H9,17[9;21H[28;86H10,18[10;22H[28;1H[1m-- INSERT --[m[28;86H[K[28;86H11,1[10CTop[11;5H[K[12;4H[33m using[m [32mnamespace[m std;[13;5H[K[14;4H[33m [m[32mint[m main([32mint[m argc, [32mchar[m ** argv)[15;4H[33m [m{[15;13H[K[16;14H[34m/first set the size of the username and the hostname[m[16;66H[K[17;12H [34m//and then set it as 100 so there could be a lot of space for it[m[18;17H username[[31m100[m];[18;32H[K[19;12H [32mchar[m hostname1[[31m100[m];[20;13H[K[21;12H [34m//call getlogin_r and check if it works[m[21;52H[K[22;13H[32mint[m login = getlogin_r(username, [33msizeof[m(username - [31m1[m));[23;12H [33mif[m(login != [31m0[m)[24;12H {[24;21H[K[25;12H         perror([31m"An error occured in getlogin()"[m);[26;12H }[27;13H[K[11;5H[33m [m#[28;89H2[11;6H#i[28;89H3[11;7Hin[28;89H4[11;8Hnc[28;89H5[11;9Hcl[28;89H6[11;10Hlu[28;89H7[11;11Hud[28;89H8[11;12Hde[28;89H9[11;13H[28;89H10[11;14H[11;5H[35m#include <[m[28;90H1[11;15H[35m<[ms[28;90H2[11;16Hst[28;90H3[11;17Htd[28;90H4[11;18Hdl[28;90H5[11;19Hli[28;90H6[11;20Hin[28;90H7[11;21Hn.[28;90H8[11;22H[11;21H[K[28;90H7[11;21H[11;20H[K[28;90H6[11;20H[11;19H[K[28;90H5[11;19H[11;18H[K[28;90H4[11;18Hdl[28;90H5[11;19Hli[28;90H6[11;20Hib[28;90H7[11;21Hb.[28;90H8[11;22H.h[28;90H9[11;23Hh?[12;24H[1m[37m[41m;[15;5H{[18;31H;[19;32H;[22;67H;[24;13H{[25;61H;[26;13H}[m[28;89H20[11;24H[11;23H[K[12;24H;[15;5H{[18;31H;[19;32H;[22;67H;[24;13H{[25;61H;[26;13H}[28;89H19[11;23H[11;14H[31m<stdlib.h>[m[28;89H20[11;24H[28;1H[K[11;23H[28;86H11,19[9CTop[11;23H[28;86H[K[28;1H:wq"rshell.cpp" 209L, 4792C written
+[?1l>[2J[?47l8~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ vim rshell.cppg++[C[C[C[C[C[C[C[C[C[C[Cvim[C[C[C[C[C[C[C[C[C[C[Cg++[C[C[C[C[C[C[C[C[C[C[C
+rshell.cpp:8:24: error: rshell_fun.h: No such file or directory
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ g++ rshell.cppvim[C[C[C[C[C[C[C[C[C[C[C
+7[?47h[?1h=[1;28r[m[H[2J[28;1H"rshell.cpp" 209L, 4792C[>c[1;1H[33m  1 [m[35m#include [m[31m<unistd.h>[m
+[33m  2 [m[35m#include [m[31m<stdio.h>[m
+[33m  3 [m[35m#include [m[31m<iostream>[m
+[33m  4 [m[35m#include [m[31m<string>[m
+[33m  5 [m[35m#include [m[31m<string.h>[m
+[33m  6 [m[35m#include [m[31m<sys/types.h>[m
+[33m  7 [m[35m#include [m[31m<sys/wait.h>[m
+[33m  8 [m[35m#include [m[31m"rshell_fun.h"[m
+[33m  9 [m[35m#include [m[31m<vector>[m
+[33m 10 [m[35m#include [m[31m<sstream>[m
+[33m 11 [m[35m#include [m[31m<stdlib.h>[m
+[33m 12 using[m [32mnamespace[m std;
+[33m 13 
+ 14 [m[32mint[m main([32mint[m argc, [32mchar[m ** argv)
+[33m 15 [m{
+[33m 16 [m[7C [34m//first set the size of the username and the hostname[m
+[33m 17 [m[7C [34m//and then set it as 100 so there could be a lot of space for it[m
+[33m 18 [m[7C [32mchar[m username[[31m100[m];
+[33m 19 [m[7C [32mchar[m hostname1[[31m100[m];
+[33m 20 
+ 21 [m[7C [34m//call getlogin_r and check if it works[m
+[33m 22 [m[7C [32mint[m login = getlogin_r(username, [33msizeof[m(username - [31m1[m));
+[33m 23 [m[7C [33mif[m(login != [31m0[m)
+[33m 24 [m[7C {
+[33m 25 [m[15C perror([31m"An error occured in getlogin()"[m);
+[33m 26 [m[7C }
+[33m 27 [m[28;86H11,1[10CTop[11;5HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[28;87H0[10;5H[28;86H9,1 [9;5H[28;86H8[8;5H[8C[35m [m[31m<vector>[m[8;22H[K[9;14H[31m<sstream>[10;15Hstdlib.h>[m[11;4H[33m using[m [32mnamespace[m std;[12;5H[K[13;4H[33m [m[32mint[m main([32mint[m argc, [32mchar[m ** argv)[14;4H[33m [m{[14;6H[K[15;4H[33m [m        [34m//first set the size of the username and the hostname[16;14H/and then set it as 100 so there could be a lot of space for it[m[17;12H [32mchar[m username[[31m100[m];[17;32H[K[18;17H hostname1[[31m100[m];[19;13H[K[20;12H [34m//call getlogin_r and check if it works[m[21;12H [32mint[m login = getlogin_r(username, [33msizeof[m(username - [31m1[m));[22;13H[33mif[m(login != [31m0[m)[22;27H[K[23;12H {[23;14H[K[24;12H         perror([31m"An error occured in getlogin()"[m);[25;12H }[25;21H[K[26;13H[K[27;12H [34m//call gethostname and check if it works[8;5H[m[28;1H[K[28;1H:wq"rshell.cpp" 208L, 4768C written
+[?1l>[2J[?47l8~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ vim rshell.cppg++[C[C[C[C[C[C[C[C[C[C[C
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ ./a.out
+An error occured in getlogin(): Numerical result out of range
+New
+ôë)ÿ@hammer.cs.ucr.edu$ ls -a
+
+.  ..  a.out  rshell.cpp
+New
+ôë)ÿ@hammer.cs.ucr.edu$ exho   cho hello]
+
+hello]
+New
+ôë)ÿ@hammer.cs.ucr.edu$ echo # h   hello #hi
+
+hello #hi
+New
+ôë)ÿ@hammer.cs.ucr.edu$ 
+ôë)ÿ@hammer.cs.ucr.edu$ mkdir te  here
+
+New
+ôë)ÿ@hammer.cs.ucr.edu$ mrdir     mr dir      rm dir here
+
+rm: cannot remove `dir': No such file or directory
+rm: cannot remove `here': Is a directory
+New
+ôë)ÿ@hammer.cs.ucr.edu$ rm d  dir here
+
+New
+ôë)ÿ@hammer.cs.ucr.edu$ date
+
+Tue Oct 21 23:42:11 PDT 2014
+New
+ôë)ÿ@hammer.cs.ucr.edu$ user
+
+An error occured in execvp: No such file or directory
+New
+ôë)ÿ@hammer.cs.ucr.edu$ finger user
+
+An error occured in execvp: No such file or directory
+New
+ôë)ÿ@hammer.cs.ucr.edu$ u name -a
+
+An error occured in execvp: No such file or directory
+New
+ôë)ÿ@hammer.cs.ucr.edu$ who am i
+
+hfanc001 pts/49       2014-10-21 23:38
+New
+ôë)ÿ@hammer.cs.ucr.edu$  ehoc =   cho h         hello
+
+hello     
+New
+ôë)ÿ@hammer.cs.ucr.edu$ b vim rshell.cpp
+
+7[?47h[?1h=[1;28r[m[H[2J[28;1H"rshell.cpp" 208L, 4768C[>c[1;1H[33m  1 [m[35m#include [m[31m<unistd.h>[m
+[33m  2 [m[35m#include [m[31m<stdio.h>[m
+[33m  3 [m[35m#include [m[31m<iostream>[m
+[33m  4 [m[35m#include [m[31m<string>[m
+[33m  5 [m[35m#include [m[31m<string.h>[m
+[33m  6 [m[35m#include [m[31m<sys/types.h>[m
+[33m  7 [m[35m#include [m[31m<sys/wait.h>[m
+[33m  8 [m[35m#include [m[31m<vector>[m
+[33m  9 [m[35m#include [m[31m<sstream>[m
+[33m 10 [m[35m#include [m[31m<stdlib.h>[m
+[33m 11 using[m [32mnamespace[m std;
+[33m 12 
+ 13 [m[32mint[m main([32mint[m argc, [32mchar[m ** argv)
+[33m 14 [m{
+[33m 15 [m[7C [34m//first set the size of the username and the hostname[m
+[33m 16 [m[7C [34m//and then set it as 100 so there could be a lot of space for it[m
+[33m 17 [m[7C [32mchar[m username[[31m100[m];
+[33m 18 [m[7C [32mchar[m hostname1[[31m100[m];
+[33m 19 
+ 20 [m[7C [34m//call getlogin_r and check if it works[m
+[33m 21 [m[7C [32mint[m login = getlogin_r(username, [33msizeof[m(username - [31m1[m));
+[33m 22 [m[7C [33mif[m(login != [31m0[m)
+[33m 23 [m[7C {
+[33m 24 [m[15C perror([31m"An error occured in getlogin()"[m);
+[33m 25 [m[7C }
+[33m 26 
+ 27 [m[7C [34m//call gethostname and check if it works[m[28;86H8,1[11CTop[8;5HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[28;1H[K[28;1H:wq"rshell.cpp" 208L, 4768C written
+[?1l>[2J[?47l8New
+ôë)ÿ@hammer.cs.ucr.edu$ ./a.out
+
+An error occured in getlogin(): Numerical result out of range
+New
+pÀÏÿ@hammer.cs.ucr.edu$ hi
+
+An error occured in execvp: No such file or directory
+New
+pÀÏÿ@hammer.cs.ucr.edu$ echo    exit
+New
+ôë)ÿ@hammer.cs.ucr.edu$ mkdir tex st || rm  dir test
+
+mkdir: cannot create directory `test': File exists
+New
+ôë)ÿ@hammer.cs.ucr.edu$ rm dir    dir test
+
+New
+ôë)ÿ@hammer.cs.ucr.edu$ mki   vim rshell.cpp
+
+7[?47h[?1h=[1;28r[m[H[2J[28;1H"rshell.cpp" 208L, 4768C[>c[1;1H[33m  1 [m[35m#include [m[31m<unistd.h>[m
+[33m  2 [m[35m#include [m[31m<stdio.h>[m
+[33m  3 [m[35m#include [m[31m<iostream>[m
+[33m  4 [m[35m#include [m[31m<string>[m
+[33m  5 [m[35m#include [m[31m<string.h>[m
+[33m  6 [m[35m#include [m[31m<sys/types.h>[m
+[33m  7 [m[35m#include [m[31m<sys/wait.h>[m
+[33m  8 [m[35m#include [m[31m<vector>[m
+[33m  9 [m[35m#include [m[31m<sstream>[m
+[33m 10 [m[35m#include [m[31m<stdlib.h>[m
+[33m 11 using[m [32mnamespace[m std;
+[33m 12 
+ 13 [m[32mint[m main([32mint[m argc, [32mchar[m ** argv)
+[33m 14 [m{
+[33m 15 [m[7C [34m//first set the size of the username and the hostname[m
+[33m 16 [m[7C [34m//and then set it as 100 so there could be a lot of space for it[m
+[33m 17 [m[7C [32mchar[m username[[31m100[m];
+[33m 18 [m[7C [32mchar[m hostname1[[31m100[m];
+[33m 19 
+ 20 [m[7C [34m//call getlogin_r and check if it works[m
+[33m 21 [m[7C [32mint[m login = getlogin_r(username, [33msizeof[m(username - [31m1[m));
+[33m 22 [m[7C [33mif[m(login != [31m0[m)
+[33m 23 [m[7C {
+[33m 24 [m[15C perror([31m"An error occured in getlogin()"[m);
+[33m 25 [m[7C }
+[33m 26 
+ 27 [m[7C [34m//call gethostname and check if it works[m[28;86H8,1[11CTop[8;5HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[28;86H9[9;5H[28;86H10,1[10;5H[28;87H1[11;5H[28;87H2,0-1[12;5H[28;87H3,1  [13;5H[28;87H4[14;5H[28;87H5,1-8[15;12H[28;87H6[16;12H[28;87H7[17;12H[28;87H8[18;12H[28;87H9[19;12H[28;86H20[20;12H[28;86H19[19;12H[28;86H20[20;12H[28;87H1[21;12H[28;87H2[22;12H[28;87H3[23;12H[28;87H4[24;12H[28;87H5[25;12H[28;87H6,0-1[26;5H[28;87H7,1-8[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 28 [m[7C [32mint[m hostname2 = gethostname(hostname1, [33msizeof[m(hostname1) - [31m1[m);[28;1H[K[28;86H28,1-8[9C0%[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 29 [m[28;86H[K[28;86H29,1-8[9C1%[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 30 [m[7C [33mif[m(hostname2 != [31m0[m)[28;86H[K[28;86H30,1-8[9C1%[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 31 [m[7C {[28;86H[K[28;86H31,1-8[9C2%[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 32 [m[15C perror([31m"An error occured in gethostname"[m);[28;86H[K[28;86H32,1-8[9C2%[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 33 [m[7C }[28;86H[K[28;86H33,1-8[9C3%[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 34 [m[28;86H[K[28;86H34,1-8[9C3%[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 35 [m[7C [34m//always print out $ and ask for input[m[28;86H[K[28;86H35,1-8[9C4%[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 36 [m[7C [33mwhile[m([31m1[m)[28;86H[K[28;86H36,1-8[9C4%[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 37 [m[7C {[28;86H[K[28;86H37,1-8[9C5%[27;12H[1;27r[27;1H
+[1;28r[27;1H[33m 38 [m[15C cout << [31m"New"[m << endl;[28;86H[K[28;86H38,1-8[9C6%[27;12H[8C [34m//need to get input[m[27;40H[K[28;89H3-17[27;21H[28;86H[K[28;1H:wq"rshell.cpp" 207L, 4743C written
+[?1l>[2J[?47l8New
+ôë)ÿ@hammer.cs.ucr.edu$ g++ rshell.cpp
+
+New
+ôë)ÿ@hammer.cs.ucr.edu$ ./a.out
+
+An error occured in getlogin(): Numerical result out of range
+°Ö®9ÿ@hammer.cs.ucr.edu$ exit
+New
+ôë)ÿ@hammer.cs.ucr.edu$ sc  vim hi
+
+7[?47h[?1h=[1;28r[m[H[2J[28;1H"hi" [New File][>c[1;1H[33m  1 [m
+[1m[34m~                                                                                                      [3;1H~                                                                                                      [4;1H~                                                                                                      [5;1H~                                                                                                      [6;1H~                                                                                                      [7;1H~                                                                                                      [8;1H~                                                                                                      [9;1H~                                                                                                      [10;1H~                                                                                                      [11;1H~                                                                                                      [12;1H~                                                                                                      [13;1H~                                                                                                      [14;1H~                                                                                                      [15;1H~                                                                                                      [16;1H~                                                                                                      [17;1H~                                                                                                      [18;1H~                                                                                                      [19;1H~                                                                                                      [20;1H~                                                                                                      [21;1H~                                                                                                      [22;1H~                                                                                                      [23;1H~                                                                                                      [24;1H~                                                                                                      [25;1H~                                                                                                      [26;1H~                                                                                                      [27;1H~                                                                                                      [m[28;86H0,0-1[9CAll[1;5HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[28;1H[K[28;1H:wq"hi" [New] 0L, 0C written
+[?1l>[2J[?47l8New
+ôë)ÿ@hammer.cs.ucr.edu$ rm -f hi
+
+New
+ôë)ÿ@hammer.cs.ucr.edu$ cat README
+
+cat: README: No such file or directory
+New
+ôë)ÿ@hammer.cs.ucr.edu$ CA  car t REAME  DME.md
+
+cat: README.md: No such file or directory
+New
+ôë)ÿ@hammer.cs.ucr.edu$ git     git brandc  ch
+
+* master
+New
+ôë)ÿ@hammer.cs.ucr.edu$ igt     exit
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ vim README
+7[?47h[?1h=[1;28r[m[H[2J[28;1H"README" [New File][>c[1;1H[33m  1 [m
+[1m[34m~                                                                                                      [3;1H~                                                                                                      [4;1H~                                                                                                      [5;1H~                                                                                                      [6;1H~                                                                                                      [7;1H~                                                                                                      [8;1H~                                                                                                      [9;1H~                                                                                                      [10;1H~                                                                                                      [11;1H~                                                                                                      [12;1H~                                                                                                      [13;1H~                                                                                                      [14;1H~                                                                                                      [15;1H~                                                                                                      [16;1H~                                                                                                      [17;1H~                                                                                                      [18;1H~                                                                                                      [19;1H~                                                                                                      [20;1H~                                                                                                      [21;1H~                                                                                                      [22;1H~                                                                                                      [23;1H~                                                                                                      [24;1H~                                                                                                      [25;1H~                                                                                                      [26;1H~                                                                                                      [27;1H~                                                                                                      [m[28;86H0,0-1[9CAll[1;5HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[28;1H[K[28;1H:WQ[1m[37m[41mE492: Not an editor command: WQ[m[54C0,0-1[9CAll[1;5H[28;1H[K[28;1H:WQ[28;3H[K[28;3H[28;2H[K[28;2Hwq"README" [New] 0L, 0C written
+[?1l>[2J[?47l8~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ dir
+||  a.out  README  rmdir  rshell.cpp
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ vim README
+7[?47h[?1h=[1;28r[m[H[2J[28;1H"README" 0L, 0C[>c[1;1H[33m  1 [m
+[1m[34m~                                                                                                      [3;1H~                                                                                                      [4;1H~                                                                                                      [5;1H~                                                                                                      [6;1H~                                                                                                      [7;1H~                                                                                                      [8;1H~                                                                                                      [9;1H~                                                                                                      [10;1H~                                                                                                      [11;1H~                                                                                                      [12;1H~                                                                                                      [13;1H~                                                                                                      [14;1H~                                                                                                      [15;1H~                                                                                                      [16;1H~                                                                                                      [17;1H~                                                                                                      [18;1H~                                                                                                      [19;1H~                                                                                                      [20;1H~                                                                                                      [21;1H~                                                                                                      [22;1H~                                                                                                      [23;1H~                                                                                                      [24;1H~                                                                                                      [25;1H~                                                                                                      [26;1H~                                                                                                      [27;1H~                                                                                                      [m[28;86H0,0-1[9CAll[1;5HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[28;1H[1m-- REPLACE --[m[28;14H[K[28;86H0,1[11CAll[1;5H[33m [mE[28;86H1,2[1;6HEA[28;88H3[1;7HAD[28;88H4[1;8H[28;88H5[1;9H M[28;88H6[1;10HME[28;88H7[1;11H[1;10H[K[28;88H6[1;10H[1;9H[K[28;88H5[1;9H[28;88H4[1;8H[1;7H[K[28;88H3[1;7H[1;6H[K[28;88H2[1;6H[1;5H[K[28;88H1[1;5H[33m [mR[28;88H2[1;6HRE[28;88H3[1;7HEA[28;88H4[1;8HAD[28;88H5[1;9H[28;88H6[1;10H[28;88H5[1;9HDM[28;88H6[1;10HME[28;88H7[1;11H[28;88H8[1;12H F[28;88H9[1;13HFO[28;88H10[1;14HOR[28;89H1[1;15H[28;89H2[1;16H R[28;89H3[1;17HRS[28;89H4[1;18HSH[28;89H5[1;19HHE[28;89H6[1;20HEL[28;89H7[1;21HLL[28;89H8[1;22H[28;89H9[1;23H F[28;88H20[1;24HFO[28;89H1[1;25HOR[28;89H2[1;26H[28;89H3[1;27H C[28;89H4[1;28HCS[28;89H5[1;29HS0[28;89H6[1;30H[1;29H[K[28;89H5[1;29HS1[28;89H6[1;30H10[28;89H7[1;31H00[28;89H8[1;32H
+[33m  2 [m[2;5H[K[28;86H2,1 [2;5H
+[33m  3 [m[3;5H[K[28;86H3[3;5H[33m [mC[28;88H2[3;6HCO[28;88H3[3;7HOM[28;88H4[3;8HMM[28;88H5[3;9H[3;8H[K[28;88H4[3;8H[3;7H[K[28;88H3[3;7H[3;6H[K[28;88H2[3;6H[3;5H[K[28;88H1[3;5H[33m [mc[28;88H2[3;6Hco[28;88H3[3;7Hoe[28;88H4[3;8Hem[28;88H5[3;9H[3;8H[K[28;88H4[3;8H[3;7H[K[28;88H3[3;7Hom[28;88H4[3;8Hmm[28;88H5[3;9Hme[28;88H6[3;10Hen[28;88H7[3;11Hnt[28;88H8[3;12H[28;88H9[3;13H d[28;88H10[3;14Hdo[28;89H1[3;15Hoe[28;89H2[3;16Hes[28;89H3[3;17H[28;89H4[3;18H n[28;89H5[3;19Hno[28;89H6[3;20Hot[28;89H7[3;21H[28;89H8[3;22H w[28;89H9[3;23Hwo[28;88H20[3;24Hor[28;89H1[3;25Hrk[28;89H2[3;26H[28;89H3[3;27H
+[33m  4 [m[4;5H[K[28;86H4,1 [4;5H[1m[34m~                                                                                                      [m[28;86H3,23[3;27H f[28;89H4[3;28Hfo[28;89H5[3;29Hor[28;89H6[3;30H[28;89H7[3;31H e[28;89H8[3;32Hec[28;89H9[3;33Hch[28;88H30[3;34Hho[28;89H1[3;35H[28;89H2[3;36H
+[33m  4 [m[4;5H[K[28;86H4,1 [4;5H[33m [mh[28;88H2[4;6Hha[28;88H3[4;7Hav[28;88H4[4;8H[4;7H[K[28;88H3[4;7H[4;6H[K[28;88H2[4;6H[4;5H[K[28;88H1[4;5H[33m [mc[28;88H2[4;6Hca[28;88H3[4;7Han[28;88H4[4;8Hnn[28;88H5[4;9Hno[28;88H6[4;10Hot[28;88H7[4;11H[28;88H8[4;12H c[28;88H9[4;13Hco[28;88H10[4;14Hom[28;89H1[4;15Hmp[28;89H2[4;16Hpi[28;89H3[4;17Hil[28;89H4[4;18Hle[28;89H5[4;19H[28;89H6[4;20H w[28;89H7[4;21Hwi[28;89H8[4;22Hit[28;89H9[4;23Hth[28;88H20[4;24H[28;89H1[4;25H t[28;89H2[4;26Hta[28;89H3[4;27Hag[28;89H4[4;28H[28;89H5[4;29H "[28;89H6[4;30H"-[28;89H7[4;31H-W[28;89H8[4;32HWa[28;89H9[4;33Hal[28;88H30[4;34Hll[28;89H1[4;35H[28;89H2[4;36H -[28;89H3[4;37H-W[28;89H4[4;38HWe[28;89H5[4;39Her[28;89H6[4;40Hrr[28;89H7[4;41Hro[28;89H8[4;42Hor[28;89H9[4;43H[28;88H40[4;44H -[28;89H1[4;45H[28;89H2[4;46H[28;89H1[4;45H-a[28;89H2[4;46Has[28;89H3[4;47Hsi[28;89H4[4;48Hin[28;89H5[4;49H[28;89H6[4;50H -[28;89H7[4;51H-p[28;89H8[4;52Hpe[28;89H9[4;53Hes[28;88H50[4;54Hsd[28;89H1[4;55Hdo[28;89H2[4;56H[4;55H[K[28;89H1[4;55H[4;54H[K[28;89H0[4;54H[4;53H[K[28;88H49[4;53Hei[28;88H50[4;54His[28;89H1[4;55Hsd[28;89H2[4;56Hdo[28;89H3[4;57Ho"[28;89H4[4;58H[28;89H5[4;59H -[28;89H6[4;60H->[28;89H7[4;61H[28;89H8[4;62H w[28;89H9[4;63Hwi[28;88H60[4;64Hil[28;89H1[4;65Hll[28;89H2[4;66H[28;89H3[4;67H h[28;89H4[4;68Hha[28;89H5[4;69Hav[28;89H6[4;70Hve[28;89H7[4;71H[28;89H8[4;72H a[28;89H9[4;73H[28;88H70[4;74H[28;88H69[4;73H[28;89H8[4;72H[28;89H7[4;71H[28;89H6[4;70H[28;89H5[4;69H[28;89H4[4;68H[28;89H3[4;67H[28;89H2[4;66H[28;89H1[4;65H[28;89H0[4;64H[28;88H59[4;63H[28;89H8[4;62H[28;89H7[4;61H[28;89H6[4;60H[28;89H5[4;59H[28;89H4[4;58H[28;89H3[4;57H[28;89H2[4;56H[28;89H1[4;55H[28;89H0[4;54H[28;88H49[4;53H[28;89H8[4;52Hpd[28;89H9[4;53Hdw[28;88H50[4;54H[28;89H1[4;55Hsi[28;89H2[4;56Hii[28;89H3[4;57Hio[28;89H2[4;56Hsd[28;89H1[4;55H[28;89H0[4;54H[28;88H49[4;53H[28;89H8[4;52Hpe[28;89H9[4;53Hed[28;88H50[4;54Hda[28;89H1[4;55Han[28;89H2[4;56Hnt[28;89H3[4;57Hti[28;89H4[4;58Hic[28;89H5[4;59Hc"[28;89H6[4;60H" [28;89H7[4;61H -[28;89H8[4;62H-.[28;89H9[4;63H. [28;88H60[4;64H.i[28;88H59[4;63H-w[28;89H8[4;62H->[28;89H9[4;63H> [28;88H60[4;64H w[28;89H1[4;65Hwi[28;89H2[4;66Hil[28;89H3[4;67Hll[28;89H4[4;68Hl [28;89H5[4;69H h[28;89H6[4;70Hha[28;89H7[4;71Have[28;89H9[4;73H[28;88H70[4;74H a[28;89H1[4;75H[28;89H2[4;76H w[28;89H3[4;77Hwa[28;89H4[4;78H[4;77H[K[28;89H3[4;77H[4;76H[K[28;89H2[4;76H[28;89H1[4;75H[28;89H2[4;76H e[28;89H3[4;77Her[28;89H4[4;78Hrr[28;89H5[4;79Hro[28;89H6[4;80Hor[28;89H7[4;81H[28;89H8[4;82H c[28;89H9[4;83Hcalled[28;88H85[4;89H "ISO C++forbidss[5;1H[33m    [m variable-szie array"[5;26H[K[6;1H[33m  5 [m[6;5H[K[7;1H[33m  6 [m[7;5H[K[28;86H6,1 [7;5H[1m[34m~                                                                                                      [m[28;86H5[6;5H[28;86H4[4;5H[28;86H3[3;5H[33m [m1[28;88H2[3;6H1.[28;88H3[3;7H. [28;88H4[3;8H[28;86H4[4;8H[28;86H3[3;8H i[28;88H5[3;9H m[28;88H4[3;8H[28;88H3[3;7H[28;88H2[3;6H[28;88H1[3;5H[33m [mc[28;88H2[3;6Hco[28;88H3[3;7Hom[28;88H5[3;9H[28;88H6[3;10H[28;88H7[3;11H[28;88H6[3;10H[28;86H4[4;10H[28;86H5,1[6;5H[33m [mc[28;88H2[6;6Hca[28;88H3[6;7Han[28;88H4[6;8Hnn[28;88H5[6;9Hno[28;88H6[6;10Hot[28;88H7[6;11H[28;88H8[6;12H t[28;88H9[6;13Htk[28;88H10[6;14Hka[28;89H1[6;15Hae[28;89H2[6;16H[28;89H3[6;17H[28;89H2[6;16H[6;15H[K[28;89H1[6;15H[6;14H[K[28;89H0[6;14H[6;13H[K[28;88H9 [6;13Hta[28;88H10[6;14Hak[28;89H1[6;15Hke[28;89H3[6;17H m[28;89H4[6;18Hmu[28;89H5[6;19Hul[28;89H6[6;20Hlt[28;89H7[6;21Hti[28;89H8[6;22Hip[28;89H9[6;23Hpl[28;88H20[6;24Hle[28;89H2[6;26H c[28;89H3[6;27Hco[28;89H4[6;28Hom[28;89H5[6;29Hmm[28;89H6[6;30Hma[28;89H7[6;31Hand[28;89H9[6;33Hds with connec[28;88H42[6;46Hct[28;89H3[6;47Hte[28;89H4[6;48Her[28;89H5[6;49Hrs[28;89H6[6;50H[28;89H7[6;51H -[28;89H8[6;52H[28;89H9[6;53H[28;89H8[6;52H[6;51H[K[28;89H7[6;51H s[28;89H8[6;52Hsu[28;89H9[6;53Huc[28;88H50[6;54Hch[28;89H1[6;55H[28;89H2[6;56H a[28;89H3[6;57Has[28;89H4[6;58H[28;89H5[6;59H |[28;89H6[6;60H||[28;89H7[6;61H[28;89H8[6;62H &[28;89H9[6;63H&&[28;88H60[6;64H[28;89H1[6;65H o[28;89H2[6;66Hor[28;89H3[6;67H[28;89H4[6;68H ;[28;89H5[6;69H
+[33m  6 [m[7;5H[K[28;86H6,1 [7;5H[33m [mf[28;88H2[7;6Hfi[28;88H3[7;7Hin[28;88H4[7;8Hnh[28;88H5[7;9Hhe[28;88H6[7;10H[7;9H[K[28;88H5[7;9H[7;8H[K[28;88H4[7;8Hng[28;88H5[7;9Hge[28;88H6[7;10Her[28;88H7[7;11H[28;88H8[7;12H u[28;88H9[7;13Hus[28;88H10[7;14Hse[28;89H1[7;15Her[28;89H2[7;16H[28;89H3[7;17H d[28;89H4[7;18Hdo[28;89H5[7;19Hoe[28;89H6[7;20Hes[28;89H7[7;21H[28;89H8[7;22H n[28;89H9[7;23Hnot[28;88H21[7;25H[28;89H2[7;26H w[28;89H3[7;27Hwo[28;89H4[7;28Hor[28;89H5[7;29Hrk[28;89H6[7;30Hk,[28;89H7[7;31H[28;89H8[7;32H s[28;89H9[7;33Hsh[28;88H30[7;34Hho[28;89H1[7;35How[28;89H2[7;36Hws[28;89H3[7;37H[28;89H4[7;38H n[28;89H5[7;39Hno[28;89H6[7;40H[28;89H7[7;41H[28;89H6[7;40H[7;38H[K[28;89H4[7;38H "[28;89H5[7;39H"no[28;89H7[7;41H s[28;89H9[7;43Hsuch[28;88H43[7;47H f[28;89H4[7;48Hfu[28;89H5[7;49Hul[28;89H6[7;50Hle[28;89H7[7;51H[7;50H[K[28;89H6[7;50H[7;49H[K[28;89H5[7;49H[7;48H[K[28;89H4[7;48Hfi[28;89H5[7;49Hil[28;89H6[7;50Hle[28;89H7[7;51He"[28;89H8[7;52H
+[33m  7 [m[8;5H[K[28;86H7,1 [8;5H[33m [mu[28;88H2[8;6H[28;88H3[8;7H na[28;88H5[8;9Ham[28;88H6[8;10Hme[28;88H7[8;11H[28;88H8[8;12H -[28;88H9[8;13H-a[28;88H10[8;14H[28;89H1[8;15H do[28;89H3[8;17Hoe[28;89H4[8;18Hes[28;89H6[8;20H n[28;89H7[8;21Hno[28;89H8[8;22Hot[28;88H20[8;24H wo[28;89H2[8;26Hor[28;89H3[8;27Hrk[28;89H4[8;28H[28;89H5[8;29H \\[28;89H7[8;31H\,[28;89H8[8;32H[28;89H9[8;33H[28;89H8[8;32H[8;31H[K[28;89H7[8;31H[8;30H[K[28;89H6[8;30H[8;29H[K[28;89H5[8;29H[28;89H4[8;28Hk,[28;89H6[8;30H "[28;89H7[8;31H"s[28;89H8[8;32Hsh[28;89H9[8;33Hho[28;88H30[8;34How[28;89H1[8;35Hws[28;89H2[8;36H[28;89H3[8;37H n[28;89H4[8;38Hno[28;89H5[8;39H[28;89H6[8;40H s[28;89H7[8;41Hsu[28;89H8[8;42Huc[28;89H9[8;43Hch[28;88H40[8;44H[28;89H1[8;45H[28;89H0[8;44H[8;43H[K[28;88H39[8;43H[8;42H[K[28;89H8[8;42H[8;41H[K[28;89H7[8;41H[8;40H[K[28;89H6[8;40H[28;89H5[8;39H[8;38H[K[28;89H4[8;38H[8;37H[K[28;89H3[8;37H[28;89H2[8;36H[8;35H[K[28;89H1[8;35H[8;34H[K[28;89H0[8;34H[8;33H[K[28;88H29[8;33H[8;32H[K[28;89H8[8;32H[8;31H[K[28;89H7[8;31H[8;30H[K[28;89H6[8;30H s[28;89H7[8;31Hsh[28;89H8[8;32Hho[28;89H9[8;33How[28;88H30[8;34Hws[28;89H1[8;35H[28;89H2[8;36H "[28;89H3[8;37H"n[28;89H4[8;38Hno[28;89H5[8;39H[28;89H6[8;40H s[28;89H7[8;41Hsu[28;89H8[8;42Huc[28;89H9[8;43Hch[28;88H41[8;45H f[28;89H2[8;46Hfi[28;89H3[8;47Hil[28;89H4[8;48Hle[28;89H5[8;49He"[28;89H6[8;50H
+[33m  8 [m[9;5H[K[28;86H8,1 [9;5H[33m [mw[28;88H2[9;6Hwh[28;88H3[9;7Hho[28;88H4[9;8H[28;88H5[9;9H a[28;88H6[9;10Ham[28;88H7[9;11H[28;88H8[9;12H i[28;88H9[9;13H[28;88H10[9;14H w[28;89H1[9;15Hwo[28;89H2[9;16Hoe[28;89H3[9;17Hek[28;89H4[9;18Hks[28;89H5[9;19H[9;18H[K[28;89H4[9;18H[9;17H[K[28;89H3[9;17H[9;16H[K[28;89H2[9;16Hor[28;89H3[9;17Hrl[28;89H4[9;18Hls[28;89H5[9;19H
+[33m  9 [m[10;5H[K[28;86H9,1 [10;5H[1m[34m~                                                                                                      [m[28;86H8,15[9;19H[9;18H[K[28;89H4[9;18H[9;17H[K[28;89H3[9;17Hrk[28;89H4[9;18Hks[28;89H5[9;19H
+[33m  9 [m[10;5H[K[28;86H9,1 [10;5H[33m [mb[28;88H2[10;6Hbr[28;88H3[10;7Hra[28;88H4[10;8Han[28;88H5[10;9Hnc[28;88H6[10;10Hch[28;88H7[10;11H[28;88H8[10;12H w[28;88H9[10;13Hwo[28;88H10[10;14Hor[28;89H1[10;15Hrk[28;89H2[10;16Hks[28;89H3[10;17H
+[33m 10 [m[11;5H[K[28;86H10,1[11;5H[33m [mo[28;89H2[11;6Hop[28;89H3[11;7Hpe[28;89H4[11;8Hen[28;89H5[11;9Hni[28;89H6[11;10Hin[28;89H7[11;11Hng[28;89H8[11;12H[28;89H9[11;13H[28;89H8[11;12Hg,[28;89H9[11;13H[28;89H10[11;14H co[28;90H2[11;16Hom[28;90H3[11;17Hmp[28;90H4[11;18Hpi[28;90H5[11;19Hil[28;90H6[11;20Hli[28;90H7[11;21Hin[28;90H8[11;22Hng[28;89H20[11;24H a[28;90H1[11;25Han[28;90H2[11;26Hnd[28;90H4[11;28H r[28;90H5[11;29Hru[28;90H6[11;30Hun[28;90H7[11;31Hnn[28;90H8[11;32Hni[28;90H9[11;33Hin[28;89H30[11;34Hng[28;90H1[11;35H[28;90H2[11;36H a[28;90H3[11;37H[28;90H4[11;38H c[28;90H5[11;39Hcp[28;90H6[11;40Hpp[28;90H8[11;42H f[28;90H9[11;43Hfi[28;89H40[11;44Hile[28;90H2[11;46H[28;90H3[11;47H w[28;90H4[11;48Hwo[28;90H5[11;49Hor[28;90H6[11;50Hrk[28;90H7[11;51Hks[28;90H8[11;52H[11;51H[K[28;90H7[11;51Hks[28;90H8[11;52H
+[33m 11 [m[12;5H[K[28;87H1,1 [12;5H[33m [mc[28;89H2[12;6Hca[28;89H3[12;7Han[28;89H4[12;8Hnnot[28;89H7[12;11H[28;89H8[12;12H c[28;89H9[12;13Hca[28;89H10[12;14Hat[28;90H1[12;15H[28;90H2[12;16H R[28;90H3[12;17HRE[28;90H4[12;18HEA[28;90H5[12;19HAD[28;90H6[12;20HDME[28;90H8[12;22H
+[33m 12 [m[13;5H[K[28;87H2,1 [13;5H[33m [mc[28;89H2[13;6Hca[28;89H3[13;7Han[28;89H5[13;9H m[28;89H6[13;10Hma[28;89H7[13;11Hak[28;89H8[13;12Hke[28;89H9[13;13H[28;89H10[13;14H a[28;90H1[13;15H[28;90H2[13;16H n[28;90H3[13;17Hnew[28;90H6[13;20H file
+[33m 13 [mc[14;6H[K[28;87H3,2 [14;6Hcan[28;89H5[14;9H r[28;89H6[14;10Hre[28;89H7[14;11Hem[28;89H8[14;12Hmo[28;89H9[14;13Hov[28;89H10[14;14Hve[28;90H1[14;15H[28;90H2[14;16H a[28;90H3[14;17H[28;90H4[14;18H f[28;90H5[14;19Hfi[28;90H6[14;20Hil[28;90H7[14;21Hle[28;90H8[14;22H[28;90H9[14;23H[28;1H[K[14;22H[28;86H13,18[9CAll[14;22H[28;86H[K[28;1H:Wq[28;3H[K[28;3H[28;2H[K[28;2Hwq"README" 13L, 474C written
+[?1l>[2J[?47l8~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ ls
+[0m[01;34m||[0m/  [01;32ma.out[0m*  README  [01;34mrmdir[0m/  rshell.cpp
+[m~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ rm -f a.out
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ ls
+[0m[01;34m||[0m/  README  [01;34mrmdir[0m/  rshell.cpp
+[m~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ cd dm[K[Krmdir
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src/rmdir
+hfanc001@hammer $ ls
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src/rmdir
+hfanc001@hammer $ cd ..
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ cd ..
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ls
+LICENSE  Makefile  README.md  [0m[01;34msrc[0m/  [01;34mtests[0m/  :wq
+[m~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ vim README.nd[K[Kmd
+7[?47h[?1h=[1;28r[m[H[2J[28;1H"README.md" 214L, 10908C[>c[1;1H[33m  1 [m# writing a basic command shell
+[33m  2 
+  3 [m### coding requirements
+[33m  4 
+  5 [mWrite a command shell called `rshell`.  Your shell will perform the following steps:
+[33m  6 
+  7 [m1. Print a command prompt (e.g. `$`)
+[33m  8 
+  9 [m2. Read in a command on one line.
+[33m 10 [mCommands will have the form:
+[33m 11 [m```
+[33m 12 [mcmd[8C = executable [ argumentList ] [ connecter cmd ]
+[33m 13 [mconnecter   = || or && or ;
+[33m 14 [m```
+[33m 15 [mwhere `executable` is an executable program in the `PATH` and `argumentList` is a list of zero or mm[16;1H[33m    [more words.
+[33m 16 [mThe connector is an optional way you can run multiple commands at once.
+[33m 17 [mIf a command is followed by `;`, then the next command is always executed;
+[33m 18 [mif a command is followed by `&&`, then the next command is executed only if the first one succeeds;[20;1H[33m 19 [mif a command is followed by `||`, then the next command is executed only if the first one fails.
+[33m 20 [mFor example:
+[33m 21 [m```
+[33m 22 [m$ ls -a
+[33m 23 [m$ echo hello
+[33m 24 [m$ mkdir test
+[33m 25 [m```
+[33m 26 [mis equivalent to:[28;86H1,1[11CTop[1;5HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[28;86H2,0-1[2;5H[28;86H3,1  [3;5H[28;86H4,0-1[4;5H[28;86H5,1  [5;5H[28;86H6,0-1[6;5H[28;86H7,1  [7;5H[28;86H8,0-1[8;5H[28;86H9,1  [9;5H[28;86H10,1[10;5H[28;87H1[11;5H[28;87H2[12;5H[28;87H3[13;5H[28;87H4[14;5H[28;87H5[15;5H[28;87H6[17;5H[28;87H7[18;5H[28;87H8[19;5H[28;87H9[20;5H[28;86H20[21;5H[28;87H1[22;5H[28;87H2[23;5H[28;87H3[24;5H[28;87H4[25;5H[28;87H5[26;5H[28;87H6[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 27 [m```[28;1H[K[28;86H27,1[11C0%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 28 [m$ ls -a; echo hello; mkdir test[28;86H[K[28;86H28,1[11C1%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 29 [m```[28;86H[K[28;86H29,1[11C1%[27;5H[1;27r[1;1H[2M[1;28r[26;1H[33m 30 [mThere should be no limit to the number of commands that can be chained together using these operatoo[27;1H[33m    [mrs.[28;86H[K[28;86H30,1[11C2%[26;5H[1;27r[27;1H
+[1;28r[27;1H[33m 31 [m[28;86H[K[28;86H31,0-1[9C3%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 32 [m3. Execute the command.[28;86H[K[28;86H32,1[11C3%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 33 [mThis will require using the syscalls `fork`, `execvp`, and `wait`.[28;86H[K[28;86H33,1[11C4%[27;5H[1;27r[1;1H[2M[1;28r[26;1H[33m 34 [m[46m([mYou can find a tutorial on using these systemcalls (written by previous cs100 students) in the [syy[27;1H[33m    [mscalls-tutorial.md](syscalls-tutorial.md) file located in this same directory.[46m)[m[28;86H[K[28;86H34,1[11C5%[26;5H[1;27r[27;1H
+[1;28r[25;5H([97Cyy[26;1H[33m [m[81C)
+[33m 35 [m[28;86H[K[28;86H35,0-1[9C5%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 36 [m4. You must have a special built in command of `exit` which exits your shell.[28;86H[K[28;86H36,1[11C6%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 37 [m[28;86H[K[28;86H37,0-1[9C6%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 38 [m5. Anything that appears after a `#` character should be considered a comment.[28;86H[K[28;86H38,1[11C7%[27;5H[1;27r[1;1H[2M[1;28r[26;1H[33m 39 [mFor example, in the command `ls -lR /`, you would execute the program `/bin/ls` passing into it thee[27;1H[33m    [m parameters `-lR` and `/`.[28;86H[K[28;86H39,1[11C7%[26;5H[1;27r[1;1H[2M[1;28r[26;1H[33m 40 [mBut in the command `ls # -lR /`, you would execute `/bin/ls`, but you would not pass any parameterss[27;1H[33m    [m because they appear in the comment section.[28;86H[K[28;86H40,1[11C8%[26;5H[1;27r[27;1H
+[1;28r[27;1H[33m 41 [m[28;86H[K[28;86H41,0-1[9C9%[27;5H[1;27r[1;1H[4M[1;28r[24;1H[33m 42 [m**IMPORTANT:** Most bash commands are actually executables located in `/bin`.  But some commands arr[25;1H[33m    [me special and are built in to bash.  The `cd` command is the most common example.  So while the `lss[26;1H[33m    [m` command should [31m"just work"[m for you, the `cd` command won[31m't.  You'[mll be adding this feature in a ll[27;1H[33m    [mater homework.[28;86H[K[28;86H42,1[10C11%[24;5H[1;27r[27;1H
+[1;28r[27;1H[33m 43 [m[28;86H[K[28;86H43,0-1[8C11%[27;5H[1;27r[1;1H[8M[1;28r[20;1H[33m 44 [m**HINT:** Pay careful attention to how you parse the command string the user enters.  There are mann[21;1H[33m    [my ways to mess this up and introduce bugs into your program.  You will be adding more parsing featuu[22;1H[33m    [mres in future assignments, so it will make your life much easier if you do it right the first time!![23;1H[33m    [m  I recommend using either the `strtok` function from the C standard libraries or the `Tokenizer` cc[24;1H[33m    [mlass provide in the [boost library](http://www.boost.org/doc/libs/1_36_0/libs/tokenizer/tokenizer.hh[25;1H[33m    [mtm).  Students often don[31m't do this section of the assignment well and end up having to redo all of  [m[26;1H[33m    [m[31massignment one in order to complete the future assignments.[m
+[33m 45 [m[28;86H[K[28;86H44,1[10C15%[20;5H[28;87H5,0-1[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 46 [m[31m### submission instructions[m[28;86H[K[28;86H46,1[10C15%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 47 [m[28;86H[K[28;86H47,0-1[8C16%[27;5H[1;27r[1;1H[3M[1;28r[25;1H[33m 48 [m[31mCreate a new project on github called `rshell`.  Create a branch called `exec`.  Do all of your worr[m[26;1H[33m    [m[31mk under this branch.  When finished, merge the `exec` branch into the `master` branch, and create aa[m[27;1H[33m    [m[31m tag called `hw0`.[m[28;86H[K[28;86H48,1[10C17%[25;5H[1;27r[27;1H
+[1;28r[27;1H[33m 49 [m[28;86H[K[28;86H49,0-1[8C17%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 50 [m[31mTo download and grade your homework, the TA will run the following commands:[m[28;86H[K[28;86H50,1[10C18%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 51 [m[28;86H[K[28;86H51,0-1[8C18%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 52 [m[31m```[m[28;86H[K[28;86H52,1[10C19%[27;5H[1;27r[1;1H[2M[1;28r[26;1H[33m 53 [m[31m$ git clone  http://github.com/yourusername/rshell.git[m
+[33m 54 [m[31m$ cd rshell[m[28;86H[K[28;86H53,1[10C19%[26;5H[28;87H4[27;5H[1;27r[1;1H[2M[1;28r[26;1H[33m 55 [m[31m$ git checkout hw0[m
+[33m 56 [m[31m$ make[m[28;86H[K[28;86H55,1[10C20%[26;5H[28;87H6[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 57 [m[31m$ bin/rshell[m[28;86H[K[28;86H57,1[10C20%[27;5H[1;27r[1;1H[4M[1;28r[24;1H[33m 58 [m[31m```[m
+[33m 59 
+ 60 [m[31mYou should ssh into `well.cs.ucr.edu` and run the above commands to verify that you'[mve submitted yoo[27;1H[33m    [mur code successfully.[28;86H[K[28;86H58,1[10C21%[24;5H[28;87H9,0-1[25;5H[28;86H60,1  [26;5H[1;27r[1;1H[8M[1;28r[20;1H[33m 61 [mIf you forget how to use git, two students from previous cs100 courses (Rashid Goshtasbi and Kyler  [21;1H[33m    [mRynear) made [video tutorials on the git commands needed to submit your assignments](https://izbickk[22;1H[33m    [mi.me/blog/videoguide-for-github-vim-bash.html#tags) via github.
+[33m 62 
+ 63 [m**Do not wait to upload your assignment to github until the project due date.**
+[33m 64 [mYou should be committing and uploading your assignment continuously.
+[33m 65 [mIf you wait until the last day and can[31m't figure out how to use git properly, then you will get a zee[m[27;1H[33m    [m[31mro on the assignment.[m[28;86H[K[28;86H61,1[10C22%[20;5H[28;87H2,0-1[23;5H[28;87H3,1  [24;5H[28;87H4[25;5H[28;87H5[26;5H[1;27r[27;1H
+[1;28r[27;1H[33m 66 [m[31mNO EXCEPTIONS.[m[28;86H[K[28;86H66,1[10C23%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 67 [m[28;86H[K[28;86H67,0-1[8C23%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 68 [m[31m### project structure[m[28;86H[K[28;86H68,1[10C24%[27;5H[1;27r[1;1H[3M[1;28r[25;1H[33m 69 
+ 70 [m[31m**IMPORTANT:** The file/directory names below are a standard convention.  You must use the exact saa[m[27;1H[33m    [m[31mme names in your project, including capitalization.[m[28;86H[K[28;86H69,0-1[8C25%[25;5H[28;86H70,1  [26;5H[1;27r[27;1H
+[1;28r[27;1H[33m 71 [m[28;86H[K[28;86H71,0-1[8C25%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 72 [m[31mYou must have a directory called `src` which contains all the source code files for the project.[m[28;86H[K[28;86H72,1[10C26%[27;5H[1;27r[27;1H
+[1;28r[27;1H[33m 73 [m[28;86H[K[28;86H73,0-1[8C26%[27;5H[1;27r[1;1H[3M[1;28r[25;1H[33m 74 [m[31mYou must have a `Makefile` in the root directory.  In the `Makefile` you will have two targets.  Thh[m[26;1H[33m    [m[31me first target is called `all` and the second target is called `rshell`.  Both of these targets will[m[27;1H[33m    [m[31ml compile compile your program using `g++` with the flags: `-Wall -Werror -ansi -pedantic`.[m[28;86H[K[28;86H74,1[10C27%[25;5H[1;27r[27;1H
+[1;28r[27;1H[33m 75 [m[28;86H[K[28;86H75,0-1[8C28%[27;5H[1;27r[1;1H[2M[1;28r[26;1H[33m 76 [m[31mYou must NOT have a directory called `bin` in the project; however, when the project is built, thiss[m[27;1H[33m    [m[31m directory must be created and all executable files placed here.[m[28;86H[K[28;86H76,1[10C29%[26;5H[1;27r[27;1H
+[1;28r[27;1H[33m 77 [m[28;86H[K[28;86H77,0-1[8C29%[27;5H[1;27r[1;1H[3M[1;28r[25;1H[33m 78 [m[31mYou must have a `LICENSE` file in your project.  You may select any open source license.  I recommee[m[26;1H[33m    [m[31mnd either GPL or BSD3.[m
+[33m 79 [m[28;86H[K[28;86H78,1[10C30%[25;5H[28;87H9,0-1[27;5H[1;27r[1;1H[6M[1;28r[22;1H[33m 80 [m[31mYou must have a `README` file.  Calling the file `README.md` is also acceptable if you want to use  [m[23;1H[33m    [m[31mmarkdown syntax.  This file should briefly summarize your project.  In particular, it must include  [m[24;1H[33m    [m[31ma list of known bugs.  If you do not have any known bugs, then you probably have not sufficiently tt[m[25;1H[33m    [m[31mested your code.  See the testing section below for more details.  I recommend watching [this videoo[m[26;1H[33m    [m[31m tutorial](https://izbicki.me/blog/videoguide-for-github-vim-bash.html#readme) on creating a good ``[m[27;1H[33m    [m[31mREADME` file.[m[28;86H[K[28;86H80,1[10C32%[22;5H[1;27r[1;1H[2M[1;28r[26;1H[33m 81 
+ 82 [m[31mYou must have a directory called `tests`.  The directory will contain a file called `exec.script` t[m[27;1H[1m[34m@                                                                                                      [m[28;86H[K[28;86H81,0-1[8C32%[26;5H[28;86H[K[28;1H:q[28;1H[K[28;1H[?1l>[2J[?47l8~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ rm -f read][K[K[K[K[KREADME.md
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ cp [K[K[Kcd src
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ lls
+bash: lls: command not found
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ ls
+[0m[01;34m||[0m/  README  [01;34mrmdir[0m/  rshell.cpp
+[m~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ cd=[K[K[Kvim rEADME
+7[?47h[?1h=[1;28r[m[H[2J[28;1H"rEADME" [New File][>c[1;1H[33m  1 [m
+[1m[34m~                                                                                                      [3;1H~                                                                                                      [4;1H~                                                                                                      [5;1H~                                                                                                      [6;1H~                                                                                                      [7;1H~                                                                                                      [8;1H~                                                                                                      [9;1H~                                                                                                      [10;1H~                                                                                                      [11;1H~                                                                                                      [12;1H~                                                                                                      [13;1H~                                                                                                      [14;1H~                                                                                                      [15;1H~                                                                                                      [16;1H~                                                                                                      [17;1H~                                                                                                      [18;1H~                                                                                                      [19;1H~                                                                                                      [20;1H~                                                                                                      [21;1H~                                                                                                      [22;1H~                                                                                                      [23;1H~                                                                                                      [24;1H~                                                                                                      [25;1H~                                                                                                      [26;1H~                                                                                                      [27;1H~                                                                                                      [m[28;86H0,0-1[9CAll[1;5HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[28;1H[K[28;1H:Q[1m[37m[41mE492: Not an editor command: Q[m[55C0,0-1[9CAll[1;5H[28;1H[K[28;1H:q[28;1H[K[28;1H[?1l>[2J[?47l8~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ vim README
+7[?47h[?1h=[1;28r[m[H[2J[28;1H"README" 13L, 474C[>c[1;1H[33m  1 [mREADME FOR RSHELL FOR CS100
+[33m  2 
+  3 [mcomment does not work for echo
+[33m  4 [mcannot compile with tag "-Wall -Werror -asin -pedantic" -> will have a error called "ISO C++forbidss[5;1H[33m    [m variable-szie array"
+[33m  5 [mcannot take multiple commands with connecters such as || && or ;
+[33m  6 [mfinger user does not work, shows "no such file"
+[33m  7 [mu name -a does not work, shows "no such file"
+[33m  8 [mwho am i works
+[33m  9 [mbranch works
+[33m 10 [mopening, compiling and running a cpp file works
+[33m 11 [mcannot cat README
+[33m 12 [mcan make a new file
+[33m 13 [mcan remove a file
+[1m[34m~                                                                                                      [16;1H~                                                                                                      [17;1H~                                                                                                      [18;1H~                                                                                                      [19;1H~                                                                                                      [20;1H~                                                                                                      [21;1H~                                                                                                      [22;1H~                                                                                                      [23;1H~                                                                                                      [24;1H~                                                                                                      [25;1H~                                                                                                      [26;1H~                                                                                                      [27;1H~                                                                                                      [m[28;86H13,1[10CAll[14;5HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[28;1H[K[28;1H:q[28;1H[K[28;1H[?1l>[2J[?47l8~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ ls
+[0m[01;34m||[0m/  README  [01;34mrmdir[0m/  rshell.cpp
+[m~/cs100/ucr-cs100/assignments/hw/hw0-rshell/src
+hfanc001@hammer $ cd ..
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ls
+LICENSE  Makefile  [0m[01;34msrc[0m/  [01;34mtests[0m/  :wq
+[m~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ touch [K[K[K[K[K[Kvim README
+7[?47h[?1h=[1;28r[m[H[2J[28;1HE325: ATTENTION
+Found a swap file by the name ".README.swp"
+[10Cowned by: hfanc001   dated: Tue Oct 21 22:45:17 2014
+[9Cfile name: ~hfanc001/cs100/ucr-cs100/assignments/hw/hw0-rshell/README
+[10Cmodified: YES
+[9Cuser name: hfanc001   host name: well.cs.ucr.edu
+[8Cprocess ID: 4086
+While opening file "README"
+
+(1) Another program may be editing the same file.
+    If this is the case, be careful not to end up with two
+    different instances of the same file when making changes.
+    Quit, or continue with caution.
+
+(2) An edit session for this file crashed.
+    If this is the case, use ":recover" or "vim -r README"
+    to recover the changes (see ":help recovery").
+    If you did this already, delete the swap file ".README.swp"
+    to avoid this message.
+
+Swap file ".README.swp" already exists!
+[O]pen Read-Only, (E)dit anyway, (R)ecover, (D)elete it, (Q)uit, (A)bort:[28;1H[K[28;1H"README" [New File][>c[1;1H[33m  1 [m
+[1m[34m~                                                                                                      [3;1H~                                                                                                      [4;1H~                                                                                                      [5;1H~                                                                                                      [6;1H~                                                                                                      [7;1H~                                                                                                      [8;1H~                                                                                                      [9;1H~                                                                                                      [10;1H~                                                                                                      [11;1H~                                                                                                      [12;1H~                                                                                                      [13;1H~                                                                                                      [14;1H~                                                                                                      [15;1H~                                                                                                      [16;1H~                                                                                                      [17;1H~                                                                                                      [18;1H~                                                                                                      [19;1H~                                                                                                      [20;1H~                                                                                                      [21;1H~                                                                                                      [22;1H~                                                                                                      [23;1H~                                                                                                      [24;1H~                                                                                                      [25;1H~                                                                                                      [26;1H~                                                                                                      [27;1H~                                                                                                      [m[28;86H0,0-1[9CAll[1;5HP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[28;1H[1m-- REPLACE --[m[28;15H[K[28;86H0,1[11CAll[1;4H[33m [mEADME FOR RSHELL FOR CS100
+[33m  2 [m  2 [2;9H[K[3;1H[33m  3 [m  3 comment does not work for echo[3;39H[K[4;1H[33m  4 [m  4 canno
