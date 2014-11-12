@@ -458,7 +458,6 @@ int main()
     if(mem_address)
     {
 	dirName =  mem_add.c_str();
-	cout << "dirName is now: " << dirName << endl;
     }
 
     //if -R is passed in
