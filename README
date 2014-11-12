@@ -1,13 +1,28 @@
-EADME FOR RSHELL FOR CS100
-  2 
-  3 comment does not work for echo
-  4 cannot compile with tag "-Wall -Werror -asin -pedantic" -> will have a error called "ISO C++forbids     variable-szie array"
-  5 cannot take multiple commands with connecters such as || && or ;
-  6 finger user does not work, shows "no such file"
-  7 u name -a does not work, shows "no such file"
-  8 who am i works
-  9 branch works
- 10 opening, compiling and running a cpp file works
- 11 cannot cat README
- 12 can make a new file
- 13 can remove a file
+README FOR RSHELL FOR CS100
+ 
+ 1. comment does not work for echo
+ 2. cannot compile with tag "-Wall -Werror -asin -pedantic" -> will have a error called "ISO C++forbids     variable-szie array"
+ 3. cannot take multiple commands with connecters such as || && or ;
+ 4. finger user does not work, shows "no such file"
+ 5. u name -a does not work, shows "no such file"
+ 6. who am i works
+ 7. branch works
+ 8. opening, compiling and running a cpp file works
+ 9. cannot cat README
+ 10. can make a new file
+ 11. can remove a file
+
+README FOR LS FOR CS100
+
+Known bugs:
+    1. user defined path does not work
+            -when pass in an user defined path, it shows syscall path error
+    2. any flag that contains l, a, or R will work just fine as -l, -a, or -R is passed in
+    3. the format of ls, ls -a is not organized
+    4. the format of ls -l is messy
+    5. the output is not alphabetical ordered
+    6. if passed in any invalid flag, the program works just as normal ls
+ 
+README FOR CP FOR CS100
+
+THE FILE DOES NOT WORK

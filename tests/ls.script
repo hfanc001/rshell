@@ -1,0 +1,379 @@
+Script started on Tue 11 Nov 2014 11:33:51 PM PST
+~
+hfanc001@hammer $ cd cs100//[Kucr-cs100/assignments/hw/hw0-rshell.[K
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ make
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o ./bin/cp
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o ./bin/cp
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o ./bin/ls
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -a
+[1;34m./[0m  [1;34m../[0m  Makefile  [1;34m[1;40m.git/[0m[0m  README  [1;34mbin/[0m  [1;34mtests/[0m  :wq  LICENSE  [1;34msrc/[0m  ~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls 
+Makefile  README  [1;34mbin/[0m  [1;34mtests/[0m  :wq  LICENSE  [1;34msrc/[0m  ~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -l
+-rw------- 1 hfanc001 classes 247 Nov 11 23:30 Makefile 
+-rw------- 1 hfanc001 classes 523 Nov 11 22:38 README 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:33 [1;34mbin/[0m 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:32 [1;34mtests/[0m 
+-rw------- 1 hfanc001 classes 791 Oct 20 9:0 :wq 
+-rw------- 1 hfanc001 classes 0 Oct 21 23:23 LICENSE 
+drwx------ 3 hfanc001 classes 4096 Nov 11 23:23 [1;34msrc/[0m 
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -R
+.:
+Makefile  README  [1;34mbin/[0m  [1;34mtests/[0m  :wq  LICENSE  [1;34msrc/[0m  
+./bin:
+[1;32mrshell*[0m  [1;32mcp*[0m  [1;32mls*[0m  
+./tests:
+rshell.script  ls.script  
+./src:
+rshell.cpp  [1;32ma.out*[0m  ls.cpp  [1;34m||/[0m  Timer.h  cp.cpp  
+./src/||:
+
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+LS    LS  ls -l -a
+drwx------ 6 hfanc001 classes 4096 Nov 11 23:30 [1;34m./[0m 
+drwx------ 7 hfanc001 classes 4096 Nov 11 23:24 [1;34m../[0m 
+-rw------- 1 hfanc001 classes 247 Nov 11 23:30 Makefile 
+drwx------ 8 hfanc001 classes 4096 Nov 11 23:31 [1;34m[1;40m.git/[0m[0m 
+-rw------- 1 hfanc001 classes 523 Nov 11 22:38 README 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:33 [1;34mbin/[0m 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:32 [1;34mtests/[0m 
+-rw------- 1 hfanc001 classes 791 Oct 20 9:0 :wq 
+-rw------- 1 hfanc001 classes 0 Oct 21 23:23 LICENSE 
+drwx------ 3 hfanc001 classes 4096 Nov 11 23:23 [1;34msrc/[0m 
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -a -R
+.:
+[1;34m./[0m  [1;34m../[0m  Makefile  [1;34m[1;40m.git/[0m[0m  README  [1;34mbin/[0m  [1;34mtests/[0m  :wq  LICENSE  [1;34msrc/[0m  
+./.git:
+[1;34m./[0m  [1;34m../[0m  [1;34mrefs/[0m  [1;34mbranches/[0m  [1;34minfo/[0m  [1;34mhooks/[0m  description  [1;34mobjects/[0m  HEAD  config  COMMIT_EDITMSG  index  [1;34mlogs/[0m  FETCH_HEAD  ORIG_HEAD  
+./.git/refs:
+[1;34m./[0m  [1;34m../[0m  [1;34mheads/[0m  [1;34mtags/[0m  [1;34mremotes/[0m  
+./.git/refs/heads:
+[1;34m./[0m  [1;34m../[0m  master  
+./.git/refs/tags:
+[1;34m./[0m  [1;34m../[0m  hw0  
+./.git/refs/remotes:
+[1;34m./[0m  [1;34m../[0m  [1;34morigin/[0m  
+./.git/refs/remotes/origin:
+[1;34m./[0m  [1;34m../[0m  master  
+./.git/branches:
+[1;34m./[0m  [1;34m../[0m  
+./.git/info:
+[1;34m./[0m  [1;34m../[0m  exclude  
+./.git/hooks:
+[1;34m./[0m  [1;34m../[0m  [1;32mpost-receive.sample*[0m  [1;32mpre-rebase.sample*[0m  [1;32mapplypatch-msg.sample*[0m  [1;32mprepare-commit-msg.sample*[0m  [1;32mupdate.sample*[0m  [1;32mpost-commit.sample*[0m  [1;32mcommit-msg.sample*[0m  [1;32mpre-applypatch.sample*[0m  [1;32mpre-commit.sample*[0m  [1;32mpost-update.sample*[0m  
+./.git/objects:
+[1;34m./[0m  [1;34m../[0m  [1;34mpack/[0m  [1;34minfo/[0m  [1;34me6/[0m  [1;34m75/[0m  [1;34m92/[0m  [1;34m7a/[0m  [1;34ma5/[0m  [1;34m8e/[0m  [1;34mcb/[0m  [1;34m0d/[0m  [1;34m6c/[0m  [1;34maf/[0m  [1;34mc0/[0m  [1;34m1f/[0m  [1;34mba/[0m  [1;34m43/[0m  [1;34mff/[0m  [1;34m95/[0m  [1;34m56/[0m  [1;34m1c/[0m  [1;34mc6/[0m  [1;34mc5/[0m  [1;34m60/[0m  [1;34m27/[0m  [1;34m16/[0m  [1;34mbb/[0m  [1;34m59/[0m  [1;34m72/[0m  [1;34mab/[0m  [1;34m2c/[0m  [1;34mb3/[0m  [1;34m00/[0m  [1;34mca/[0m  [1;34m77/[0m  [1;34m10/[0m  [1;34ma9/[0m  [1;34m2a/[0m  [1;34m2b/[0m  [1;34m44/[0m  [1;34m4a/[0m  [1;34m6d/[0m  [1;34m4e/[0m  [1;34m50/[0m  [1;34ma6/[0m  [1;34m31/[0m  [1;34mf4/[0m  [1;34m19/[0m  [1;34m0c/[0m  [1;34mdf/[0m  [1;34m74/[0m  [1;34m5b/[0m  [1;34m4d/[0m  [1;34m64/[0m  [1;34m81/[0m  [1;34m28/[0m  [1;34mdc/[0m  [1;34med/[0m  [1;34m87/[0m  
+./.git/objects/pack:
+[1;34m./[0m  [1;34m../[0m  
+./.git/objects/info:
+[1;34m./[0m  [1;34m../[0m  
+./.git/objects/e6:
+[1;34m./[0m  [1;34m../[0m  9de29bb2d1d6434b8b29ae775ad8c2e48c5391  
+./.git/objects/75:
+[1;34m./[0m  [1;34m../[0m  aaeac20cbc000c05d02df451016d9677cdd2b1  
+./.git/objects/92:
+[1;34m./[0m  [1;34m../[0m  3567db7b8386901f8a340f878fc351a2b72dd9  
+./.git/objects/7a:
+[1;34m./[0m  [1;34m../[0m  b3b89c60be71e341da85ea7d39cb663dafb88d  
+./.git/objects/a5:
+[1;34m./[0m  [1;34m../[0m  cc9acf687e584648a1b65f4e47c1333f267e8b  
+./.git/objects/8e:
+[1;34m./[0m  [1;34m../[0m  8f743a7b510bbdd6c30583773300b60ef16f1f  
+./.git/objects/cb:
+[1;34m./[0m  [1;34m../[0m  47c23ca91132437616b93a9e20c696a8ae99a7  
+./.git/objects/0d:
+[1;34m./[0m  [1;34m../[0m  e6a2ca42d1d5e8ed4f0a4f5dd3d1ac33792ebb  
+./.git/objects/6c:
+[1;34m./[0m  [1;34m../[0m  f22e3911d5d45df8878ba96a5ac75ef21cbda1  
+./.git/objects/af:
+[1;34m./[0m  [1;34m../[0m  1649f43e4ed3d884530da94c0f4e567407545f  
+./.git/objects/c0:
+[1;34m./[0m  [1;34m../[0m  ea7e03306769bc91c6b7c73d9b74dc7b46b673  
+./.git/objects/1f:
+[1;34m./[0m  [1;34m../[0m  4f2cde54b2f4fc7b72aafcf6cde771d94456c7  
+./.git/objects/ba:
+[1;34m./[0m  [1;34m../[0m  a7374cba585d7451e095a664fbb9ccbe26cd46  
+./.git/objects/43:
+[1;34m./[0m  [1;34m../[0m  6aa48c610eec49b84bc27d809bbaf3c514cd70  
+./.git/objects/ff:
+[1;34m./[0m  [1;34m../[0m  8c78fa55b037f56baf12fcb5ff045799115cd9  
+./.git/objects/95:
+[1;34m./[0m  [1;34m../[0m  abc1809d64873986342f4321f5cc0c4a757e72  
+./.git/objects/56:
+[1;34m./[0m  [1;34m../[0m  6e73bba8bf5acdd7eedc79cb59e7a5a4ae599c  
+./.git/objects/1c:
+[1;34m./[0m  [1;34m../[0m  86027b1bbcf2781c9bcbe84f36b324ff8b466d  
+./.git/objects/c6:
+[1;34m./[0m  [1;34m../[0m  d4e2ed5496d7ed95eac15d89a44aad91e8c479  
+./.git/objects/c5:
+[1;34m./[0m  [1;34m../[0m  b20720000dac438b6fff452f0bd31648a949f1  
+./.git/objects/60:
+[1;34m./[0m  [1;34m../[0m  ec7eda6e882a63c602016ca95797a0aaa8811c  adb0eab4be57b01e94e548b67ee8e66aed59ac  
+./.git/objects/27:
+[1;34m./[0m  [1;34m../[0m  8e293d9eb9ea017d16dcbd2d7ba2ba1b65e269  
+./.git/objects/16:
+[1;34m./[0m  [1;34m../[0m  d6aded1c738153cfa3502b55333cf953693f04  
+./.git/objects/bb:
+[1;34m./[0m  [1;34m../[0m  5a0dc28d483b4a74deb9d5640e75f771282f27  
+./.git/objects/59:
+[1;34m./[0m  [1;34m../[0m  8c30a492dc7f6be1651d3768ef0f6fb8ee0f07  e5f1564a47d81e255675c7766d665a45ef4352  
+./.git/objects/72:
+[1;34m./[0m  [1;34m../[0m  414b1c493d74cf14a979968a0b4779467ca22f  
+./.git/objects/ab:
+[1;34m./[0m  [1;34m../[0m  44c0bc7edcefa9e1e46ae6e740468c15922952  
+./.git/objects/2c:
+[1;34m./[0m  [1;34m../[0m  bc21ee89627eebe71287f3cf1e9277d5cbc2aa  
+./.git/objects/b3:
+[1;34m./[0m  [1;34m../[0m  4e8bed4b10e8c97b00c828b4d076765b47736f  
+./.git/objects/P0:
+Error in opendir(dirName)[251]: No such file or directory
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -R -l
+.:
+-rw------- 1 hfanc001 classes 247 Nov 11 23:30 Makefile 
+-rw------- 1 hfanc001 classes 523 Nov 11 22:38 README 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:33 [1;34mbin/[0m 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:32 [1;34mtests/[0m 
+-rw------- 1 hfanc001 classes 791 Oct 20 9:0 :wq 
+-rw------- 1 hfanc001 classes 0 Oct 21 23:23 LICENSE 
+drwx------ 3 hfanc001 classes 4096 Nov 11 23:23 [1;34msrc/[0m 
+
+./bin:
+-rwx------ 1 hfanc001 classes 14000 Oct 28 15:3 [1;32mrshell*[0m 
+-rwx------ 1 hfanc001 classes 12720 Nov 11 23:33 [1;32mcp*[0m 
+-rwx------ 1 hfanc001 classes 44310 Nov 11 23:33 [1;32mls*[0m 
+
+./tests:
+-rw------- 1 hfanc001 classes 65536 Oct 21 23:53 rshell.script 
+-rw------- 1 hfanc001 classes 0 Nov 11 23:32 ls.script 
+
+./src:
+-rw------- 1 hfanc001 classes 4743 Oct 21 23:44 rshell.cpp 
+-rwx------ 1 hfanc001 classes 14000 Oct 23 18:40 [1;32ma.out*[0m 
+-rw------- 1 hfanc001 classes 11211 Nov 11 23:12 ls.cpp 
+drwx------ 2 hfanc001 classes 4096 Oct 21 23:43 [1;34m||/[0m 
+-rw------- 1 hfanc001 classes 2638 Nov 11 23:23 Timer.h 
+-rw------- 1 hfanc001 classes 2007 Nov 11 23:23 cp.cpp 
+
+./src/||:
+
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -la
+drwx------ 6 hfanc001 classes 4096 Nov 11 23:30 [1;34m./[0m 
+drwx------ 7 hfanc001 classes 4096 Nov 11 23:24 [1;34m../[0m 
+-rw------- 1 hfanc001 classes 247 Nov 11 23:30 Makefile 
+drwx------ 8 hfanc001 classes 4096 Nov 11 23:31 [1;34m[1;40m.git/[0m[0m 
+-rw------- 1 hfanc001 classes 523 Nov 11 22:38 README 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:33 [1;34mbin/[0m 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:32 [1;34mtests/[0m 
+-rw------- 1 hfanc001 classes 791 Oct 20 9:0 :wq 
+-rw------- 1 hfanc001 classes 0 Oct 21 23:23 LICENSE 
+drwx------ 3 hfanc001 classes 4096 Nov 11 23:23 [1;34msrc/[0m 
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -aR
+.:
+[1;34m./[0m  [1;34m../[0m  Makefile  [1;34m[1;40m.git/[0m[0m  README  [1;34mbin/[0m  [1;34mtests/[0m  :wq  LICENSE  [1;34msrc/[0m  
+./.git:
+[1;34m./[0m  [1;34m../[0m  [1;34mrefs/[0m  [1;34mbranches/[0m  [1;34minfo/[0m  [1;34mhooks/[0m  description  [1;34mobjects/[0m  HEAD  config  COMMIT_EDITMSG  index  [1;34mlogs/[0m  FETCH_HEAD  ORIG_HEAD  
+./.git/refs:
+[1;34m./[0m  [1;34m../[0m  [1;34mheads/[0m  [1;34mtags/[0m  [1;34mremotes/[0m  
+./.git/refs/heads:
+[1;34m./[0m  [1;34m../[0m  master  
+./.git/refs/tags:
+[1;34m./[0m  [1;34m../[0m  hw0  
+./.git/refs/remotes:
+[1;34m./[0m  [1;34m../[0m  [1;34morigin/[0m  
+./.git/refs/remotes/origin:
+[1;34m./[0m  [1;34m../[0m  master  
+./.git/branches:
+[1;34m./[0m  [1;34m../[0m  
+./.git/info:
+[1;34m./[0m  [1;34m../[0m  exclude  
+./.git/hooks:
+[1;34m./[0m  [1;34m../[0m  [1;32mpost-receive.sample*[0m  [1;32mpre-rebase.sample*[0m  [1;32mapplypatch-msg.sample*[0m  [1;32mprepare-commit-msg.sample*[0m  [1;32mupdate.sample*[0m  [1;32mpost-commit.sample*[0m  [1;32mcommit-msg.sample*[0m  [1;32mpre-applypatch.sample*[0m  [1;32mpre-commit.sample*[0m  [1;32mpost-update.sample*[0m  
+./.git/objects:
+[1;34m./[0m  [1;34m../[0m  [1;34mpack/[0m  [1;34minfo/[0m  [1;34me6/[0m  [1;34m75/[0m  [1;34m92/[0m  [1;34m7a/[0m  [1;34ma5/[0m  [1;34m8e/[0m  [1;34mcb/[0m  [1;34m0d/[0m  [1;34m6c/[0m  [1;34maf/[0m  [1;34mc0/[0m  [1;34m1f/[0m  [1;34mba/[0m  [1;34m43/[0m  [1;34mff/[0m  [1;34m95/[0m  [1;34m56/[0m  [1;34m1c/[0m  [1;34mc6/[0m  [1;34mc5/[0m  [1;34m60/[0m  [1;34m27/[0m  [1;34m16/[0m  [1;34mbb/[0m  [1;34m59/[0m  [1;34m72/[0m  [1;34mab/[0m  [1;34m2c/[0m  [1;34mb3/[0m  [1;34m00/[0m  [1;34mca/[0m  [1;34m77/[0m  [1;34m10/[0m  [1;34ma9/[0m  [1;34m2a/[0m  [1;34m2b/[0m  [1;34m44/[0m  [1;34m4a/[0m  [1;34m6d/[0m  [1;34m4e/[0m  [1;34m50/[0m  [1;34ma6/[0m  [1;34m31/[0m  [1;34mf4/[0m  [1;34m19/[0m  [1;34m0c/[0m  [1;34mdf/[0m  [1;34m74/[0m  [1;34m5b/[0m  [1;34m4d/[0m  [1;34m64/[0m  [1;34m81/[0m  [1;34m28/[0m  [1;34mdc/[0m  [1;34med/[0m  [1;34m87/[0m  
+./.git/objects/pack:
+[1;34m./[0m  [1;34m../[0m  
+./.git/objects/info:
+[1;34m./[0m  [1;34m../[0m  
+./.git/objects/e6:
+[1;34m./[0m  [1;34m../[0m  9de29bb2d1d6434b8b29ae775ad8c2e48c5391  
+./.git/objects/75:
+[1;34m./[0m  [1;34m../[0m  aaeac20cbc000c05d02df451016d9677cdd2b1  
+./.git/objects/92:
+[1;34m./[0m  [1;34m../[0m  3567db7b8386901f8a340f878fc351a2b72dd9  
+./.git/objects/7a:
+[1;34m./[0m  [1;34m../[0m  b3b89c60be71e341da85ea7d39cb663dafb88d  
+./.git/objects/a5:
+[1;34m./[0m  [1;34m../[0m  cc9acf687e584648a1b65f4e47c1333f267e8b  
+./.git/objects/8e:
+[1;34m./[0m  [1;34m../[0m  8f743a7b510bbdd6c30583773300b60ef16f1f  
+./.git/objects/cb:
+[1;34m./[0m  [1;34m../[0m  47c23ca91132437616b93a9e20c696a8ae99a7  
+./.git/objects/0d:
+[1;34m./[0m  [1;34m../[0m  e6a2ca42d1d5e8ed4f0a4f5dd3d1ac33792ebb  
+./.git/objects/6c:
+[1;34m./[0m  [1;34m../[0m  f22e3911d5d45df8878ba96a5ac75ef21cbda1  
+./.git/objects/af:
+[1;34m./[0m  [1;34m../[0m  1649f43e4ed3d884530da94c0f4e567407545f  
+./.git/objects/c0:
+[1;34m./[0m  [1;34m../[0m  ea7e03306769bc91c6b7c73d9b74dc7b46b673  
+./.git/objects/1f:
+[1;34m./[0m  [1;34m../[0m  4f2cde54b2f4fc7b72aafcf6cde771d94456c7  
+./.git/objects/ba:
+[1;34m./[0m  [1;34m../[0m  a7374cba585d7451e095a664fbb9ccbe26cd46  
+./.git/objects/43:
+[1;34m./[0m  [1;34m../[0m  6aa48c610eec49b84bc27d809bbaf3c514cd70  
+./.git/objects/ff:
+[1;34m./[0m  [1;34m../[0m  8c78fa55b037f56baf12fcb5ff045799115cd9  
+./.git/objects/95:
+[1;34m./[0m  [1;34m../[0m  abc1809d64873986342f4321f5cc0c4a757e72  
+./.git/objects/56:
+[1;34m./[0m  [1;34m../[0m  6e73bba8bf5acdd7eedc79cb59e7a5a4ae599c  
+./.git/objects/1c:
+[1;34m./[0m  [1;34m../[0m  86027b1bbcf2781c9bcbe84f36b324ff8b466d  
+./.git/objects/c6:
+[1;34m./[0m  [1;34m../[0m  d4e2ed5496d7ed95eac15d89a44aad91e8c479  
+./.git/objects/c5:
+[1;34m./[0m  [1;34m../[0m  b20720000dac438b6fff452f0bd31648a949f1  
+./.git/objects/60:
+[1;34m./[0m  [1;34m../[0m  ec7eda6e882a63c602016ca95797a0aaa8811c  adb0eab4be57b01e94e548b67ee8e66aed59ac  
+./.git/objects/27:
+[1;34m./[0m  [1;34m../[0m  8e293d9eb9ea017d16dcbd2d7ba2ba1b65e269  
+./.git/objects/16:
+[1;34m./[0m  [1;34m../[0m  d6aded1c738153cfa3502b55333cf953693f04  
+./.git/objects/bb:
+[1;34m./[0m  [1;34m../[0m  5a0dc28d483b4a74deb9d5640e75f771282f27  
+./.git/objects/59:
+[1;34m./[0m  [1;34m../[0m  8c30a492dc7f6be1651d3768ef0f6fb8ee0f07  e5f1564a47d81e255675c7766d665a45ef4352  
+./.git/objects/72:
+[1;34m./[0m  [1;34m../[0m  414b1c493d74cf14a979968a0b4779467ca22f  
+./.git/objects/ab:
+[1;34m./[0m  [1;34m../[0m  44c0bc7edcefa9e1e46ae6e740468c15922952  
+./.git/objects/2c:
+[1;34m./[0m  [1;34m../[0m  bc21ee89627eebe71287f3cf1e9277d5cbc2aa  
+./.git/objects/b3:
+[1;34m./[0m  [1;34m../[0m  4e8bed4b10e8c97b00c828b4d076765b47736f  
+./.git/objects/P0:
+Error in opendir(dirName)[251]: No such file or directory
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -e r
+Makefile  README  [1;34mbin/[0m  [1;34mtests/[0m  :wq  LICENSE  [1;34msrc/[0m  ~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -awaetv
+[1;34m./[0m  [1;34m../[0m  Makefile  [1;34m[1;40m.git/[0m[0m  README  [1;34mbin/[0m  [1;34mtests/[0m  :wq  LICENSE  [1;34msrc/[0m  ~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -lasfwwe
+drwx------ 6 hfanc001 classes 4096 Nov 11 23:30 [1;34m./[0m 
+drwx------ 7 hfanc001 classes 4096 Nov 11 23:24 [1;34m../[0m 
+-rw------- 1 hfanc001 classes 247 Nov 11 23:30 Makefile 
+drwx------ 8 hfanc001 classes 4096 Nov 11 23:31 [1;34m[1;40m.git/[0m[0m 
+-rw------- 1 hfanc001 classes 523 Nov 11 22:38 README 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:33 [1;34mbin/[0m 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:32 [1;34mtests/[0m 
+-rw------- 1 hfanc001 classes 791 Oct 20 9:0 :wq 
+-rw------- 1 hfanc001 classes 0 Oct 21 23:23 LICENSE 
+drwx------ 3 hfanc001 classes 4096 Nov 11 23:23 [1;34msrc/[0m 
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls class   s ass/classes/hfanc001/cs100/cs  ucr/ -cs100/assignments
+dirName is now: class/classes/hfanc001/cs100/ucr-cs100/assignments
+Error in opendir(dirName)[376]: No such file or directory
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ls [K[K[K./bin/ls[K./bin/ls[K[Kcpp
+bash: ./bin/cpp: No such file or directory
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ls
+[0m[01;34mbin[0m/  LICENSE  Makefile  README  [01;34msrc[0m/  [01;34mtests[0m/  :wq
+[m~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ cd bin
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/bin
+hfanc001@hammer $ ls
+[0m[01;32mcp[0m*  [01;32mls[0m*  [01;32mrshell[0m*
+[m~/cs100/ucr-cs100/assignments/hw/hw0-rshell/bin
+hfanc001@hammer $ ./cp
+An error occured in opening fdi_1: No such file or directory
+An error occured in read_1: Bad file descriptor
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/bin
+hfanc001@hammer $ cs l[K[K[Kd ls
+bash: cd: ls: Not a directory
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/bin
+hfanc001@hammer $ ./ls
+ls -r R
+.:
+[1;32mrshell*[0m  [1;32mcp*[0m  [1;32mls*[0m  out1.text  [1;32mout2.text*[0m  
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell/bin
+hfanc001@hammer $ cd ..
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ls -al
+total 36
+drwx------ 6 hfanc001 classes 4096 Nov 11 23:30 [0m[01;34m.[0m/
+drwx------ 7 hfanc001 classes 4096 Nov 11 23:24 [01;34m..[0m/
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:35 [01;34mbin[0m/
+drwx------ 8 hfanc001 classes 4096 Nov 11 23:31 [01;34m.git[0m/
+-rw------- 1 hfanc001 classes    0 Oct 21 23:23 LICENSE
+-rw------- 1 hfanc001 classes  247 Nov 11 23:30 Makefile
+-rw------- 1 hfanc001 classes  523 Nov 11 22:38 README
+drwx------ 3 hfanc001 classes 4096 Nov 11 23:23 [01;34msrc[0m/
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:32 [01;34mtests[0m/
+-rw------- 1 hfanc001 classes  791 Oct 20 09:00 :wq
+[m~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ls -al[1Pcd ..ls -al[K./bn[Kin/ls
+ls -al
+drwx------ 6 hfanc001 classes 4096 Nov 11 23:30 [1;34m./[0m 
+drwx------ 7 hfanc001 classes 4096 Nov 11 23:24 [1;34m../[0m 
+-rw------- 1 hfanc001 classes 247 Nov 11 23:30 Makefile 
+drwx------ 8 hfanc001 classes 4096 Nov 11 23:31 [1;34m[1;40m.git/[0m[0m 
+-rw------- 1 hfanc001 classes 523 Nov 11 22:38 README 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:35 [1;34mbin/[0m 
+drwx------ 2 hfanc001 classes 4096 Nov 11 23:32 [1;34mtests/[0m 
+-rw------- 1 hfanc001 classes 791 Oct 20 9:0 :wq 
+-rw------- 1 hfanc001 classes 0 Oct 21 23:23 LICENSE 
+drwx------ 3 hfanc001 classes 4096 Nov 11 23:23 [1;34msrc/[0m 
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls -RLL
+.:
+Makefile  README  [1;34mbin/[0m  [1;34mtests/[0m  :wq  LICENSE  [1;34msrc/[0m  
+./bin:
+[1;32mrshell*[0m  [1;32mcp*[0m  [1;32mls*[0m  out1.text  [1;32mout2.text*[0m  
+./tests:
+rshell.script  ls.script  
+./src:
+rshell.cpp  [1;32ma.out*[0m  ls.cpp  [1;34m||/[0m  Timer.h  cp.cpp  
+./src/||:
+
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+LS    ls -l ervrew
+dirName is now: ervrew
+Error in opendir(dirName)[376]: No such file or directory
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/ls
+ls    ls -al fjei    class/classes/jfa   hfanc001/cs100/ucr-cs100/assignments
+dirName is now: class/classes/hfanc001/cs100/ucr-cs100/assignments
+Error in opendir(dirName)[376]: No such file or directory
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ ./bin/cp
+An error occured in opening fdi_1: No such file or directory
+An error occured in read_1: Bad file descriptor
+~/cs100/ucr-cs100/assignments/hw/hw0-rshell
+hfanc001@hammer $ exit
+exit
+
+Script done on Tue 11 Nov 2014 11:37:51 PM PST
