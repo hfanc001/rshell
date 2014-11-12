@@ -13,7 +13,6 @@ using namespace std;
 
 int main() 
 {	
-	char str[256];
 	ifstream in("in.text");
 	ofstream out("out1.text");
 
@@ -59,7 +58,7 @@ int main()
 		perror("An error occured in opening fdo_1");
 	}
 
-	while(num = read(fdi, BUF, 1))
+	while((num = read(fdi, BUF, 1)))
 	{	
 		if(num == -1)
 		{
@@ -99,7 +98,7 @@ int main()
 	}
 
 	int number;
-	while(number = read(fdi2, BUF, BUFSIZ))
+	while((number = read(fdi2, BUF, BUFSIZ)))
 	{	
 		if(number == -1)
 		{
