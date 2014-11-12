@@ -1,0 +1,31 @@
+//this file is to test and understand what execvp does
+
+#include <iostream>
+#include <unistd.h> //library for execvp & fork
+#include <sys/types.h> //library for wait
+#include <sys/wait.h> //library for wait
+#include <stdio.h> //library for perror
+#include <errno.h> //library for perror
+using namespace std;
+
+int main()
+{
+	cout << "Creat a new argv(overwirte the last one)" << endl;
+	//cout << "Use \"echo hello\"" << endl << endl; 
+	
+	char *argv[5];
+	argv[0] = new char[2];
+	strcpy(argv[0], "./a.out");
+	argv[1] = "echo";
+	argv[2] = "hello";
+	//argv[3] = "hello;";
+	//argv[4] = "mkdir";
+	//argv[5] = "test";
+
+	cout << "Entering the execvp funciton: " << endl;
+	cout << "With the line: execvp(arg[0], argv)" << endl << endl;
+	cout << "Result:" << endl;
+	execvp(argv[1], argv);
+
+	return 0;
+}

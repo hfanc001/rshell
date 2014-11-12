@@ -1,17 +1,12 @@
-all: test
+all:	bin rshell cp ls
 
-test:
-	rshell_fun.o exec.o
-	g++ rshell_fun.o exec.o -o test
+bin:
+	[ ! -d $bin ] && mkdir bin
 
-exec.o:
-	exec.cpp
-	g++ -c exec.cpp
+rshell:
+	g++ src/rshell.cpp -o ./bin/rshell
 
-rshell_fun.o:
-	rshell_fun.h rshell_fun.cpp
-	g++ -c rshell_fun.h rshell_fun.cpp
-
-
-
-
+cp: 	
+	g++ -Wall -Werror -ansi -pendatic src/cp.cpp -o ./bin/cp
+ls:
+	g++ -Wall -Werror -ansi -pendatic src/ls.cpp -o ./bin/ls
