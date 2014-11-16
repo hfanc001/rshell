@@ -1,37 +1,32 @@
-#include <unistd.h>
-#include <stdio.h>
 #include <iostream>
+#include <errno.h>
 #include <string>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <vector>
 #include <sstream>
 #include <stdlib.h>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <vector>
+#include <pwd.h>
 using namespace std;
 
 int main(int argc, char ** argv)
 {
 	//first set the size of the username and the hostname
 	//and then set it as 100 so there could be a lot of space for it
-	char username[100];
-	char hostname1[100];
-	
-	//call getlogin_r and check if it works
-	int login = getlogin_r(username, sizeof(username - 1));
-	if(login != 0)
-	{
-		perror("An error occured in getlogin()");
-	}
+	char uname[2048];
+	string username;
+	char hname[1024];
 
-	//call gethostname and check if it works
-	int hostname2 = gethostname(hostname1, sizeof(hostname1) - 1);
+	if(getlogin_r(uname, 2048) != 0)
+		perror("Error in getlogin_r");
+	if(gethostname(hname, 1024) != 0)
+		perror("Error in gethostname");
 	
-	if(hostname2 != 0)
-	{
-		perror("An error occured in gethostname");
-	}
-		
+
 	//always print out $ and ask for input
 	while(1)
 	{
@@ -42,7 +37,7 @@ int main(int argc, char ** argv)
 		//take input from the user
 		while(word == "")
 		{
-			cout << username << "@" << hostname1 << "$ ";
+			cout << uname << "@" << hname << "$ ";
 			getline(cin, word);
 		}
 	
@@ -133,7 +128,7 @@ int main(int argc, char ** argv)
 			//urg[i] = (char *)alloca(temp.size()+1);
 			memcpy(urg[i], temp.c_str(), temp.size() + 1);
 		}
-		cout << endl;
+		//cout << "hi " << endl;
 		
 		pos--;
 		//add NULL to the end of cmd to complete the array
@@ -180,7 +175,7 @@ int main(int argc, char ** argv)
 
 			else if(pid == 0) //if fork returns 0 == in child process
 			{
-				execvp(urg[0], urg);
+				//execvp(urg[0], urg);
 			
 				if(-1 == execvp(urg[0], urg))
 				{
