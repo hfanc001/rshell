@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include <errno.h>
 #include <string>
 #include <string.h>
@@ -32,7 +33,8 @@ int main(int argc, char ** argv)
 	{
 		//need to get input
 		string word = "";
-		int pos = 0;
+		vector<string> input;
+		int len = 1;
 
 		//take input from the user
 		while(word == "")
@@ -40,129 +42,165 @@ int main(int argc, char ** argv)
 			cout << uname << "@" << hname << "$ ";
 			getline(cin, word);
 		}
+		
+		istringstream iss(word);
+		while(iss >> word)
+		{
+			input.push_back(word);
+			len++;
+		}
 	
 		if(word == "exit")
 		{
 			exit(0);
 		}
+		
+		//iterate through the loop and look for >, <, and |
+		bool idirect = false;
+		bool odirect = false;
+		bool pipe = false;
 
-		//the bool that check if there is a connecter in the command entered
-		bool connecter = false;
-		//check and know what connecter type it is
-		int connecter_type = 0;
-		//so the program knows how many more commands to do
-		//used for connecter
-		int commandsToDo = 0;
-	
-		int wsize = word.size();
-		//check if there is a connector 
-		for(int i = 0; i < wsize; i++)
+		string input_file;
+		string output_file;
+		vector<string> pipping_commands;
+		vector<int> ignore_list;
+		vector<int> pipe_location;
+
+		for(unsigned int i = 0; i < input.size(); i++)
 		{
-			//check if there is any sort of connecter in the command
-			if(word.at(i) == '|' || word.at(i) == '&' || word.at(i) == ';')
+			for(unsigned int j = 0; j < input.at(i).size(); j++)
 			{
-				//if comes into this if
-				//there is a connecter
-				//set connecter to true
-				connecter = true;
-				
-				//if the connecter is a pipe
-				//set the connecter_type as 1
-				if(word.at(i) == '|')
+				char temp = input.at(i).at(j);
+				if(temp == '<') //detect an input redirection
 				{
-					connecter_type = 1;
-				}
-				
-				//if the connecter is an and
-				//set the connecter_type as 2
-				if(word.at(i) == '&')
-				{
-					connecter_type = 2;
+					if(j == 0 && i < (input.size()-1))
+					{
+						input_file = input.at(i + 1);
+						idirect = true;
+						ignore_list.push_back(i);
+						//ignore_list.push_back(i + 1);
+					}
 				}
 
-				//if the connecter is an semicolon
-				//set the connecter_type as 3
-				if(word.at(i) == ';')
+				else if(temp == '|') //detect a pipping 
 				{
-					connecter_type = 3;
+					pipe = true;
+					if(j == 0 && j != (input.at(i).size() -1))
+					{
+						pipe_location.push_back(i);
+						//input.at(i).at(j) = '\'
+						//input.at(i).at(j + 1) = '0';
+					}
+	
+					else
+					{
+						pipe_location.push_back(i);
+						//input.insert(i, "\0");
+					}
 				}
+				
+				else if(temp == '>')
+				{
+					odirect = true;
+					//if only one output rediector
+					//meaning we will be overwriting it
+					if(j == 0 && ((j + 1) == input.at(i).size()))
+					{
+						if(i != (input.size() - 1))
+						{
+							output_file = input.at(i + 1);
+							ignore_list.push_back(i);
+							ignore_list.push_back(i + 1);
+						}
+					}
+					
+				}						
 			}
 		}
-
-		//find a connecter 
-		//if connecter_type is 1 -> found a pipe
-		//if connecter_type is 2 -> found an and
-		//if connecter_type is 3 -> found a semicolon
-		//in the functions, add one to commandsToDo
-		//each time when a connecter is found
-		//if(connecter)
 	
-		//count how many words there are in order to allocate cmd
-		for(int i = 0; i < wsize; i++)
-		{
-			if(word.at(i) == ' ')
-			{
-				pos++;
-			}
-		}	
+		//---test case to see what the user had input
+		cout << "The inputs are: ";
+		for(unsigned int i = 0; i < input.size(); i++)
+			cout << input.at(i) << " ";
+		cout << endl;
+		
+		cout << "The ignore list is: ";
+		for(unsigned int i = 0; i < ignore_list.size(); i++)
+			cout << ignore_list.at(i) << " ";
+		cout << endl;
 
-		pos += 2;
-		const int posi = pos;
+		cout << "The pipe location is: ";
+		for(unsigned int i = 0; i < pipe_location.size(); i++)
+			cout << pipe_location.at(i) << " ";
+		cout << endl;
+
+		cout << "Input file is: " << input_file << endl;
+		cout << "Output file is: " << output_file << endl;
+		
+		cout << "The size of input is: " << input.size() << endl;
+		cout << "The size of ignore list is: " << ignore_list.size() << endl;
+		cout << "The size of pipe location is: " << pipe_location.size() << endl;
+
+		//-------end part of test case-------------------------
+
+		//convert input vector to a single modified string 
+		string temp_arr;
+		int it_ign = 0;
+		int it_pip = 0;
+		int in_size = input.size();
+
+		for(int i = 0; i < in_size; i++)
+		{
+			int ig_size = ignore_list.size();
+			int pi_size = pipe_location.size();
+			if((it_ign < ig_size) && (i == ignore_list.at(it_ign)))
+			{
+				it_ign++;
+			}
+	
+			else if((it_pip < pi_size) && (i == pipe_location.at(it_pip)))
+			{
+				it_pip++;
+				string temp = "|";
+				temp_arr += temp;
+			}
+
+			else
+			{
+				temp_arr += input.at(i);
+			}
+		}
+		
+		//-----------more test case----------
+		cout << "The string is: " << temp_arr << endl;		
+		cout << "The string size is: " << temp_arr.size() << endl;
+		//-----------end more test case----------------
+
 		//allocate cmd for later execvp() use
-		char *urg[posi];
+		char *cmd = new char [temp_arr.size() + 1];
+		strcpy(cmd, temp_arr.c_str());
 
-		//output the userinput in stringstream in order
-		//to seperates words in sentences into char array
-		stringstream ss(word);		
-
-		//seperating sentence into char array using 
-		//temp string and dynamically allocate 
-		//memory in stack
-		for(int i = 0; i <= pos - 2; i++)
+		int tarr_size = temp_arr.size();
+		cout << "The carr array is: " << endl;
+		for(int k = 0; k < tarr_size; k++)
+			cout << cmd[k] << " ";
+		cout << endl;
+			
+		cout << "Test: " << endl;
+		for(int k = -0; k < tarr_size; k++)
 		{
-			string temp;
-			ss >> temp; 	
-			int temp_size = temp.size();
-			urg[i] = new char[temp_size];
-			//urg[i] = temp;
-			//urg[i] = (char *)alloca(temp.size()+1);
-			memcpy(urg[i], temp.c_str(), temp.size() + 1);
+			if(cmd[k] == '|')
+			{
+				cmd[k] = '\0';
+				cout << "_";
+			}
+
+			else
+				cout << cmd[k] << " ";
 		}
-		//cout << "hi " << endl;
-		
-		pos--;
-		//add NULL to the end of cmd to complete the array
-		urg[pos] = NULL;
+		cout << endl;
+
 /*		
-		//check if everything works
-		for(int i = 0; i < pos; i++)
-		{
-			cout << "This is the string in cmd[";
-			cout << i << "] " << cmd[i] << endl;
-		}
-*/
-
-		//read in the command and seperates into groups
-		//use fork first to determine child/paremt
-		//if under child, run execvp
-		//if under parent, wait
-	
-		//if the command is a regular one 
-		//ex. $ls -a or $echo hello
-		//directly send it into execvp
-		
-		//else if the command is one connected with ;
-		//ex. $ ls -a; echo hello; mkdir test
-		//write a function to seperate the command by ;
-		//and use a loop to exectue each commands
-	
-		//else if the command is connected with ||
-		//write a funciton to seperately exectute each commands
-	
-		//else if the command is connected with &&
-		//wrtie a funciton to seperately the commands
-		//only move on to the second one if the first one works
-		
 		do
 		{
 			int pid = fork();
@@ -196,7 +234,7 @@ int main(int argc, char ** argv)
 			}
 			
 		}while(commandsToDo != 0);
-	}//the closing bracket for if on the very top
+*/	}//the closing bracket for if on the very top
 
 	return 0;
 }
