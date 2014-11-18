@@ -61,8 +61,8 @@ int main(int argc, char ** argv)
 		bool odirect = false;
 		bool pipe = false;
 
-		string input_file;
-		string output_file;
+		string input_file = "";
+		string output_file = "";
 		vector<string> pipping_commands;
 		vector<int> ignore_list;
 		vector<int> pipe_location;
@@ -145,11 +145,13 @@ int main(int argc, char ** argv)
 		//-------end part of test case-------------------------
 
 		//convert input vector to a single modified string 
-		char **cmd = new *char [input.size() + 1];
+		int cmd_size = input.size() + 1;
+		char **cmd = new char* [cmd_size];
 		string temp_arr;
 		int it_ign = 0;
 		int it_pip = 0;
 		int in_size = input.size();
+		int it_cmd = 0;
 
 		for(int i = 0; i < in_size; i++)
 		{
@@ -158,6 +160,7 @@ int main(int argc, char ** argv)
 			if((it_ign < ig_size) && (i == ignore_list.at(it_ign)))
 			{
 				it_ign++;
+				cout << "__ ";
 			}
 	
 			else if((it_pip < pi_size) && (i == pipe_location.at(it_pip)))
@@ -165,13 +168,23 @@ int main(int argc, char ** argv)
 				it_pip++;
 				string temp = "|";
 				temp_arr += temp;
+				char* zero = NULL;
+				//cmd[it_cmd] = zero.c_str();
+				strcpy(cmd[it_cmd], zero);
+				it_cmd++;
+				cout << temp << " ";
 			}
 
 			else
 			{
 				temp_arr += input.at(i);
+				//cmd[it_cmd] = input.at(i).c_str();
+				strcpy(cmd[it_cmd], input.at(i).c_str());
+				it_cmd++;
+				cout << input.at(i) << " "; 
 			}
 		}
+		cout << endl;
 		
 		//-----------more test case----------
 		cout << "The string is: " << temp_arr << endl;		
@@ -189,7 +202,7 @@ int main(int argc, char ** argv)
 		cout << endl;
 			
 		cout << "Test: " << endl;
-		for(int k = -0; k < tarr_size; k++)
+		for(int k = -0; k < cmd_size; k++)
 		{
 			if(cmd[k] == '|')
 			{
@@ -213,7 +226,7 @@ int main(int argc, char ** argv)
 		{
 			it_exe[a+1] = cmd[pipe_location.at(i)];
 		}
-*/		
+*//*		
 		int fdin, fdout;
 		int oldstdout, oldstdin;
 		if(input_file != "")
@@ -227,7 +240,7 @@ int main(int argc, char ** argv)
 			oldstdin = dup(2);
 			if(oldstdout == -1)
 			{
-				perrpr("Error in dup(1)");
+				perror("Error in dup(1)");
 				exit(1);
 			}			
 
@@ -245,7 +258,7 @@ int main(int argc, char ** argv)
 			oldstdout = dup(1);
 			if(oldstdout == -1)
 			{
-				perrpr("Error in dup(1)");
+				perror("Error in dup(1)");
 				exit(1);
 			}			
 		}
@@ -281,7 +294,7 @@ int main(int argc, char ** argv)
 			}
 			
 //		}while(commandsToDo != 0);
-	}//the closing bracket for if on the very top
+*/	}//the closing bracket for if on the very top
 
 	return 0;
 }
