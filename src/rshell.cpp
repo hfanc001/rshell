@@ -215,18 +215,39 @@ int main(int argc, char ** argv)
 		}
 */		
 		int fdin, fdout;
+		int oldstdout, oldstdin;
 		if(input_file != "")
 		{
 			fdin = open(input_file.c_str(), O_RDONLY);
 			if(fdin == -1)
+			{
 				perror("Error in open(input_file, O_RDONLY)");
+				exit(1);
+			}
+			oldstdin = dup(2);
+			if(oldstdout == -1)
+			{
+				perrpr("Error in dup(1)");
+				exit(1);
+			}			
+
 		}
 
 		if(output_file != "")
 		{
 			fdout = open(output_file.c_str(), O_WRONLY|O_CREAT);
 			if(fdout == -1)
+			{
 				perror("Error in open(output_file, O_WRONLY)");
+				exit(1);
+			}
+				
+			oldstdout = dup(1);
+			if(oldstdout == -1)
+			{
+				perrpr("Error in dup(1)");
+				exit(1);
+			}			
 		}
 
 //		do
