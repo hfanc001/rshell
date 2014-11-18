@@ -25,7 +25,19 @@ void pop_front(vector<T>& temp)
 
 void fork_execvp(int cmds, char** cmd)
 {
+	cout << endl << "in fork_execvp" << endl;
+	
 	int pid = fork();
+	
+	/*-------------this is a test to see what----------- 
+	//                       cmd has
+	cout << "This is cmd: ";
+	for(int i = 0; i < cmds; i++)
+	{
+		cout << cmd[i] << " ";
+	}
+	cout << endl;
+	//------------------------------------------------*/
 	
 	if(pid == -1) //the error check
 	{
@@ -154,6 +166,7 @@ int main(int argc, char ** argv)
 					
 				}						
 			}
+			
 		}
 
 		//deal with input/output redirect
@@ -193,7 +206,7 @@ int main(int argc, char ** argv)
 			}			
 		}
 	
-		//---test case to see what the user had input
+		/*---test case to see what the user had input
 		cout << "The inputs are: ";
 		for(unsigned int i = 0; i < input.size(); i++)
 			cout << input.at(i) << " ";
@@ -216,10 +229,9 @@ int main(int argc, char ** argv)
 		cout << "The size of ignore list is: " << ignore_list.size() << endl;
 		cout << "The size of pipe location is: " << pipe_location.size() << endl;
 
-		//-------end part of test case-------------------------
+		//-------end part of test case-----------------*/
 
 		//convert input vector to a single modified string 
-		string temp_arr;
 		int it_ign = 0;
 		int it_pip = 0;
 		int it_cmd = 0;
@@ -229,7 +241,6 @@ int main(int argc, char ** argv)
 		int ig_size = ignore_list.size();
 		int pi_size = pipe_location.size();
 
-		cout << "The cmd size is: " << cmd_size << endl;
 	
 		for(int i = 0; i < in_size; i++)
 		{
@@ -242,77 +253,45 @@ int main(int argc, char ** argv)
 			else if((it_pip < pi_size) && (i == pipe_location.at(it_pip)))
 			{
 				it_pip++;
-				string temp = "|";
-				temp_arr += temp;
-				char* zero = new char;
-				*zero = NULL;
-				cmd[it_cmd] = zero;
+				cmd[it_cmd] = NULL;
+				//cout << it_cmd << " " << flush;
+				fork_execvp(it_cmd, cmd);
 				it_cmd = 0;
-				//it_cmd++;
-				//cout << temp << " ";
-				cout << it_cmd << " " << flush;
+				//cout << it_cmd << " " << flush;
 			}
 
 			else
 			{
-				temp_arr += input.at(i);
 				char* temp = new char;
 				strcpy(temp, input.at(i).c_str());
 				cmd[it_cmd] = temp;
-				//strcpy(cmd[it_cmd], input.at(i).c_str());
 				it_cmd++;
-				//cout << input.at(i) << " "; 
-				cout << it_cmd << " " << flush;
+				//cout << it_cmd << " " << flush;
+			}
+			
+			if(i == (in_size - 1))
+			{
+				cmd[it_cmd] = NULL; 
+				fork_execvp(it_cmd, cmd);
 			}
 		}
 		cout << endl;
 		
 		delete cmd;
 
+		/*-----------more test case----------
+		cout << "The cmd size is: " << cmd_size << endl;
 		cout << "The it_cmd is: " << it_cmd << endl;
 		cout << "The it_ign is: " << it_ign << endl;
 		cout << "The it_pip is: " << it_pip << endl;
-		//-----------more test case----------
 		cout << "The string is: " << temp_arr << endl;		
 		cout << "The string size is: " << temp_arr.size() << endl;
-		//-----------end more test case----------------
+		//-----------end more test case----------------*/
 
 		//allocate cmd for later execvp() use
 		//char *cmd = new char [temp_arr.size() + 1];
 		//strcpy(cmd, temp_arr.c_str());
-/*
-		int tarr_size = temp_arr.size();
-		cout << "The carr array is: " << endl;
-		for(int k = 0; k < tarr_size; k++)
-			cout << cmd[k] << " ";
-		cout << endl;
-*//*			
-		cout << "Test: " << endl;
-		for(int k = -0; k < cmd_size; k++)
-		{
-			if(cmd[k] == '|')
-			{
-				cmd[k] = '\0';
-				cout << "_";
-			}
 
-			else
-				cout << cmd[k] << " ";
-		}
-		cout << endl;
-*//*
-		int it_exe_size = input.size();
-		it_exe_size -= ignore_list.size();
-		it_exe_size -= pipe_location();
-
-		char ** it_exe[it_exe_size] = new char**;
-		it_exe[0] = cmd[0];
-
-		for(int a = 0; a < pipe_location.size(); a++)
-		{
-			it_exe[a+1] = cmd[pipe_location.at(i)];
-		}
-*/		
 	}//the closing bracket for if on the very top
 
 	return 0;
