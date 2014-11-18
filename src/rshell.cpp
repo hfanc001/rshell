@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <errno.h>
+#include <fcntl.h>
 #include <string>
 #include <string.h>
 #include <sstream>
@@ -144,6 +145,7 @@ int main(int argc, char ** argv)
 		//-------end part of test case-------------------------
 
 		//convert input vector to a single modified string 
+		char **cmd = new *char [input.size() + 1];
 		string temp_arr;
 		int it_ign = 0;
 		int it_pip = 0;
@@ -177,10 +179,10 @@ int main(int argc, char ** argv)
 		//-----------end more test case----------------
 
 		//allocate cmd for later execvp() use
-		char *cmd = new char [temp_arr.size() + 1];
-		strcpy(cmd, temp_arr.c_str());
+		//char *cmd = new char [temp_arr.size() + 1];
+		//strcpy(cmd, temp_arr.c_str());
 
-		int tarr_size = temp_arr.size();
+/*		int tarr_size = temp_arr.size();
 		cout << "The carr array is: " << endl;
 		for(int k = 0; k < tarr_size; k++)
 			cout << cmd[k] << " ";
@@ -199,10 +201,36 @@ int main(int argc, char ** argv)
 				cout << cmd[k] << " ";
 		}
 		cout << endl;
+*//*
+		int it_exe_size = input.size();
+		it_exe_size -= ignore_list.size();
+		it_exe_size -= pipe_location();
 
-/*		
-		do
+		char ** it_exe[it_exe_size] = new char**;
+		it_exe[0] = cmd[0];
+
+		for(int a = 0; a < pipe_location.size(); a++)
 		{
+			it_exe[a+1] = cmd[pipe_location.at(i)];
+		}
+*/		
+		int fdin, fdout;
+		if(input_file != "")
+		{
+			fdin = open(input_file.c_str(), O_RDONLY);
+			if(fdin == -1)
+				perror("Error in open(input_file, O_RDONLY)");
+		}
+
+		if(output_file != "")
+		{
+			fdout = open(output_file.c_str(), O_WRONLY|O_CREAT);
+			if(fdout == -1)
+				perror("Error in open(output_file, O_WRONLY)");
+		}
+
+//		do
+//		{
 			int pid = fork();
 	
 			if(pid == -1) //the error check
@@ -213,9 +241,7 @@ int main(int argc, char ** argv)
 
 			else if(pid == 0) //if fork returns 0 == in child process
 			{
-				//execvp(urg[0], urg);
-			
-				if(-1 == execvp(urg[0], urg))
+				if(-1 == execvp(cmd[0],cmd))
 				{
 					perror("An error occured in execvp");
 					exit(1);
@@ -233,8 +259,8 @@ int main(int argc, char ** argv)
 				}
 			}
 			
-		}while(commandsToDo != 0);
-*/	}//the closing bracket for if on the very top
+//		}while(commandsToDo != 0);
+	}//the closing bracket for if on the very top
 
 	return 0;
 }
