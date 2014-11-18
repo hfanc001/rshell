@@ -15,6 +15,47 @@
 #include <pwd.h>
 using namespace std;
 
+template<typename T>
+void pop_front(vector<T>& temp)
+{
+	temp.front() = temp.back();
+	temp.pop_back();
+	temp.front() = temp.back();
+}	
+
+void fork_execvp(int cmds, char** cmd)
+{
+	int pid = fork();
+	
+	if(pid == -1) //the error check
+	{
+		perror("An error occured in fork()");
+		exit(1); //exit because found error in fork
+	}
+
+	else if(pid == 0) //if fork returns 0 == in child process
+	{
+		if(-1 == execvp(cmd[0],cmd))
+		{
+			perror("An error occured in execvp");
+			exit(1);
+		}
+	
+		exit(1); //kill child after its done
+	}
+
+	else if(pid > 0) //if fork returns something else = in parent
+	{
+		if(-1 == wait(0)) //wait for child to finish
+		{
+			perror("An error occured in wait()");
+			exit(0);
+		}
+	}
+
+	return;
+}
+
 int main(int argc, char ** argv)
 {
 	//first set the size of the username and the hostname
@@ -79,7 +120,6 @@ int main(int argc, char ** argv)
 						input_file = input.at(i + 1);
 						idirect = true;
 						ignore_list.push_back(i);
-						//ignore_list.push_back(i + 1);
 					}
 				}
 
@@ -89,14 +129,11 @@ int main(int argc, char ** argv)
 					if(j == 0 && j != (input.at(i).size() -1))
 					{
 						pipe_location.push_back(i);
-						//input.at(i).at(j) = '\'
-						//input.at(i).at(j + 1) = '0';
 					}
 	
 					else
 					{
 						pipe_location.push_back(i);
-						//input.insert(i, "\0");
 					}
 				}
 				
@@ -118,115 +155,8 @@ int main(int argc, char ** argv)
 				}						
 			}
 		}
-	
-		//---test case to see what the user had input
-		cout << "The inputs are: ";
-		for(unsigned int i = 0; i < input.size(); i++)
-			cout << input.at(i) << " ";
-		cout << endl;
-		
-		cout << "The ignore list is: ";
-		for(unsigned int i = 0; i < ignore_list.size(); i++)
-			cout << ignore_list.at(i) << " ";
-		cout << endl;
 
-		cout << "The pipe location is: ";
-		for(unsigned int i = 0; i < pipe_location.size(); i++)
-			cout << pipe_location.at(i) << " ";
-		cout << endl;
-
-		cout << "Input file is: " << input_file << endl;
-		cout << "Output file is: " << output_file << endl;
-		
-		cout << "The size of input is: " << input.size() << endl;
-		cout << "The size of ignore list is: " << ignore_list.size() << endl;
-		cout << "The size of pipe location is: " << pipe_location.size() << endl;
-
-		//-------end part of test case-------------------------
-
-		//convert input vector to a single modified string 
-		int cmd_size = input.size() + 1;
-		char **cmd = new char* [cmd_size];
-		string temp_arr;
-		int it_ign = 0;
-		int it_pip = 0;
-		int in_size = input.size();
-		int it_cmd = 0;
-
-		for(int i = 0; i < in_size; i++)
-		{
-			int ig_size = ignore_list.size();
-			int pi_size = pipe_location.size();
-			if((it_ign < ig_size) && (i == ignore_list.at(it_ign)))
-			{
-				it_ign++;
-				cout << "__ ";
-			}
-	
-			else if((it_pip < pi_size) && (i == pipe_location.at(it_pip)))
-			{
-				it_pip++;
-				string temp = "|";
-				temp_arr += temp;
-				char* zero = NULL;
-				//cmd[it_cmd] = zero.c_str();
-				strcpy(cmd[it_cmd], zero);
-				it_cmd++;
-				cout << temp << " ";
-			}
-
-			else
-			{
-				temp_arr += input.at(i);
-				//cmd[it_cmd] = input.at(i).c_str();
-				strcpy(cmd[it_cmd], input.at(i).c_str());
-				it_cmd++;
-				cout << input.at(i) << " "; 
-			}
-		}
-		cout << endl;
-		
-		//-----------more test case----------
-		cout << "The string is: " << temp_arr << endl;		
-		cout << "The string size is: " << temp_arr.size() << endl;
-		//-----------end more test case----------------
-
-		//allocate cmd for later execvp() use
-		//char *cmd = new char [temp_arr.size() + 1];
-		//strcpy(cmd, temp_arr.c_str());
-
-/*		int tarr_size = temp_arr.size();
-		cout << "The carr array is: " << endl;
-		for(int k = 0; k < tarr_size; k++)
-			cout << cmd[k] << " ";
-		cout << endl;
-			
-		cout << "Test: " << endl;
-		for(int k = -0; k < cmd_size; k++)
-		{
-			if(cmd[k] == '|')
-			{
-				cmd[k] = '\0';
-				cout << "_";
-			}
-
-			else
-				cout << cmd[k] << " ";
-		}
-		cout << endl;
-*//*
-		int it_exe_size = input.size();
-		it_exe_size -= ignore_list.size();
-		it_exe_size -= pipe_location();
-
-		char ** it_exe[it_exe_size] = new char**;
-		it_exe[0] = cmd[0];
-
-		for(int a = 0; a < pipe_location.size(); a++)
-		{
-			it_exe[a+1] = cmd[pipe_location.at(i)];
-		}
-*//*		
+		//deal with input/output redirect
 		int fdin, fdout;
 		int oldstdout, oldstdin;
 		if(input_file != "")
@@ -262,39 +192,128 @@ int main(int argc, char ** argv)
 				exit(1);
 			}			
 		}
-
-//		do
-//		{
-			int pid = fork();
 	
-			if(pid == -1) //the error check
+		//---test case to see what the user had input
+		cout << "The inputs are: ";
+		for(unsigned int i = 0; i < input.size(); i++)
+			cout << input.at(i) << " ";
+		cout << endl;
+		
+		cout << "The ignore list is: ";
+		for(unsigned int i = 0; i < ignore_list.size(); i++)
+			cout << ignore_list.at(i) << " ";
+		cout << endl;
+
+		cout << "The pipe location is: ";
+		for(unsigned int i = 0; i < pipe_location.size(); i++)
+			cout << pipe_location.at(i) << " ";
+		cout << endl;
+
+		cout << "Input file is: " << input_file << endl;
+		cout << "Output file is: " << output_file << endl;
+		
+		cout << "The size of input is: " << input.size() << endl;
+		cout << "The size of ignore list is: " << ignore_list.size() << endl;
+		cout << "The size of pipe location is: " << pipe_location.size() << endl;
+
+		//-------end part of test case-------------------------
+
+		//convert input vector to a single modified string 
+		string temp_arr;
+		int it_ign = 0;
+		int it_pip = 0;
+		int it_cmd = 0;
+		int in_size = input.size();
+		int cmd_size = in_size + 1;
+		char **cmd = new char* [cmd_size];
+		int ig_size = ignore_list.size();
+		int pi_size = pipe_location.size();
+
+		cout << "The cmd size is: " << cmd_size << endl;
+	
+		for(int i = 0; i < in_size; i++)
+		{
+			if((it_ign < ig_size) && (i == ignore_list.at(it_ign)))
 			{
-				perror("An error occured in fork()");
-				exit(1); //exit because found error in fork
+				it_ign++;
+				//cout << "__";
+			}
+	
+			else if((it_pip < pi_size) && (i == pipe_location.at(it_pip)))
+			{
+				it_pip++;
+				string temp = "|";
+				temp_arr += temp;
+				char* zero = new char;
+				*zero = NULL;
+				cmd[it_cmd] = zero;
+				it_cmd = 0;
+				//it_cmd++;
+				//cout << temp << " ";
+				cout << it_cmd << " " << flush;
 			}
 
-			else if(pid == 0) //if fork returns 0 == in child process
+			else
 			{
-				if(-1 == execvp(cmd[0],cmd))
-				{
-					perror("An error occured in execvp");
-					exit(1);
-				}
-			
-				exit(1); //kill child after its done
+				temp_arr += input.at(i);
+				char* temp = new char;
+				strcpy(temp, input.at(i).c_str());
+				cmd[it_cmd] = temp;
+				//strcpy(cmd[it_cmd], input.at(i).c_str());
+				it_cmd++;
+				//cout << input.at(i) << " "; 
+				cout << it_cmd << " " << flush;
+			}
+		}
+		cout << endl;
+		
+		delete cmd;
+
+		cout << "The it_cmd is: " << it_cmd << endl;
+		cout << "The it_ign is: " << it_ign << endl;
+		cout << "The it_pip is: " << it_pip << endl;
+		//-----------more test case----------
+		cout << "The string is: " << temp_arr << endl;		
+		cout << "The string size is: " << temp_arr.size() << endl;
+		//-----------end more test case----------------
+
+		//allocate cmd for later execvp() use
+		//char *cmd = new char [temp_arr.size() + 1];
+		//strcpy(cmd, temp_arr.c_str());
+/*
+		int tarr_size = temp_arr.size();
+		cout << "The carr array is: " << endl;
+		for(int k = 0; k < tarr_size; k++)
+			cout << cmd[k] << " ";
+		cout << endl;
+*//*			
+		cout << "Test: " << endl;
+		for(int k = -0; k < cmd_size; k++)
+		{
+			if(cmd[k] == '|')
+			{
+				cmd[k] = '\0';
+				cout << "_";
 			}
 
-			else if(pid > 0) //if fork returns something else = in parent
-			{
-				if(-1 == wait(0)) //wait for child to finish
-				{
-					perror("An error occured in wait()");
-					exit(0);
-				}
-			}
-			
-//		}while(commandsToDo != 0);
-*/	}//the closing bracket for if on the very top
+			else
+				cout << cmd[k] << " ";
+		}
+		cout << endl;
+*//*
+		int it_exe_size = input.size();
+		it_exe_size -= ignore_list.size();
+		it_exe_size -= pipe_location();
+
+		char ** it_exe[it_exe_size] = new char**;
+		it_exe[0] = cmd[0];
+
+		for(int a = 0; a < pipe_location.size(); a++)
+		{
+			it_exe[a+1] = cmd[pipe_location.at(i)];
+		}
+*/		
+	}//the closing bracket for if on the very top
 
 	return 0;
 }
