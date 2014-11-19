@@ -15,20 +15,11 @@
 #include <pwd.h>
 using namespace std;
 
-template<typename T>
-void pop_front(vector<T>& temp)
+void fork_execvp(int cmds, char** cmd, bool next_pipe, string inputfile, string outputfile)
 {
-	temp.front() = temp.back();
-	temp.pop_back();
-	temp.front() = temp.back();
-}	
-
-void fork_execvp(int cmds, char** cmd)
-{
-	cout << endl << "in fork_execvp" << endl;
-	
 	int pid = fork();
-	
+	bool in = false, out = false;
+
 	/*-------------this is a test to see what----------- 
 	//                       cmd has
 	cout << "This is cmd: ";
@@ -39,6 +30,45 @@ void fork_execvp(int cmds, char** cmd)
 	cout << endl;
 	//------------------------------------------------*/
 	
+
+	//deal with input/output redirect
+	//if there is a specified input, read from that file
+	int fdin, fdout;
+	if(inputfile != "")
+	{
+		in = true;
+		fdin = open(inputfile.c_str(), O_RDONLY);
+		if(fdin == -1)
+		{
+			perror("Error in open(input_file, O_RDONLY)");
+			exit(1);
+		}
+		
+		if(dup(2) == -1)
+		{
+			perror("Error in dup(1)");
+			exit(1);
+		}			
+	}
+
+	//if there is a specified output, output to there
+	if(outputfile != "")
+	{
+		out = true;
+		fdout = open(outputfile.c_str(), O_WRONLY);
+		if(fdout == -1)
+		{
+			perror("Error in open(output_file, O_WRONLY)");
+			exit(1);
+		}
+				
+		if(dup(1) == -1)
+		{
+			perror("Error in dup(1)");
+			exit(1);
+		}			
+	}
+	
 	if(pid == -1) //the error check
 	{
 		perror("An error occured in fork()");
@@ -47,6 +77,43 @@ void fork_execvp(int cmds, char** cmd)
 
 	else if(pid == 0) //if fork returns 0 == in child process
 	{
+		//there is a specified output file)
+		if(out)
+		{
+			int temp_out = dup(1);
+			if(temp_out == -1)
+			{
+				perror("Error in dup(1)");
+				exit(1);
+			}
+			
+			if(dup2(temp_out, 1) == -1)
+			{
+				perror("Error in dup2(temp_out, 1)");
+				exit(1);
+			}
+		}
+		
+		//no specified output file
+		//check if there is more pipe to come		
+		//make output stdin so the content can be read by next command
+		else if(next_pipe)
+		{
+			int temp_out = dup(0);
+			if(temp_out == -1)
+			{
+				perror("Error in dup(0)");
+				exit(1);
+			}
+			
+			if(dup2(temp_out, 0) == -1)
+			{
+				perror("Error in dup2(temp_out, 0)");
+				exit(1);
+			}
+		}
+
+		
 		if(-1 == execvp(cmd[0],cmd))
 		{
 			perror("An error occured in execvp");
@@ -169,43 +236,6 @@ int main(int argc, char ** argv)
 			
 		}
 
-		//deal with input/output redirect
-		int fdin, fdout;
-		int oldstdout, oldstdin;
-		if(input_file != "")
-		{
-			fdin = open(input_file.c_str(), O_RDONLY);
-			if(fdin == -1)
-			{
-				perror("Error in open(input_file, O_RDONLY)");
-				exit(1);
-			}
-			oldstdin = dup(2);
-			if(oldstdout == -1)
-			{
-				perror("Error in dup(1)");
-				exit(1);
-			}			
-
-		}
-
-		if(output_file != "")
-		{
-			fdout = open(output_file.c_str(), O_WRONLY|O_CREAT);
-			if(fdout == -1)
-			{
-				perror("Error in open(output_file, O_WRONLY)");
-				exit(1);
-			}
-				
-			oldstdout = dup(1);
-			if(oldstdout == -1)
-			{
-				perror("Error in dup(1)");
-				exit(1);
-			}			
-		}
-	
 		/*---test case to see what the user had input
 		cout << "The inputs are: ";
 		for(unsigned int i = 0; i < input.size(); i++)
@@ -232,6 +262,7 @@ int main(int argc, char ** argv)
 		//-------end part of test case-----------------*/
 
 		//convert input vector to a single modified string 
+		bool next_pipe = false;
 		int it_ign = 0;
 		int it_pip = 0;
 		int it_cmd = 0;
@@ -253,9 +284,10 @@ int main(int argc, char ** argv)
 			else if((it_pip < pi_size) && (i == pipe_location.at(it_pip)))
 			{
 				it_pip++;
+				next_pipe = true;
 				cmd[it_cmd] = NULL;
 				//cout << it_cmd << " " << flush;
-				fork_execvp(it_cmd, cmd);
+				fork_execvp(it_cmd, cmd, next_pipe, input_file, output_file);
 				it_cmd = 0;
 				//cout << it_cmd << " " << flush;
 			}
@@ -271,8 +303,9 @@ int main(int argc, char ** argv)
 			
 			if(i == (in_size - 1))
 			{
-				cmd[it_cmd] = NULL; 
-				fork_execvp(it_cmd, cmd);
+				cmd[it_cmd] = NULL;
+				next_pipe = false; 
+				fork_execvp(it_cmd, cmd, next_pipe, input_file, output_file);
 			}
 		}
 		cout << endl;
