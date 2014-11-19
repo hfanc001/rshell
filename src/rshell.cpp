@@ -284,10 +284,85 @@ int main(int argc, char ** argv)
 			else if((it_pip < pi_size) && (i == pipe_location.at(it_pip)))
 			{
 				it_pip++;
-				next_pipe = true;
 				cmd[it_cmd] = NULL;
 				//cout << it_cmd << " " << flush;
-				fork_execvp(it_cmd, cmd, next_pipe, input_file, output_file);
+				int pid = fork();
+				bool in = false, out = false;
+
+				int fd[2];
+				if(pipe(fd) == -1)
+				{
+					perror("Error in pipe(fd)");
+					exit(1);
+				}
+		
+				//deal with input/output redirect
+				//if there is a specified input, read from that file
+				int fdin;
+				if(input_file != "" && it_pip == 1)
+				{
+					in = true;
+					fdin = open(input_file.c_str(), O_RDONLY);
+					if(fdin == -1)
+					{
+						perror("Error in open(input_file, O_RDONLY)");
+						exit(1);
+					}
+
+					//this whole thing can be replaced with dup2(0, fdin)
+
+					//close stdin
+					if(close(0) == -1)
+					{
+						perror("Error in close(0)");
+						exit(1);
+					}
+		
+					//copy stdin
+					if(dup(0) == -1)
+					{
+						perror("Error in dup(0)");
+						exit(1);
+					}			
+				}
+
+				if(pid == -1) //the error check
+				{
+					perror("An error occured in fork()");
+					exit(1); //exit because found error in fork
+				}
+
+				else if(pid == 0) //if fork returns 0 == in child process
+				{
+					//no specified output file
+					//check if there is more pipe to come		
+					//make output stdin so the content can be read by next command
+					else if(next_pipe)
+					{
+						int temp_out = dup(0);
+						if(temp_out == -1)
+						{
+							perror("Error in dup(1)");
+							exit(1);
+						}
+			
+						if(dup2(temp_out, 1) == -1)
+						{
+							perror("Error in dup2(temp_out, 1)");
+							exit(1);
+						}
+					}
+
+		
+					if(-1 == execvp(cmd[0],cmd))
+					{
+						perror("An error occured in execvp");
+						exit(1);
+					}
+	
+					exit(1); //kill child after its done
+				}
+
 				it_cmd = 0;
 				//cout << it_cmd << " " << flush;
 			}
@@ -305,11 +380,96 @@ int main(int argc, char ** argv)
 			{
 				cmd[it_cmd] = NULL;
 				next_pipe = false; 
-				fork_execvp(it_cmd, cmd, next_pipe, input_file, output_file);
+
+				//deal with input/output redirect
+				//if there is a specified input, read from that file
+				int fdout;
+				
+				//if there is a specified output, output to there
+				if(outputfile != "")
+				{
+					out = true;
+					fdout = open(outputfile.c_str(), O_WRONLY);
+					if(fdout == -1)
+					{
+						perror("Error in open(output_file, O_WRONLY)");
+						exit(1);
+					}
+						
+					if(dup(1) == -1)
+					{
+						perror("Error in dup(1)");
+						exit(1);
+					}			
+				}
+	
+				if(pid == -1) //the error check
+				{
+					perror("An error occured in fork()");
+					exit(1); //exit because found error in fork
+				}
+
+				else if(pid == 0) //if fork returns 0 == in child process
+				{
+					//there is a specified output file)
+					if(out)
+					{
+						int temp_out = dup();
+						if(temp_out == -1)
+						{
+							perror("Error in dup(1)");
+							exit(1);
+						}
+				
+						if(dup2(temp_out, 1) == -1)
+						{
+							perror("Error in dup2(temp_out, 1)");
+							exit(1);
+						}
+					}
+		
+					//no specified output file
+					//check if there is more pipe to come		
+					//make output stdin so the content can be read by next command
+					else 
+					{
+						int temp_out = dup(1);
+						if(temp_out == -1)
+						{
+							perror("Error in dup(1)");
+							exit(1);
+						}
+			
+						if(dup2(temp_out, 0) == -1)
+						{
+							perror("Error in dup2(temp_out, 1)");
+							exit(1);
+						}
+					}
+
+		
+					if(-1 == execvp(cmd[0],cmd))
+					{
+						perror("An error occured in execvp");
+						exit(1);
+					}
+	
+					exit(1); //kill child after its done
+				}
+
+
 			}
 		}
-		cout << endl;
 		
+		for(int a = 0; a <= pipe_location.size(); a++)
+		{
+			if(wait(0) == -1)
+			{
+				perror("Error in wait(0)");
+				exit(1);
+			}
+		}
+
 		delete cmd;
 
 		/*-----------more test case----------
