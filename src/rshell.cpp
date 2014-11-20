@@ -187,7 +187,9 @@ int main(int argc, char ** argv)
 		//iterate through the loop and look for >, <, and |
 		bool idirect = false;
 		bool odirect = false;
-
+		
+		bool one_out = false;
+		bool two_out = false;
 		string input_file = "";
 		string output_file = "";
 		vector<string> pipping_commands;
@@ -236,6 +238,13 @@ int main(int argc, char ** argv)
 							ignore_list.push_back(i + 1);
 						}
 					}
+
+					one_out = true;
+					if(j != 0 && input.at(i).at(j-1) == '>')
+					{
+						one_out = false;
+						two_out = true;
+					}
 					
 				}						
 			}
@@ -268,6 +277,7 @@ int main(int argc, char ** argv)
 		//-------end part of test case-----------------*/
 
 		//convert input vector to a single modified string 
+		int num_exe = 0;
 		bool next_pipe = false;
 		int it_ign = 0;
 		int it_pip = 0;
@@ -362,6 +372,7 @@ int main(int argc, char ** argv)
 
 				else if(pid == 0) //if fork returns 0 == in child process
 				{
+					num_exe++;
 /*					if(close(1) == -1)
 					{
 						perror("Error in close(1)");
@@ -415,13 +426,25 @@ int main(int argc, char ** argv)
 					//if there is a specified output, output to there
 					if(output_file != "")
 					{
-						fdout = open(output_file.c_str(), O_RDWR | O_CREAT);
-						if(fdout == -1)
+		
+						if(one_out)
 						{
-							perror("Error in open(output_file, O_WRONLY_CREAT)");
-							exit(1);
+							fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC);
+							if(fdout == -1)
+							{
+								perror("Error in open(output_file, O_WRONLY | O_CREAT | O_TRUNC)");
+								exit(1);
+							}
 						}
 
+						else if(two_out)
+						{
+							fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_APPEND);
+							if(fdout == -1)
+							{
+								perror("Error in open(output_file, O_WRONLY | O_CREAT | O_APPEND)");								     exit(1);
+							}
+						}
 						/*	
 						if(close(1) == -1)
 						{
@@ -454,6 +477,8 @@ int main(int argc, char ** argv)
 
 					else if(pid == 0) //if fork returns 0 == in child process
 					{
+						num_exe++;
+	
 /*						if(close(0) == -1)
 						{
 							perror("Error in close(0)");
@@ -479,7 +504,7 @@ int main(int argc, char ** argv)
 							perror("An error occured in execvp");
 							exit(1);
 						}
-	
+						
 						exit(1); //kill child after its done
 					}	
 
@@ -487,8 +512,9 @@ int main(int argc, char ** argv)
 				}
 			}
 		}		
+
 		
-		int a = pi_size;
+		int a = num_exe;
 		do
 		{
 			wait(0);
@@ -507,17 +533,12 @@ int main(int argc, char ** argv)
 		delete cmd;
 
 		/*-----------more test case----------
+		cout << "the num_exe is " << num_exe << endl;
 		cout << "The cmd size is: " << cmd_size << endl;
 		cout << "The it_cmd is: " << it_cmd << endl;
 		cout << "The it_ign is: " << it_ign << endl;
 		cout << "The it_pip is: " << it_pip << endl;
-		cout << "The string is: " << temp_arr << endl;		
-		cout << "The string size is: " << temp_arr.size() << endl;
 		//-----------end more test case----------------*/
-
-		//allocate cmd for later execvp() use
-		//char *cmd = new char [temp_arr.size() + 1];
-		//strcpy(cmd, temp_arr.c_str());
 
 	}//the closing bracket for if on the very top
 
