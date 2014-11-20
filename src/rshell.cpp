@@ -287,7 +287,11 @@ int main(int argc, char ** argv)
 				cmd[it_cmd] = NULL;
 				//cout << it_cmd << " " << flush;
 				int pid = fork();
-				bool in = false, out = false;
+				if(pid == -1)
+				{
+					perror("Error in pid = fork()");
+					exit(1);
+				}
 
 				int fd[2];
 				if(pipe(fd) == -1)
@@ -301,7 +305,6 @@ int main(int argc, char ** argv)
 				int fdin;
 				if(input_file != "" && it_pip == 1)
 				{
-					in = true;
 					fdin = open(input_file.c_str(), O_RDONLY);
 					if(fdin == -1)
 					{
@@ -311,62 +314,45 @@ int main(int argc, char ** argv)
 
 					//this whole thing can be replaced with dup2(0, fdin)
 
-					//close stdin
-					if(close(0) == -1)
-					{
-						perror("Error in close(0)");
-						exit(1);
-					}
-		
 					//copy stdin
-					if(dup(0) == -1)
+					if(dup2(fd[0], fdin) == -1)
 					{
-						perror("Error in dup(0)");
+						perror("Error in fd[0], fdin");
 						exit(1);
-					}			
-				}
+					}	
 
-				if(pid == -1) //the error check
-				{
-					perror("An error occured in fork()");
-					exit(1); //exit because found error in fork
+					//make the fdin the read end of the pipe
+		
 				}
 
 				else if(pid == 0) //if fork returns 0 == in child process
 				{
-					//no specified output file
-					//check if there is more pipe to come		
-					//make output stdin so the content can be read by next command
-					else if(next_pipe)
+					int temp_out = dup(0);
+					if(temp_out == -1)
 					{
-						int temp_out = dup(0);
-						if(temp_out == -1)
-						{
-							perror("Error in dup(1)");
-							exit(1);
-						}
-			
-						if(dup2(temp_out, 1) == -1)
-						{
-							perror("Error in dup2(temp_out, 1)");
-							exit(1);
-						}
-					}
-
-		
-					if(-1 == execvp(cmd[0],cmd))
-					{
-						perror("An error occured in execvp");
+						perror("Error in dup(1)");
 						exit(1);
 					}
-	
-					exit(1); //kill child after its done
+			
+					if(dup2(fd[1], temp_out) == -1)
+					{
+						perror("Error in dup2(temp_out, 1)");
+						exit(1);
+					}
 				}
 
+		
+				if(-1 == execvp(cmd[0],cmd))
+				{
+					perror("An error occured in execvp");
+					exit(1);
+				}
+	
 				it_cmd = 0;
 				//cout << it_cmd << " " << flush;
 			}
 
+			
 			else
 			{
 				char* temp = new char;
@@ -375,34 +361,41 @@ int main(int argc, char ** argv)
 				it_cmd++;
 				//cout << it_cmd << " " << flush;
 			}
-			
 			if(i == (in_size - 1))
 			{
 				cmd[it_cmd] = NULL;
 				next_pipe = false; 
+
+				int fd[2];
+
+				if(pipe(fd) == -1)
+				{
+					perror("Error in pipe(fd)");
+					exit(1);
+				}
 
 				//deal with input/output redirect
 				//if there is a specified input, read from that file
 				int fdout;
 				
 				//if there is a specified output, output to there
-				if(outputfile != "")
+				if(output_file != "")
 				{
-					out = true;
-					fdout = open(outputfile.c_str(), O_WRONLY);
+					fdout = open(output_file.c_str(), O_RDWR | O_CREAT);
 					if(fdout == -1)
 					{
-						perror("Error in open(output_file, O_WRONLY)");
+						perror("Error in open(output_file, O_WRONLY_CREAT)");
 						exit(1);
 					}
 						
-					if(dup(1) == -1)
+					if(dup2(fd[1], fdout) == -1)
 					{
-						perror("Error in dup(1)");
+						perror("Error in dup2(fdout, 1)");
 						exit(1);
 					}			
 				}
 	
+				int pid = fork();
 				if(pid == -1) //the error check
 				{
 					perror("An error occured in fork()");
@@ -411,57 +404,36 @@ int main(int argc, char ** argv)
 
 				else if(pid == 0) //if fork returns 0 == in child process
 				{
-					//there is a specified output file)
-					if(out)
+					//make it read from imaginary stdin
+					int temp_in = dup(1);
+					if(temp_in == -1)
 					{
-						int temp_out = dup();
-						if(temp_out == -1)
-						{
-							perror("Error in dup(1)");
-							exit(1);
-						}
-				
-						if(dup2(temp_out, 1) == -1)
-						{
-							perror("Error in dup2(temp_out, 1)");
-							exit(1);
-						}
-					}
-		
-					//no specified output file
-					//check if there is more pipe to come		
-					//make output stdin so the content can be read by next command
-					else 
-					{
-						int temp_out = dup(1);
-						if(temp_out == -1)
-						{
-							perror("Error in dup(1)");
-							exit(1);
-						}
-			
-						if(dup2(temp_out, 0) == -1)
-						{
-							perror("Error in dup2(temp_out, 1)");
-							exit(1);
-						}
-					}
-
-		
-					if(-1 == execvp(cmd[0],cmd))
-					{
-						perror("An error occured in execvp");
+						perror("Error in dup(1)");
 						exit(1);
 					}
-	
-					exit(1); //kill child after its done
+			
+					if(dup2(temp_in) == -1)
+					{
+						perror("Error in dup2(temp_out, 1)");
+						exit(1);
+					}
 				}
+
+		
+				if(-1 == execvp(cmd[0],cmd))
+				{
+					perror("An error occured in execvp");
+					exit(1);
+				}
+	
+				exit(1); //kill child after its done
+			}
 
 
 			}
 		}
 		
-		for(int a = 0; a <= pipe_location.size(); a++)
+/*		for(int a = 0, a <= pipe_location.size(), a++)
 		{
 			if(wait(0) == -1)
 			{
@@ -469,7 +441,7 @@ int main(int argc, char ** argv)
 				exit(1);
 			}
 		}
-
+*/
 		delete cmd;
 
 		/*-----------more test case----------
