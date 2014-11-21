@@ -185,8 +185,6 @@ int main(int argc, char ** argv)
 		}
 		
 		//iterate through the loop and look for >, <, and |
-		bool idirect = false;
-		bool odirect = false;
 		bool extra1 = false;
 		bool one_out = false;
 		bool two_out = false;
@@ -207,7 +205,6 @@ int main(int argc, char ** argv)
 					if(j == 0 && i < (input.size()-1))
 					{
 						input_file = input.at(i + 1);
-						idirect = true;
 						ignore_list.push_back(i);
 					}
 		
@@ -235,7 +232,6 @@ int main(int argc, char ** argv)
 				
 				else if(temp == '>')
 				{
-					odirect = true;
 					//if only one output rediector
 					//meaning we will be overwriting it
 					if(j == 0 && ((j + 1) == input.at(i).size()))
@@ -286,8 +282,6 @@ int main(int argc, char ** argv)
 		//-------end part of test case-----------------*/
 
 		//convert input vector to a single modified string 
-		int num_exe = 0;
-		bool next_pipe = false;
 		int it_ign = 0;
 		int it_pip = 0;
 		int it_cmd = 0;
@@ -297,34 +291,29 @@ int main(int argc, char ** argv)
 		int ig_size = ignore_list.size();
 		int pi_size = pipe_location.size();
 
-		int real_out = dup(1);
-		if(real_out == -1)
-		{
-			perror("Error in real_out = dup(1)");
-			exit(1);
-		}
-
+		//create a pipe with read end and write end to allow the commands between pipes communicate
 		int fd[2];
 		if(pipe(fd) == -1)
 		{
 			perror("Error in pipe(fd)");
 			exit(1);
-				}
+		}
 		
-	
+		//a loop that iterate through the vector of commands
 		for(int i = 0; i < in_size; i++)
 		{
+
+			//if reach file redirector symbol or pipes, ignore
 			if((it_ign < ig_size) && (i == ignore_list.at(it_ign)))
 			{
 				it_ign++;
-				//cout << "__";
 			}
 	
+			//if reach a pipe
 			else if((it_pip < pi_size) && (i == pipe_location.at(it_pip)))
 			{
 				it_pip++;
 				cmd[it_cmd] = NULL;
-				//cout << it_cmd << " " << flush;
 				
 				int pid = fork();
 				if(pid == -1)
@@ -338,25 +327,25 @@ int main(int argc, char ** argv)
 				int fdin;
 				if(input_file != "" && it_pip == 1)
 				{
+					//open the specified input file
 					fdin = open(input_file.c_str(), O_RDONLY);
 					if(fdin == -1)
 					{
 						perror("Error in open(input_file, O_RDONLY)");
 						exit(1);
 					}
-
+					
+					//make the input file directory replace stdin
 					if(dup2(fdin, 0) == -1)
 					{
 						perror("Error in dup2(fdin, 0)[333]");
 						exit(1);
 					}	
 
-					//make the fdin the read end of the pipe
-		
 				}
 
 		
-				//read  from imaginary input
+				//read  from imaginary input if it is not the first command before pipe
 				else if(it_pip != 1)
 				{
 					if(dup2(fd[0], 0) == -1)	
@@ -368,21 +357,8 @@ int main(int argc, char ** argv)
 
 				else if(pid == 0) //if fork returns 0 == in child process
 				{
-					num_exe++;
-/*					if(close(1) == -1)
-					{
-						perror("Error in close(1)");
-						exit(1);
-					}
-			
-					int temp_out = dup(1);
-					if(temp_out == -1)
-					{
-						perror("Error in dup(1)");
-						exit(1);
-					}
-*/
 
+					//output to imaginary pipe write end
 					if(dup2(fd[1], 1) == -1)
 					{
 						perror("Error in dup2(fd[1], 1)");
@@ -390,12 +366,12 @@ int main(int argc, char ** argv)
 					}
 
 					//meaning the input for cat is a string
-					if(extra1)
+					if(extra1 && (it_pip == 1))
 					{
-						//output my content to stdout which is stdin at this point
+						//output my content to stdout which is pipe write end  at this point
 						cout << content << flush;
 	
-						//make if read from the pipe
+						//make if read from the pipe read end
 						if(dup2(fd[0], 0) == -1)
 						{
 							perror("Error in dup2(fd[0], 0)");
@@ -403,6 +379,7 @@ int main(int argc, char ** argv)
 						}
 					}
 					
+					//call execvp to exectue the command
 					if(-1 == execvp(cmd[0],cmd))
 					{
 						perror("An error occured in execvp");
@@ -419,16 +396,16 @@ int main(int argc, char ** argv)
 			
 			else
 			{
+				//if regular middle of a command, just add to char array
 				char* temp = new char;
 				strcpy(temp, input.at(i).c_str());
 				cmd[it_cmd] = temp;
 				it_cmd++;
-				//cout << it_cmd << " " << flush;
 			
+				//if read end of the whole command line
 				if(i == (in_size - 1))
 				{
 					cmd[it_cmd] = NULL;
-					next_pipe = false; 
 
 					//deal with input/output redirect
 					//if there is a specified output, output to there
@@ -436,7 +413,7 @@ int main(int argc, char ** argv)
 					
 					if(output_file != "")
 					{
-		
+						//if it is >, meaning the file will be over-written		
 						if(one_out)
 						{
 							fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC);
@@ -447,17 +424,18 @@ int main(int argc, char ** argv)
 							}
 						}
 
+						//if it is >>, meaning the file will be appended
 						else if(two_out)
 						{
 							fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_APPEND);
 							if(fdout == -1)
 							{
-								perror("Error in open(output_file, O_WRONLY | O_CREAT | O_APPEND)");								    
-
-							 exit(1);
+								perror("Error in open(output_file, O_WRONLY | O_CREAT | O_APPEND)");
+								exit(1);
 							}
 						}
 
+						//make output the file directory created for specified output
 						if(dup2(fdout, 1) == -1)
 						{
 							perror("Error in dup2(fdout, 1)");
@@ -466,15 +444,6 @@ int main(int argc, char ** argv)
 					}
 
 	
-/*					else
-					{
-						if(dup2(real_out, fd[1]) == -1)
-						{
-							perror("Error in dup2(real_out, fd[1]");
-							exit(1);
-						}
-					}	
-*/	
 					int pid = fork();
 					if(pid == -1) //the error check
 					{
@@ -490,7 +459,8 @@ int main(int argc, char ** argv)
 							perror("Error in dup2(fd[0], 0)");
 							exit(1);
 						}
-					
+						
+						//call execvp to exectue the command
 						if(-1 == execvp(cmd[0],cmd))
 						{
 							perror("An error occured in execvp");
@@ -505,6 +475,7 @@ int main(int argc, char ** argv)
 			}
 		}		
 		
+		//if it was parent, it should be stopped here
 		for(int a = 0; a < pi_size; a++)
 		{
 			if(wait(0) == -1)
@@ -517,7 +488,6 @@ int main(int argc, char ** argv)
 		delete cmd;
 
 		/*-----------more test case----------
-		cout << "the num_exe is " << num_exe << endl;
 		cout << "The cmd size is: " << cmd_size << endl;
 		cout << "The it_cmd is: " << it_cmd << endl;
 		cout << "The it_ign is: " << it_ign << endl;
