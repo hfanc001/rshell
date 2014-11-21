@@ -385,6 +385,26 @@ int main(int argc, char ** argv)
 						perror("An error occured in execvp");
 						exit(1);
 					}
+	
+					int restorestdin = dup(0);
+					if(restorestdin == -1)
+					{
+						perror("Error in restorestdin");
+						exit(1);
+					}
+
+
+					if(dup2(fd[0], 0) == -1)
+					{
+						perror("Error dup2(fd[0], 0");
+						exit(1);
+					}
+				
+					if(close(fd[1]) == -1)
+					{
+						perror("Error in close(fd[1])");
+						exit(1);
+					}
 					
 					exit(1);//kill the child after its done
 				}
@@ -425,9 +445,9 @@ int main(int argc, char ** argv)
 						}
 
 						//if it is >>, meaning the file will be appended
-						else if(two_out)
+						else
 						{
-							fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_APPEND);
+							fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0666);
 							if(fdout == -1)
 							{
 								perror("Error in open(output_file, O_WRONLY | O_CREAT | O_APPEND)");
@@ -466,7 +486,27 @@ int main(int argc, char ** argv)
 							perror("An error occured in execvp");
 							exit(1);
 						}
-						
+		
+						int restorestdin = dup(0);
+						if(restorestdin == -1)
+						{
+							perror("Error in restorestdin");
+							exit(1);
+						}
+
+	
+						if(dup2(fd[0], 0) == -1)
+						{
+							perror("Error dup2(fd[0], 0");
+							exit(1);
+						}
+				
+						if(close(fd[1]) == -1)
+						{
+							perror("Error in close(fd[1])");
+							exit(1);
+						}
+										
 						exit(1); //kill child after its done
 					}	
 
