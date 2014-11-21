@@ -23,6 +23,13 @@ Known bugs:
     5. the output is not alphabetical ordered
     6. if passed in any invalid flag, the program works just as normal ls
  
-README FOR CP FOR CS100
+README FOR PIPING & INPUT/OUTPUT REDIRECTOR
 
-THE FILE DOES NOT WORK
+Known bugs:
+	1. program pasued when entering more than 3 pipes
+	2. if enter more than one input/output redirector, it got ignore or read as command
+	3. input redirector has issue, it only works for the first few times
+	4. output files does not have any content
+	5. when pass in a string to echo with in pipe, the quotation mark is being read as part of the stirng
+	6. when outputing the result of the command, for the first few times, the output appears after the next time the program prompt the user to input commands 
+

@@ -1,0 +1,43 @@
+Script started on Thu 20 Nov 2014 11:47:01 PM PST
+~
+hfanc001@hammer $ cd s[Kcs100/rshell
+~/cs100/rshell
+hfanc001@hammer $ cat <in[K[K input
+hi this is a test
+~/cs100/rshell
+hfanc001@hammer $ make
+g++ -Wall -Werror -ansi -pedantic src/rshell.cpp -o ./bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o ./bin/cp
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o ./bin/ls
+~/cs100/rshell
+hfanc001@hammer $ bin/rshell
+hfanc001@hammer.cs.ucr.edu$ cat / < input
+hfanc001@hammer.cs.ucr.edu$ hi this is a test
+echo hi | tr a-z A-Z
+hfanc001@hammer.cs.ucr.edu$ HI
+echo hi | tr a-z A-Z | tr a A-Z a-z
+hfanc001@hammer.cs.ucr.edu$ hi
+echo hi | tr a-z A-Z > output
+hfanc001@hammer.cs.ucr.edu$ ls
+hfanc001@hammer.cs.ucr.edu$ bin    LICENSE	 piping.script	rshell1.cpp  test      tests
+input  Makefile  README		src	     test.cpp
+echo "hi" | cat
+hfanc001@hammer.cs.ucr.edu$ "hi"
+vim input
+hfanc001@hammer.cs.ucr.edu$ Vim: Warning: Input is not from a terminal
+f7[?47h[?1h=[1;24r[m[H[2J[24;1H"input" 1L, 18C[1;1H[33m  1 [mhi this is a test
+[1m[34m~                                                                               [3;1H~                                                                               [4;1H~                                                                               [5;1H~                                                                               [6;1H~                                                                               [7;1H~                                                                               [8;1H~                                                                               [9;1H~                                                                               [10;1H~                                                                               [11;1H~                                                                               [12;1H~                                                                               [13;1H~                                                                               [14;1H~                                                                               [15;1H~                                                                               [16;1H~                                                                               [17;1H~                                                                               [18;1H~                                                                               [19;1H~                                                                               [20;1H~                                                                               [21;1H~                                                                               [22;1H~                                                                               [23;1H~                                                                               [m[24;63H1,1[11CAll[1;5H ^[OF    clear
+hfanc001@hammer.cs.ucr.edu$ [H[2Jdhi   c echo hi
+hfanc001@hammer.cs.ucr.edu$ hi
+cat i   < input | tail -1
+An error occured in fork(): Resource temporarily unavailable
+hfanc001@hammer.cs.ucr.edu$ ls -a | c echo hi
+An error occured in fork(): Resource temporarily unavailable
+~/cs100/rshell
+hfanc001@hammer $ [>c[24;1H[?1l>[2J[?47l8Vim: Error reading input, exiting...
+1;3409;0c
+Vim: Finished.
+[24;1Hf[Kehco hi[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kexit
+exit
+
+Script done on Thu 20 Nov 2014 11:50:40 PM PST

@@ -299,6 +299,13 @@ int main(int argc, char ** argv)
 			exit(1);
 		}	
 
+		int restorestdout = dup(1);
+		if(restorestdout == -1)
+		{
+			perror("Error in restroestdout");
+			exit(1);
+		}
+
 		//create a pipe with read end and write end to allow the commands between pipes communicate
 		int fd[2];
 		if(pipe(fd) == -1)
@@ -503,6 +510,13 @@ int main(int argc, char ** argv)
 			exit(1);
 		}
 		
+		//restore the stdout back
+		if(dup2(restorestdout, 1) == -1)
+		{
+			perror("Error in dup2(restorestdout, 1)");
+			exit(1);
+		}
+
 		//if it was parent, it should be stopped here
 		for(int a = 0; a < pi_size; a++)
 		{
