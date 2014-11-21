@@ -187,9 +187,10 @@ int main(int argc, char ** argv)
 		//iterate through the loop and look for >, <, and |
 		bool idirect = false;
 		bool odirect = false;
-		
+		bool extra1 = false;
 		bool one_out = false;
 		bool two_out = false;
+		string content = "";
 		string input_file = "";
 		string output_file = "";
 		vector<string> pipping_commands;
@@ -208,6 +209,14 @@ int main(int argc, char ** argv)
 						input_file = input.at(i + 1);
 						idirect = true;
 						ignore_list.push_back(i);
+					}
+		
+					if(j == 2 && (input.at(i).at(0) == '<') && (input.at(i).at(j) == '<'))
+					{
+						content = input.at(i+1);
+						extra1 = true;
+						input_file = "";
+						ignore_list.push_back(i+1);
 					}
 				}
 
@@ -288,6 +297,13 @@ int main(int argc, char ** argv)
 		int ig_size = ignore_list.size();
 		int pi_size = pipe_location.size();
 
+		int real_out = dup(1);
+		if(real_out == -1)
+		{
+			perror("Error in real_out = dup(1)");
+			exit(1);
+		}
+
 		int fd[2];
 		if(pipe(fd) == -1)
 		{
@@ -329,15 +345,6 @@ int main(int argc, char ** argv)
 						exit(1);
 					}
 
-					//this whole thing can be replaced with dup2(0, fdin)
-		/*
-					if(close(0) == -1)
-					{
-						perror("Error in close(0)");
-						exit(1);
-					}
-
-		*/			//copy stdin
 					if(dup2(fdin, 0) == -1)
 					{
 						perror("Error in dup2(fdin, 0)[333]");
@@ -347,22 +354,11 @@ int main(int argc, char ** argv)
 					//make the fdin the read end of the pipe
 		
 				}
+
 		
 				//read  from imaginary input
 				else if(it_pip != 1)
 				{
-/*					if(dup(fd[1]) == -1)
-					{
-						perror("Error in dup(fd[1])");
-						exit(1);			
-					}
-
-					if(close(0) == -1)
-					{
-						perror("Error in close(0)[346]");
-						exit(1);
-					}
-*/
 					if(dup2(fd[0], 0) == -1)	
 					{
 						perror("Error in dup2(fd[0], 0)[352]");
@@ -386,12 +382,27 @@ int main(int argc, char ** argv)
 						exit(1);
 					}
 */
+
 					if(dup2(fd[1], 1) == -1)
 					{
 						perror("Error in dup2(fd[1], 1)");
 						exit(1);
 					}
 
+					//meaning the input for cat is a string
+					if(extra1)
+					{
+						//output my content to stdout which is stdin at this point
+						cout << content << flush;
+	
+						//make if read from the pipe
+						if(dup2(fd[0], 0) == -1)
+						{
+							perror("Error in dup2(fd[0], 0)");
+							exit(1);
+						}
+					}
+					
 					if(-1 == execvp(cmd[0],cmd))
 					{
 						perror("An error occured in execvp");
@@ -420,10 +431,9 @@ int main(int argc, char ** argv)
 					next_pipe = false; 
 
 					//deal with input/output redirect
-					//if there is a specified input, read from that file
+					//if there is a specified output, output to there
 					int fdout;
 					
-					//if there is a specified output, output to there
 					if(output_file != "")
 					{
 		
@@ -442,16 +452,13 @@ int main(int argc, char ** argv)
 							fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_APPEND);
 							if(fdout == -1)
 							{
-								perror("Error in open(output_file, O_WRONLY | O_CREAT | O_APPEND)");								     exit(1);
+								perror("Error in open(output_file, O_WRONLY | O_CREAT | O_APPEND)");								    
+
+							 exit(1);
 							}
 						}
-						/*	
-						if(close(1) == -1)
-						{
-							perror("Error in close(1)");
-						}
-						*/
-						if(dup2(fdout, fd[1]) == -1)
+
+						if(dup2(fdout, 1) == -1)
 						{
 							perror("Error in dup2(fdout, 1)");
 							exit(1);
@@ -459,15 +466,15 @@ int main(int argc, char ** argv)
 					}
 
 	
-				/*	else
+/*					else
 					{
-						if(dup2(1, fd[1]) == -1)
+						if(dup2(real_out, fd[1]) == -1)
 						{
-							perror("Error in dup2(1, fd[1]");
+							perror("Error in dup2(real_out, fd[1]");
 							exit(1);
 						}
 					}	
-	*/
+*/	
 					int pid = fork();
 					if(pid == -1) //the error check
 					{
@@ -477,22 +484,7 @@ int main(int argc, char ** argv)
 
 					else if(pid == 0) //if fork returns 0 == in child process
 					{
-						num_exe++;
-	
-/*						if(close(0) == -1)
-						{
-							perror("Error in close(0)");
-							exit(1);
-						}
-
 						//make it read from imaginary stdin
-						int temp_in = dup(0);
-						if(temp_in == -1)
-						{
-							perror("Error in dup(0)");
-							exit(1);
-						}
-*/						
 						if(dup2(fd[0], 0) == -1)
 						{
 							perror("Error in dup2(fd[0], 0)");
@@ -512,16 +504,8 @@ int main(int argc, char ** argv)
 				}
 			}
 		}		
-
 		
-		int a = num_exe;
-		do
-		{
-			wait(0);
-			a--;
-		}while(a > 0);
-
-/*		for(int a = 0; a < pi_size; a++)
+		for(int a = 0; a < pi_size; a++)
 		{
 			if(wait(0) == -1)
 			{
@@ -529,7 +513,7 @@ int main(int argc, char ** argv)
 				exit(1);
 			}
 		}
-*/
+
 		delete cmd;
 
 		/*-----------more test case----------
