@@ -291,6 +291,14 @@ int main(int argc, char ** argv)
 		int ig_size = ignore_list.size();
 		int pi_size = pipe_location.size();
 
+		//save the original stdin for later use
+		int restorestdin = dup(0);
+		if(restorestdin == -1)
+		{
+			perror("Error in restorestdin");
+			exit(1);
+		}	
+
 		//create a pipe with read end and write end to allow the commands between pipes communicate
 		int fd[2];
 		if(pipe(fd) == -1)
@@ -377,6 +385,13 @@ int main(int argc, char ** argv)
 							perror("Error in dup2(fd[0], 0)");
 							exit(1);
 						}
+						
+						if(close(fd[1]) == -1)
+						{
+							perror("Error in close(fd[1])");
+							exit(1);
+						}
+					
 					}
 					
 					//call execvp to exectue the command
@@ -386,26 +401,6 @@ int main(int argc, char ** argv)
 						exit(1);
 					}
 	
-					int restorestdin = dup(0);
-					if(restorestdin == -1)
-					{
-						perror("Error in restorestdin");
-						exit(1);
-					}
-
-
-					if(dup2(fd[0], 0) == -1)
-					{
-						perror("Error dup2(fd[0], 0");
-						exit(1);
-					}
-				
-					if(close(fd[1]) == -1)
-					{
-						perror("Error in close(fd[1])");
-						exit(1);
-					}
-					
 					exit(1);//kill the child after its done
 				}
 		
@@ -480,6 +475,12 @@ int main(int argc, char ** argv)
 							exit(1);
 						}
 						
+						if(close(fd[1]) == -1)
+						{
+							perror("Error in close(fd[1])");
+							exit(1);
+						}
+										
 						//call execvp to exectue the command
 						if(-1 == execvp(cmd[0],cmd))
 						{
@@ -487,26 +488,6 @@ int main(int argc, char ** argv)
 							exit(1);
 						}
 		
-						int restorestdin = dup(0);
-						if(restorestdin == -1)
-						{
-							perror("Error in restorestdin");
-							exit(1);
-						}
-
-	
-						if(dup2(fd[0], 0) == -1)
-						{
-							perror("Error dup2(fd[0], 0");
-							exit(1);
-						}
-				
-						if(close(fd[1]) == -1)
-						{
-							perror("Error in close(fd[1])");
-							exit(1);
-						}
-										
 						exit(1); //kill child after its done
 					}	
 
@@ -514,6 +495,13 @@ int main(int argc, char ** argv)
 				}
 			}
 		}		
+
+		//restore the stdin back 
+		if(dup2(restorestdin, 0) == -1)
+		{	
+			perror("Error in dup2(restorestdin, 0)");
+			exit(1);
+		}
 		
 		//if it was parent, it should be stopped here
 		for(int a = 0; a < pi_size; a++)
