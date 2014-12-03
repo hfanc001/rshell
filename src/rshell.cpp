@@ -596,42 +596,45 @@ int main(int argc, char ** argv)
 				cd = true;
 		}
 
-		//******************FIX ME****************
-		//AFTER ONE ITERATION, THE PATH IS DIFFERENT AND WEIRD
-		//string PATH
+		//AFTER ONE ITERATION, THE PATH IS DIFFERENT AND WEIRD -> because the original PATH was changed(security issue)
+		//after getting path from getenv, need to copy the content to other pointer
+		//then change that other pointer so the original content can be saved
 		char* path = getenv("PATH");
-		if(path == NULL)
+		char* pPath;
+		pPath = (char*) malloc (1024);
+		strcpy(pPath,path);
+		if(pPath == NULL)
 		{
 			perror("Error in getenv");
 			exit(1);
 		}
-		cout << "Path" << endl << path << endl; //output path to check
+		//cout << "Path" << endl << pPath << endl; //output path to check
 		
 		//parse the path
 		char *path1[2048];
 		vector<string> pathV;
 		int temp_i = 0;
-		path = strtok(path, ":");
-		if(path == NULL)
+		pPath = strtok(pPath, ":");
+		if(pPath == NULL)
 		{
 			perror("End of path in strtok");
 			exit(1);
 		}
 		
-		while(path != NULL)
+		while(pPath != NULL)
 		{
 			//output path to check the individual path
 			//cout << path << endl; 
-			path1[temp_i] = path;
+			path1[temp_i] = pPath;
 			if(path1[temp_i] != NULL)
 				pathV.push_back(path1[temp_i]);
-			path = strtok(NULL, ":");
+			pPath = strtok(NULL, ":");
 
 			//need to do error check but this has no erro
 			//if return NULL, the function will exist itself
-			if(path == NULL)
+			if(pPath == NULL)
 			{
-				if(path != NULL)
+				if(pPath != NULL)
 					perror("Error in path");
 			}
 		}
