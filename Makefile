@@ -1,4 +1,4 @@
-all:	bin rshell cp ls
+all:	bin rshell cp ls 
 
 bin:
 	[ ! -d $bin ] && mkdir bin

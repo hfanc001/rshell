@@ -1,0 +1,70 @@
+Script started on Fri 05 Dec 2014 03:34:57 PM PST
+~
+hfanc001@hammer $ cd cs100/rshell
+~/cs100/rshell
+hfanc001@hammer $ make
+g++ -Wall -Werror -ansi -pedantic src/rshell.cpp -o ./bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o ./bin/cp
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o ./bin/ls
+~/cs100/rshell
+hfanc001@hammer $ bin.[K/rshell
+/class/classes/hfanc001/cs100/rshell $ ls
+bin	 Makefile  rshell1.cpp	  src		 tests
+LICENSE  README    signal.script  test_path.cpp
+/class/classes/hfanc001/cs100/rshell $ ls -a
+.   bin   LICENSE   README	 signal.script	test_path.cpp
+..  .git  Makefile  rshell1.cpp  src		tests
+/class/classes/hfanc001/cs100/rshell $ cd ..
+/class/classes/hfanc001/cs100 $ ls
+new  rshell  temp_cs100  ucr-cs100
+/class/classes/hfanc001/cs100 $ cd rshell
+/class/classes/hfanc001/cs100/rshell $ ls -R
+.:
+bin	 Makefile  rshell1.cpp	  src		 tests
+LICENSE  README    signal.script  test_path.cpp
+
+./bin:
+cp  ls	rshell	signal
+
+./src:
+cp.cpp	ls.cpp	rshell	rshell.cpp  signal.cpp	Timer.h
+
+./tests:
+ls.script  piping.script  rshell.script
+/class/classes/hfanc001/cs100/rshell $ j cd ..
+/class/classes/hfanc001/cs100 $ cd ..
+/class/classes/hfanc001 $ cat 
+hi this is a test
+hi this is a test
+^C
+/class/classes/hfanc001 $ cd cs100
+/class/classes/hfanc001/cs100 $ cat 
+^C
+/class/classes/hfanc001/cs100 $ ^Z
+[1]+  Stopped                 bin/rshell
+~/cs100/rshell
+hfanc001@hammer $ fg
+bin/rshell
+
+/class/classes/hfanc001/cs100 $ cd ..
+/class/classes/hfanc001 $ cd ..
+/class/classes $ ^C
+
+/class/classes $ ^Z
+[1]+  Stopped                 bin/rshell
+~/cs100/rshell
+hfanc001@hammer $ bg
+[1]+ bin/rshell &
+
+[1]+  Stopped                 bin/rshell
+~/cs100/rshell
+hfanc001@hammer $ fg
+bin/rshell
+
+/class/classes $ cd    cd hfanc001
+/class/classes/hfanc001 $ exit
+~/cs100/rshell
+hfanc001@hammer $ exit
+exit
+
+Script done on Fri 05 Dec 2014 03:41:03 PM PST
