@@ -42,4 +42,4 @@ Known bugs:
 	1. cd cannot take in more than one destination
 	2. bg for extra credit does not work exactly like the way it suppose to be
 	3. connector or pipes do not work in this assignment, but single command works fine with execv
-	
+	4. for ^C, if it is being entered when rshell is prompting an input, press ENTER agina for rshell to prompt input again
