@@ -502,7 +502,7 @@ void piping(vector<string> input, vector<string> pathV)
 			}
 		}*/
 
-		if(pi_size > 0)//if multiple commands (one or more pipes)
+		/*if(pi_size > 0)//if multiple commands (one or more pipes)
 		{
 			if(close(o_fd[0]) == -1)
 			{
@@ -532,10 +532,11 @@ void piping(vector<string> input, vector<string> pathV)
 		{
 			perror("Error in dup2(restorestdout, 1) (516)");
 			exit(1);
-		}
+		}*/
+
 		delete cmd;
 
-		//-----------more test case----------
+		/*/-----------more test case----------
 		cout << "The cmd size is: " << cmd_size << endl;
 		cout << "The it_cmd is: " << it_cmd << endl;
 		cout << "The it_ign is: " << it_ign << endl;
@@ -893,7 +894,9 @@ int main(int argc, char ** argv)
 					
 		//if there is a pipe or input/output redirections, call the function		
 		if(pipes)
+		{
 			piping(input, pathV);
+		}
 	
 		//if there is a connector, call the function 
 		else if(connectors)
