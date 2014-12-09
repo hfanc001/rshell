@@ -18,11 +18,11 @@ using namespace std;
 
 //function that deal with pipes and input/output redirection	
 //NEED TO BE FIXED
-/*int piping(vector<string> input, vector<string> pathV)
+void piping(vector<string> input, vector<string> pathV)
 {
 	
 	//iterate through the loop and look for >, <, and |
-		bool extra1 = false;
+		//bool extra1 = false;
 		bool one_out = false;
 		bool two_out = false;
 		string content = "";
@@ -48,7 +48,7 @@ using namespace std;
 					if(j == 2 && (input.at(i).at(0) == '<') && (input.at(i).at(j) == '<'))
 					{
 						content = input.at(i+1);
-						extra1 = true;
+						//extra1 = true;
 						input_file = "";
 						ignore_list.push_back(i+1);
 					}
@@ -116,14 +116,57 @@ using namespace std;
 		cout << "The size of ignore list is: " << ignore_list.size() << endl;
 		cout << "The size of pipe location is: " << pipe_location.size() << endl;
 
+	/*	int inputSize = input.size();
+		int cmd_size = inputSize + 1;
+		char **cmd = new char* [cmd_size];
+		int it_pip = 0;
+		int it_cmd = 0;
+		vector<char**> command;
+		for(int i = 0; i < inputSize; i++)
+		{
+			if(i == pipe_location.at(it_pip))
+			{
+				//increment ignore list
+				it_pip++;
+				cmd[it_cmd] = NULL;
+				char **cmd_t = new char*[it_cmd];
+				for(int j = 0; j < it_cmd; j++)
+					cmd_t[j] = cmd[j];
+
+				it_cmd = 0;
+				cout << "here" << endl;
+				command.push_back(cmd_t);
+				cout << "eht" << endl;
+				cout << "command " << command.at(0) << endl;
+			}
+
+			else
+			{
+				cout << "ff " << flush;
+				char* temp;
+				temp = (char*) malloc (1024);
+				strcpy(temp, input.at(i).c_str());
+				cout << "i " << flush;
+				cmd[it_cmd] = temp;
+				cout << "no " << flush;
+				cout << cmd[it_cmd] << " " << flush;
+				it_cmd++;
+			}
+		}
+
+		int cmdS = command.size();
+		cout << "check command" << endl;
+		for(int i = 0; i < cmdS; i++)
+			cout << command.at(i) << endl;
+*/
 		//-------end part of test case-----------------
 
 		//convert input vector to a single modified string 
 		int it_ign = 0;
 		int it_pip = 0;
 		int it_cmd = 0;
-		int in_size = input.size();
-		int cmd_size = in_size + 1;
+		int inputSize = input.size();
+		int cmd_size = inputSize + 1;
 		char **cmd = new char* [cmd_size];
 		int ig_size = ignore_list.size();
 		int pi_size = pipe_location.size();
@@ -144,15 +187,11 @@ using namespace std;
 		}
 
 		//create a pipe with read end and write end to allow the commands between pipes communicate
-		int fd[2];
-		if(pipe(fd) == -1)
-		{
-			perror("Error in pipe(fd)");
-			exit(1);
-		}
-		
+		int n_fd[2];
+		int o_fd[2];
+
 		//a loop that iterate through the vector of commands
-		for(int i = 0; i < in_size; i++)
+		for(int i = 0; i < inputSize; i++)
 		{
 
 			//if reach file redirector symbol or pipes, ignore
@@ -167,6 +206,13 @@ using namespace std;
 				it_pip++;
 				cmd[it_cmd] = NULL;
 				
+				//create pipe
+				if(pipe(n_fd) == -1)
+				{
+					perror("Error in pipe(n_fd)");
+					exit(1);
+				}
+		
 				int pid = fork();
 				if(pid == -1)
 				{
@@ -197,7 +243,7 @@ using namespace std;
 				}
 
 		
-				//read  from imaginary input if it is not the first command before pipe
+				/*/read  from imaginary input if it is not the first command before pipe
 				else if(it_pip != 1)
 				{
 					if(dup2(fd[0], 0) == -1)	
@@ -205,12 +251,55 @@ using namespace std;
 						perror("Error in dup2(fd[0], 0)[352]");
 						exit(1);
 					}
-				}
+				}*/
 
-				else if(pid == 0) //if fork returns 0 == in child process
+				else if(pid == 0)//child
 				{
+					if(it_pip > 1)//not the first one
+					{
+						if(dup2(o_fd[0], 0) == -1)
+						{
+							cout << "o_fd[0] " << o_fd[0] << endl;
+							cout << "o_fd[1] " << o_fd[1] << endl;
+							cout << "n_fd[0] " << n_fd[0] << endl;
+							cout << "n_fd[1] " << n_fd[1] << endl;
+							perror("dup2(o_fd[0], 0) (262)");
+							exit(1);
+						}
+						if(close(o_fd[0]) == -1)
+						{
+							perror("close(o_fd[0]) (267)");
+							exit(1);
+						}
+						if(close(o_fd[1]) == -1)
+						{
+							perror("close(o_fd[1]) == -1) (272)");
+							exit(1);
+						}
+					}
 
-					//output to imaginary pipe write end
+					if(i != (inputSize - 1))//more cmds
+					{
+						if(close(n_fd[0]) == -1)
+						{
+							perror("close(n_fd[0]) (281)");
+							exit(1);
+						}
+
+						if(dup2(n_fd[1], 1) == -1)
+						{
+							perror("dup2(m_fd[1], 1) (287)");
+							exit(1);
+						}
+
+						if(close(n_fd[1]) == -1)
+						{
+							perror("close(n_fd[1]) (293)");
+							exit(1);
+						}
+					}
+
+					/*//output to imaginary pipe write end
 					if(dup2(fd[1], 1) == -1)
 					{
 						perror("Error in dup2(fd[1], 1)");
@@ -236,7 +325,7 @@ using namespace std;
 							exit(1);
 						}
 					
-					}
+					}*/
 					
 					//call execvp to exectue the command
 					if(-1 == execvp(cmd[0],cmd))
@@ -247,6 +336,37 @@ using namespace std;
 	
 					exit(1);//kill the child after its done
 				}
+
+				else//parent
+				{
+					if(it_pip > 1)//not the first pipe
+					{
+						if(close(o_fd[0]) == -1)
+						{
+							cout << "it_pip: " << it_pip << endl;
+							cout << "i " << i << endl;
+							cout << "o_fd[0] " << o_fd[0] << endl;
+							cout << "o_fd[1] " << o_fd[1] << endl;
+							cout << "n_fd[0] " << n_fd[0] << endl;
+							cout << "n_fd[1] " << n_fd[1] << endl;
+							perror("close(o_fd[0]) (342)");
+							exit(1);
+						}
+
+						if(close(o_fd[1]) == -1)
+						{
+							perror("close(o_fd[1]) (347)");
+							exit(1);
+						}
+					}
+
+					if(i != (inputSize - 1))// more commands
+					{
+						o_fd[0] = n_fd[0];
+						o_fd[1] = n_fd[1];
+					}
+				}
+
 		
 				it_cmd = 0;
 				//cout << it_cmd << " " << flush;
@@ -262,7 +382,7 @@ using namespace std;
 				it_cmd++;
 			
 				//if read end of the whole command line
-				if(i == (in_size - 1))
+				if(i == (inputSize - 1))
 				{
 					cmd[it_cmd] = NULL;
 
@@ -284,7 +404,7 @@ using namespace std;
 						}
 
 						//if it is >>, meaning the file will be appended
-						else
+						else if(two_out)
 						{
 							fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0666);
 							if(fdout == -1)
@@ -297,13 +417,14 @@ using namespace std;
 						//make output the file directory created for specified output
 						if(dup2(fdout, 1) == -1)
 						{
-							perror("Error in dup2(fdout, 1)");
+							perror("Error in dup2(fdout, 1) (410)");
 							exit(1);
 						}			
-					}
+					}//close outputfile != "" 
 
 	
 					int pid = fork();
+
 					if(pid == -1) //the error check
 					{
 						perror("An error occured in fork()");
@@ -312,7 +433,7 @@ using namespace std;
 
 					else if(pid == 0) //if fork returns 0 == in child process
 					{
-						//make it read from imaginary stdin
+						/*/make it read from imaginary stdin
 						if(dup2(fd[0], 0) == -1)
 						{
 							perror("Error in dup2(fd[0], 0)");
@@ -323,8 +444,26 @@ using namespace std;
 						{
 							perror("Error in close(fd[1])");
 							exit(1);
+						}*/
+
+						if(dup2(o_fd[0], 0) == -1)
+						{
+							perror("dup2(o_fd[0], 0) (441)");
+							exit(1);
 						}
-										
+
+						if(close(o_fd[0]) == -1)
+						{
+							perror("close(o_fd[0]) (447)");
+							exit(1);
+						}
+
+						if(close(o_fd[1]) == -1)
+						{
+							perror("close(o_fd[1] == -1) (453)");
+							exit(1);
+						}
+													
 						//call execvp to exectue the command
 						if(-1 == execvp(cmd[0],cmd))
 						{
@@ -333,28 +472,27 @@ using namespace std;
 						}
 		
 						exit(1); //kill child after its done
-					}	
+					}
 
+					else//parents
+					{
+						if(close(o_fd[0]) == -1)
+						{
+							perror("Close(o_fd[0]) (471)");
+							exit(1);
+						}
 
+						if(close(o_fd[1]) == -1)
+						{
+							perror("close(o_fd[1] == -1) (477)");
+							exit(1);
+						}
+					}
 				}
 			}
 		}		
 
-		//restore the stdin back 
-		if(dup2(restorestdin, 0) == -1)
-		{	
-			perror("Error in dup2(restorestdin, 0)");
-			exit(1);
-		}
-		
-		//restore the stdout back
-		if(dup2(restorestdout, 1) == -1)
-		{
-			perror("Error in dup2(restorestdout, 1)");
-			exit(1);
-		}
-
-		//if it was parent, it should be stopped here
+		/*if it was parent, it should be stopped here
 		for(int a = 0; a < pi_size; a++)
 		{
 			if(wait(0) == -1)
@@ -362,8 +500,39 @@ using namespace std;
 				perror("Error in wait(0)");
 				exit(1);
 			}
+		}*/
+
+		if(pi_size > 0)//if multiple commands (one or more pipes)
+		{
+			if(close(o_fd[0]) == -1)
+			{
+							cout << "o_fd[0] " << o_fd[0] << endl;
+							cout << "o_fd[1] " << o_fd[1] << endl;
+							cout << "n_fd[0] " << n_fd[0] << endl;
+							cout << "n_fd[1] " << n_fd[1] << endl;
+				perror("close(o_fd[0]) (497)");
+				//exit(1);
+			}
+			if(close(o_fd[1]) == -1)
+			{
+				perror("close(o_fd[0]) == -1 (502)");
+				//exit(1);
+			}
 		}
 
+		//restore the stdin back 
+		if(dup2(restorestdin, 0) == -1)
+		{	
+			perror("Error in dup2(restorestdin, 0) (509)");
+			exit(1);
+		}
+		
+		//restore the stdout back
+		if(dup2(restorestdout, 1) == -1)
+		{
+			perror("Error in dup2(restorestdout, 1) (516)");
+			exit(1);
+		}
 		delete cmd;
 
 		//-----------more test case----------
@@ -371,9 +540,9 @@ using namespace std;
 		cout << "The it_cmd is: " << it_cmd << endl;
 		cout << "The it_ign is: " << it_ign << endl;
 		cout << "The it_pip is: " << it_pip << endl;
-		//-----------end more test case----------------
-	return 0;
-}*/
+		//-----------end more test case----------------*/
+	return;
+}
 
 //declare connect function for connector
 //take in input and path vector
@@ -626,6 +795,9 @@ int main(int argc, char ** argv)
 						else
 							pipes = true;
 					}
+
+					else
+						pipes = true;
 				}
 				
 				//check for comment and save the locations (i, j)
@@ -720,8 +892,8 @@ int main(int argc, char ** argv)
 		}
 					
 		//if there is a pipe or input/output redirections, call the function		
-		if(pipes);
-			//piping(input, pathV);
+		if(pipes)
+			piping(input, pathV);
 	
 		//if there is a connector, call the function 
 		else if(connectors)
