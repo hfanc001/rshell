@@ -76,8 +76,9 @@ void piping(vector<string> input, vector<string> pathV)
 						if(i != (input.size() - 1))
 						{
 							output_file = input.at(i + 1);
-							ignore_list.push_back(i);
-							ignore_list.push_back(i + 1);
+							//ignore_list.push_back(i);
+							//ignore_list.push_back(i + 1);
+							//pop back the output file and the output redirector
 						}
 					}
 
@@ -93,7 +94,14 @@ void piping(vector<string> input, vector<string> pathV)
 			
 		}
 
-		//---test case to see what the user had input
+		if(one_out || two_out)
+		{
+			input.pop_back();
+			input.pop_back();
+		}
+
+
+		/*/---test case to see what the user had input
 		cout << "The inputs are: ";
 		for(unsigned int i = 0; i < input.size(); i++)
 			cout << input.at(i) << " ";
@@ -114,7 +122,7 @@ void piping(vector<string> input, vector<string> pathV)
 		
 		cout << "The size of input is: " << input.size() << endl;
 		cout << "The size of ignore list is: " << ignore_list.size() << endl;
-		cout << "The size of pipe location is: " << pipe_location.size() << endl;
+		cout << "The size of pipe location is: " << pipe_location.size() << endl;*/
 
 	/*	int inputSize = input.size();
 		int cmd_size = inputSize + 1;
@@ -190,6 +198,13 @@ void piping(vector<string> input, vector<string> pathV)
 		int n_fd[2];
 		int o_fd[2];
 
+		/*/------------------TEST-------------------
+		cout << "Before loop: " << endl;
+		cout << "o_fd[0] " << o_fd[0] << endl;
+		cout << "o_fd[1] " << o_fd[1] << endl;
+		cout << "n_fd[0] " << n_fd[0] << endl;
+		cout << "n_fd[1] " << n_fd[1] << endl << endl;	*/					
+	
 		//a loop that iterate through the vector of commands
 		for(int i = 0; i < inputSize; i++)
 		{
@@ -203,7 +218,6 @@ void piping(vector<string> input, vector<string> pathV)
 			//if reach a pipe
 			else if((it_pip < pi_size) && (i == pipe_location.at(it_pip)))
 			{
-				it_pip++;
 				cmd[it_cmd] = NULL;
 				
 				//create pipe
@@ -212,7 +226,14 @@ void piping(vector<string> input, vector<string> pathV)
 					perror("Error in pipe(n_fd)");
 					exit(1);
 				}
-		
+
+				/*/=======================TEST===================
+				cout << "after reach pipe: " << endl;
+				cout << "o_fd[0] " << o_fd[0] << endl;
+				cout << "o_fd[1] " << o_fd[1] << endl;
+				cout << "n_fd[0] " << n_fd[0] << endl;
+				cout << "n_fd[1] " << n_fd[1] << endl;*/
+							
 				int pid = fork();
 				if(pid == -1)
 				{
@@ -220,42 +241,9 @@ void piping(vector<string> input, vector<string> pathV)
 					exit(1);
 				}
 
-				//deal with input/output redirect
-				//if there is a specified input, read from that file
-				int fdin;
-				if(input_file != "" && it_pip == 1)
-				{
-					//open the specified input file
-					fdin = open(input_file.c_str(), O_RDONLY);
-					if(fdin == -1)
-					{
-						perror("Error in open(input_file, O_RDONLY)");
-						exit(1);
-					}
-					
-					//make the input file directory replace stdin
-					if(dup2(fdin, 0) == -1)
-					{
-						perror("Error in dup2(fdin, 0)[333]");
-						exit(1);
-					}	
-
-				}
-
-		
-				/*/read  from imaginary input if it is not the first command before pipe
-				else if(it_pip != 1)
-				{
-					if(dup2(fd[0], 0) == -1)	
-					{
-						perror("Error in dup2(fd[0], 0)[352]");
-						exit(1);
-					}
-				}*/
-
 				else if(pid == 0)//child
 				{
-					if(it_pip > 1)//not the first one
+					if(it_pip > 0)//not the first one
 					{
 						if(dup2(o_fd[0], 0) == -1)
 						{
@@ -268,17 +256,49 @@ void piping(vector<string> input, vector<string> pathV)
 						}
 						if(close(o_fd[0]) == -1)
 						{
-							perror("close(o_fd[0]) (267)");
+							perror("close(o_fd[0] (238)");
 							exit(1);
 						}
 						if(close(o_fd[1]) == -1)
 						{
-							perror("close(o_fd[1]) == -1) (272)");
+							perror("close(o_fd[1]) == -1) (243)");
 							exit(1);
 						}
+
+						/*/===============TEST================
+						cout << "If not the first one: " << endl;
+						cout << "o_fd[0] " << o_fd[0] << endl;
+						cout << "o_fd[1] " << o_fd[1] << endl;
+						cout << "n_fd[0] " << n_fd[0] << endl;
+						cout << "n_fd[1] " << n_fd[1] << endl << endl;*/
+							
+					}//closing for not the first one
+		
+					//deal with input/output redirect
+					//if there is a specified input, read from that file
+					int fdin;
+					if(input_file != "" && it_pip == 1)
+					{
+						//open the specified input file
+						fdin = open(input_file.c_str(), O_RDONLY);
+						if(fdin == -1)
+						{	
+							perror("Error in open(input_file, O_RDONLY)");
+							exit(1);
+						}
+					
+						//make the input file directory replace stdin
+						if(dup2(fdin, 0) == -1)
+						{
+							perror("Error in dup2(fdin, 0) (265)");
+							exit(1);
+						}	
+
+						cout << "INput redirector: " << fdin << endl;
 					}
 
-					if(i != (inputSize - 1))//more cmds
+					int compare = inputSize = 1;
+					if(i != compare)//more cmds
 					{
 						if(close(n_fd[0]) == -1)
 						{
@@ -297,6 +317,14 @@ void piping(vector<string> input, vector<string> pathV)
 							perror("close(n_fd[1]) (293)");
 							exit(1);
 						}
+						/*/===============TEST================
+						cout << "If more commands: " << endl;
+						cout << "o_fd[0] " << o_fd[0] << endl;
+						cout << "o_fd[1] " << o_fd[1] << endl;
+						cout << "n_fd[0] " << n_fd[0] << endl;
+						cout << "n_fd[1] " << n_fd[1] << endl << endl;*/
+	
+
 					}
 
 					/*//output to imaginary pipe write end
@@ -339,7 +367,7 @@ void piping(vector<string> input, vector<string> pathV)
 
 				else//parent
 				{
-					if(it_pip > 1)//not the first pipe
+					if(it_pip > 1)//not the first command
 					{
 						if(close(o_fd[0]) == -1)
 						{
@@ -358,17 +386,34 @@ void piping(vector<string> input, vector<string> pathV)
 							perror("close(o_fd[1]) (347)");
 							exit(1);
 						}
+						
+						/*/===============TEST================
+						cout << "IN parent, not the first one: " << endl;
+						cout << "o_fd[0] " << o_fd[0] << endl;
+						cout << "o_fd[1] " << o_fd[1] << endl;
+						cout << "n_fd[0] " << n_fd[0] << endl;
+						cout << "n_fd[1] " << n_fd[1] << endl << endl;*/
+	
 					}
 
-					if(i != (inputSize - 1))// more commands
+					if(i != (inputSize - 1))// more commands, not the last one
 					{
 						o_fd[0] = n_fd[0];
 						o_fd[1] = n_fd[1];
+						
+						/*/===============TEST================
+						cout << "IN parent, more commands: " << endl;
+						cout << "o_fd[0] " << o_fd[0] << endl;
+						cout << "o_fd[1] " << o_fd[1] << endl;
+						cout << "n_fd[0] " << n_fd[0] << endl;
+						cout << "n_fd[1] " << n_fd[1] << endl << endl;*/
+	
 					}
 				}
 
 		
 				it_cmd = 0;
+				it_pip++;
 				//cout << it_cmd << " " << flush;
 			}
 
@@ -382,47 +427,10 @@ void piping(vector<string> input, vector<string> pathV)
 				it_cmd++;
 			
 				//if read end of the whole command line
-				if(i == (inputSize - 1))
+				if(i == (inputSize - 1))//if reach the end
 				{
 					cmd[it_cmd] = NULL;
 
-					//deal with input/output redirect
-					//if there is a specified output, output to there
-					int fdout;
-					
-					if(output_file != "")
-					{
-						//if it is >, meaning the file will be over-written		
-						if(one_out)
-						{
-							fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC);
-							if(fdout == -1)
-							{
-								perror("Error in open(output_file, O_WRONLY | O_CREAT | O_TRUNC)");
-								exit(1);
-							}
-						}
-
-						//if it is >>, meaning the file will be appended
-						else if(two_out)
-						{
-							fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0666);
-							if(fdout == -1)
-							{
-								perror("Error in open(output_file, O_WRONLY | O_CREAT | O_APPEND)");
-								exit(1);
-							}
-						}
-
-						//make output the file directory created for specified output
-						if(dup2(fdout, 1) == -1)
-						{
-							perror("Error in dup2(fdout, 1) (410)");
-							exit(1);
-						}			
-					}//close outputfile != "" 
-
-	
 					int pid = fork();
 
 					if(pid == -1) //the error check
@@ -433,37 +441,105 @@ void piping(vector<string> input, vector<string> pathV)
 
 					else if(pid == 0) //if fork returns 0 == in child process
 					{
-						/*/make it read from imaginary stdin
-						if(dup2(fd[0], 0) == -1)
-						{
-							perror("Error in dup2(fd[0], 0)");
-							exit(1);
-						}
+						//deal with input/output redirect
+						//if there is a specified input, read from that file
 						
-						if(close(fd[1]) == -1)
+						int fdin;
+						if(input_file != "" && it_pip == 0)//there is an inputfile and its the first comment
 						{
-							perror("Error in close(fd[1])");
-							exit(1);
-						}*/
+							//open the specified input file
+							fdin = open(input_file.c_str(), O_RDONLY);
+							if(fdin == -1)
+							{	
+								perror("Error in open(input_file, O_RDONLY)");
+								exit(1);
+							}
+					
+							//make the input file directory replace stdin
+							if(dup2(fdin, 0) == -1)
+							{
+								perror("Error in dup2(fdin, 0) (265)");
+								exit(1);
+							}
+							
+							/*/===============TEST================
+							cout << "Last command, fdin: " << endl;
+							cout << "fdin " << fdin << endl;
+							cout << "o_fd[0] " << o_fd[0] << endl;
+							cout << "o_fd[1] " << o_fd[1] << endl;
+							cout << "n_fd[0] " << n_fd[0] << endl;
+							cout << "n_fd[1] " << n_fd[1] << endl << endl;*/
+	
 
-						if(dup2(o_fd[0], 0) == -1)
-						{
-							perror("dup2(o_fd[0], 0) (441)");
-							exit(1);
-						}
+						}//close inputfile if
 
-						if(close(o_fd[0]) == -1)
+						//deal with input/output redirect
+						//if there is a specified output, output to there
+			
+						int fdout;
+					
+						if(output_file != "")//if read the end and output file
 						{
-							perror("close(o_fd[0]) (447)");
-							exit(1);
-						}
+							//if it is >, meaning the file will be over-written		
+							if(one_out)
+							{
+								//========FIX ME, STUCK ON PERMISSON ACCESS, NEED TO SET MODE========
+								fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0777);
+								if(fdout == -1)
+								{
+									perror("Error in open(output_file, O_WRONLY | O_CREAT | O_TRUNC)");
+									exit(1);
+								}
+							}
 
-						if(close(o_fd[1]) == -1)
+							//if it is >>, meaning the file will be appended
+							else if(two_out)
+							{
+								fdout = open(output_file.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0777);
+								if(fdout == -1)
+								{
+									perror("Error in open(output_file, O_WRONLY | O_CREAT | O_APPEND)");
+									exit(1);
+								}
+							}
+
+							//make output the file directory created for specified output
+							if(dup2(fdout, 1) == -1)
+							{
+								perror("Error in dup2(fdout, 1) (410)");
+								exit(1);
+							}			
+						}//close outputfile != "" 
+	
+						if(it_pip > 0)//if not the first command
 						{
-							perror("close(o_fd[1] == -1) (453)");
-							exit(1);
-						}
-													
+							if(dup2(o_fd[0], 0) == -1)
+							{
+								perror("dup2(o_fd[0], 0) (441)");
+								exit(1);
+							}
+
+							if(close(o_fd[0]) == -1)
+							{
+								perror("close(o_fd[0]) (447)");
+								exit(1);
+							}
+
+							if(close(o_fd[1]) == -1)
+							{
+								perror("close(o_fd[1] == -1) (453)");
+								exit(1);
+							}
+							
+							/*/===============TEST================
+							cout << "Last comment, not the first command: " << endl;
+							cout << "o_fd[0] " << o_fd[0] << endl;
+							cout << "o_fd[1] " << o_fd[1] << endl;
+							cout << "n_fd[0] " << n_fd[0] << endl;
+							cout << "n_fd[1] " << n_fd[1] << endl << endl;*/
+	
+						}//closing for if not first command						
+						
 						//call execvp to exectue the command
 						if(-1 == execvp(cmd[0],cmd))
 						{
@@ -472,39 +548,48 @@ void piping(vector<string> input, vector<string> pathV)
 						}
 		
 						exit(1); //kill child after its done
-					}
+					}//closing for child
 
 					else//parents
 					{
-						if(close(o_fd[0]) == -1)
+						if(it_pip > 0)//not the first cmd
 						{
-							perror("Close(o_fd[0]) (471)");
-							exit(1);
+							if(close(o_fd[0]) == -1)
+							{
+								perror("Close(o_fd[0]) (471)");
+								exit(1);
+							}
+
+							if(close(o_fd[1]) == -1)
+							{
+								perror("close(o_fd[1] == -1) (477)");
+								exit(1);
+							}
+							
+							/*/===============TEST================
+							cout << "Last command, parent, not the first cmd " << endl;
+							cout << "o_fd[0] " << o_fd[0] << endl;
+							cout << "o_fd[1] " << o_fd[1] << endl;
+							cout << "n_fd[0] " << n_fd[0] << endl;
+							cout << "n_fd[1] " << n_fd[1] << endl << endl;*/
+	
 						}
 
-						if(close(o_fd[1]) == -1)
-						{
-							perror("close(o_fd[1] == -1) (477)");
-							exit(1);
-						}
-					}
-				}
-			}
+					}//closing for parent
+				}//closing for if end of command line
+			}//closing for else(not a pipe)
 		}		
 
-		/*if it was parent, it should be stopped here
-		for(int a = 0; a < pi_size; a++)
-		{
-			if(wait(0) == -1)
-			{
-				perror("Error in wait(0)");
-				exit(1);
-			}
-		}*/
-
+		/*/===============TEST================
+		cout << "Last: " << endl;
+		cout << "o_fd[0] " << o_fd[0] << endl;
+		cout << "o_fd[1] " << o_fd[1] << endl;
+		cout << "n_fd[0] " << n_fd[0] << endl;
+		cout << "n_fd[1] " << n_fd[1] << endl << endl;*/
+	
 		/*if(pi_size > 0)//if multiple commands (one or more pipes)
 		{
-			if(close(o_fd[0]) == -1)
+			if(close(n_fd[0]) == -1)
 			{
 							cout << "o_fd[0] " << o_fd[0] << endl;
 							cout << "o_fd[1] " << o_fd[1] << endl;
@@ -513,14 +598,14 @@ void piping(vector<string> input, vector<string> pathV)
 				perror("close(o_fd[0]) (497)");
 				//exit(1);
 			}
-			if(close(o_fd[1]) == -1)
+			if(close(n_fd[1]) == -1)
 			{
-				perror("close(o_fd[0]) == -1 (502)");
+				perror("close(o_fd[0]) (502)");
 				//exit(1);
 			}
-		}
+		}*/
 
-		//restore the stdin back 
+		/*//restore the stdin back 
 		if(dup2(restorestdin, 0) == -1)
 		{	
 			perror("Error in dup2(restorestdin, 0) (509)");
@@ -894,9 +979,7 @@ int main(int argc, char ** argv)
 					
 		//if there is a pipe or input/output redirections, call the function		
 		if(pipes)
-		{
 			piping(input, pathV);
-		}
 	
 		//if there is a connector, call the function 
 		else if(connectors)
@@ -924,12 +1007,12 @@ int main(int argc, char ** argv)
 	
 			//call the execute function to run the command
 			execute(cmd, pathV);
-		}
+		}//closing for regular execute function
 
 	}//the closing bracket for if on the very top
 
 	return 0;
-}
+}//closing for main
 
 //declare connect function for connector
 //take in input and path vector
