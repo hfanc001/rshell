@@ -641,36 +641,39 @@ int main(int argc, char ** argv)
 				cd = true;
 		}
 		
-		cout << "input" << endl;
+		/*cout << "input" << endl;
 		for(int i = 0; i < input_size; i++)
 			cout << input.at(i) << " ";
-		cout << endl;
+		cout << endl;*/
 
 		//check if there is a comment, if there is, pop back all the things after that
 		if(comment)
 		{
 			int comI_size = input.size();
 			comI_size -= loc_i;
+			comI_size--;
 
 			for(int i = 0; i < comI_size; i++)
 				input.pop_back();
 			
 			int last = input.size();
 			last--;
-
+			
 			int comJ_size = input.at(last).size();
 			comJ_size -= loc_j;
 
+			//cout << "(" << loc_i << "," << loc_j << ")" << endl;
 			string com_s = "";
-			for(int j = 0; j < comJ_size; j++)
+			for(int j = 0; j < loc_j; j++)
 				com_s += input.at(last).at(j);
 			input.at(last) = com_s;
+			//cout << input.at(last) << endl;
 		}
 
-		cout << "input" << endl;
+		/*cout << "input" << endl;
 		for(int i = 0; i < input_size; i++)
 			cout << input.at(i) << " ";
-		cout << endl;
+		cout << endl;*/
 
 		//AFTER ONE ITERATION, THE PATH IS DIFFERENT AND WEIRD
 		// because the original PATH was changed(security issue)
