@@ -339,7 +339,10 @@ void dashR(const char *dirName, string path, bool flag_a, bool flag_l)
 				string temp = fileName;
 				if(temp != "." && temp != "..")
 				{
-					repeat.push_back(direntp->d_name);
+					char* tempF;
+					tempF = (char*) malloc (1024);
+					strcpy(tempF, direntp->d_name);
+					repeat.push_back(tempF);
 				}
 			}		
 			
@@ -396,7 +399,7 @@ void dashR(const char *dirName, string path, bool flag_a, bool flag_l)
 
 }
 	
-int main()
+int main(int argc, char** argv)
 {
     //declear a vector to read in commands
     //the first is always fonna be ls
@@ -404,9 +407,9 @@ int main()
     //check if any specified directory is passed in 	
     vector<string> input;
      
-    string str;
+    //string str;
 
-    //read in userinput
+    /*read in userinput
     do
     {
 	input.clear();
@@ -418,7 +421,10 @@ int main()
     	}	 
 	
     //if the user does not input anything with ls, ask the user to redo it
-    }while(input.at(0) != "ls");
+    }while(input.at(0) != "ls");*/
+
+	for(int i = 0; i < argc; i++)
+		input.push_back(argv[i]);
 
     bool flag_a = false;
     bool flag_l = false;
@@ -428,37 +434,50 @@ int main()
 
     if(input.size() > 1)
     {
-	int i_size = input.size();
-	for(int i = 1; i < i_size; i++)
-	{
-		if(input.at(i).at(0) == '-')
+		int i_size = input.size();
+		for(int i = 1; i < i_size; i++)
 		{
-			int temp_size = input.at(i).size();
-			for(int j = 1; j < temp_size; j++)
+			if(input.at(i).at(0) == '-')
 			{
-				if(input.at(i).at(j) == 'a')
-					flag_a = true;
-				else if(input.at(i).at(j) == 'l')
-					flag_l = true;
-				else if(input.at(i).at(j) == 'R')
-					flag_r = true;
+				int temp_size = input.at(i).size();
+				for(int j = 1; j < temp_size; j++)
+				{
+					if(input.at(i).at(j) == 'a')
+						flag_a = true;
+					else if(input.at(i).at(j) == 'l')
+						flag_l = true;
+					else if(input.at(i).at(j) == 'R')
+						flag_r = true;
+				}
+			}
+	
+			else
+			{
+				mem_address = true;
+				mem_add = input.at(i);
 			}
 		}
-	
-		else
-		{
-			mem_address = true;
-			mem_add = input.at(i);
-		}
-	}
     }	
 		
-  	
-    const char *dirName = ".";
+	//if(input.size() == 0)
+	//	input.push_back("ls");
+  
+	char* DirName;
+	DirName = (char*) malloc (1024);
+
     if(mem_address)
     {
-	dirName =  mem_add.c_str();
+		strcpy(DirName, mem_add.c_str());
     }
+
+	else
+	{
+		string Dot = ".";
+		strcpy(DirName, Dot.c_str());
+	}
+
+    const char *dirName = DirName;
+
 
     //if -R is passed in
     //check link size
@@ -466,20 +485,20 @@ int main()
     //redo
     if(flag_r)
     {	
-	//vector<const char*> direct;
-	//direct.push_back(dirName);
-	string path = dirName;
-	//dashR(dirName, direct, flag_a, flag_l);
-	dashR(dirName, path, flag_a, flag_l);
+		//vector<const char*> direct;
+		//direct.push_back(dirName);
+		string path = dirName;
+		//dashR(dirName, direct, flag_a, flag_l);
+		dashR(dirName, path, flag_a, flag_l);
     }
 
     else
     {
-	DIR *dirp = opendir(dirName);
-	if(opendir(dirName) == NULL)
+		DIR *dirp = opendir(dirName);
+		if(opendir(dirName) == NULL)
     	{	
-		perror("Error in opendir(dirName)[376]");
-		exit(1);
+			perror("Error in opendir(dirName)[376]");
+			exit(1);
     	}
 
     	dirent *direntp;
@@ -487,73 +506,73 @@ int main()
     	//malloc(sizeof(struct stat));
     	while ((direntp = readdir(dirp)))
     	{ 
-		if(direntp == NULL)
-		{
-			perror("Error in readdir(dirp)[387]");
-			exit(1);
-		}
+			if(direntp == NULL)
+			{
+				perror("Error in readdir(dirp)[387]");
+				exit(1);
+			}
 	
-		const char *fileName = direntp->d_name;
+			const char *fileName = direntp->d_name;
 	
-		//if -a is passed in
-		//just print out fileName with newline	
-		//if no -a, ignore all the dots
+			//if -a is passed in
+			//just print out fileName with newline	
+			//if no -a, ignore all the dots
 	
 
-		if(flag_a && !flag_l && !flag_r)
-		{
-			
-			print_col(fileName, fileName);
-			cout << " ";
-		}
-	
-		//if no flag is passed in
-		//ignore the dots and print out filename
-		if(!flag_a && !flag_l && !flag_r)
-		{
-			if(fileName[0] != '.')
+			if(flag_a && !flag_l && !flag_r)
 			{
-				print_col(fileName, fileName);
+			
+				print_col(fileName, dirName);
 				cout << " ";
 			}
-		}
-
-		//if -l is passed in
-		//call the function dashL to output the detailed files info
-		//dashL(fileName);	
-		if(flag_l)
-		{
-			//vector<const char*> direct;
-			//direct.push_back(dirName);
-			string path = dirName;
-
-			if(!flag_a)
+	
+			//if no flag is passed in
+			//ignore the dots and print out filename
+			if(!flag_a && !flag_l && !flag_r)
 			{
 				if(fileName[0] != '.')
+				{
+					print_col(fileName, dirName);
+					cout << " ";
+				}
+			}
+
+			//if -l is passed in
+			//call the function dashL to output the detailed files info
+			//dashL(fileName);	
+			if(flag_l)
+			{
+				//vector<const char*> direct;
+				//direct.push_back(dirName);
+				string path = dirName;
+
+				if(!flag_a)
+				{
+					if(fileName[0] != '.')
+					{
+						//dashL(fileName, direct);
+						dashL(fileName, path);
+					}
+				}
+	
+				else
 				{
 					//dashL(fileName, direct);
 					dashL(fileName, path);
 				}
 			}
 	
-			else
-			{
-				//dashL(fileName, direct);
-				dashL(fileName, path);
-			}
+	
 		}
-	
-	
-	}
  
-    	if(closedir(dirp) == -1)
-	{	 
-		perror("Error in closedir(dirp)[432]");
-		exit(1);
-	}   
+		if(closedir(dirp) == -1)
+		{	 
+			perror("Error in closedir(dirp)[432]");
+			exit(1);
+		}   
  
 
-   }	
+	}	
 	return 0;
 }
 
