@@ -375,9 +375,13 @@ using namespace std;
 	return 0;
 }*/
 
+//declare connect function for connector
+//take in input and path vector
+void connect(vector<string> input, vector<string> pathV);
+
 //function that execute commands 
 //use EXECV and path instead of execvp
-void execute(char **cmd, vector<string> pathV)
+int execute(char **cmd, vector<string> pathV)
 {
 	//have the vectors with all the commands
 	//have the vectors with all the possible paths
@@ -395,7 +399,9 @@ void execute(char **cmd, vector<string> pathV)
 	//for(int i = 0; i < pSize; i++)
 	//	cout << pathV.at(i) << endl;
 	//cout << endl;
-	
+
+	//if there is an error, will return 1 later
+	bool reOne = true;
 	//for every possible path
 	for(int i = 0; i < pSize; i++)
 	{
@@ -412,6 +418,7 @@ void execute(char **cmd, vector<string> pathV)
 		//if the file is executable
 		else if(acc == 0)
 		{
+			reOne = false;
 			int pid = fork();
 			
 			//perform error check on fork
@@ -447,6 +454,11 @@ void execute(char **cmd, vector<string> pathV)
  			}
 		}//closing braket for acc
 	}//closing braket for for loop check
+
+	if(reOne)
+		return 1;
+	else
+		return 0;
 }
 
 //function that change the directory
@@ -581,22 +593,87 @@ int main(int argc, char ** argv)
 		bool connectors = false;
 		bool pipes = false;
 		bool cd = false;
-		int input_size = input.size();	
+		int input_size = input.size();
+		
+		//declare variable to check for comments
+		bool comment = false;
+		int loc_i = 0;
+		int loc_j = 0;
+
 		//loop through input to check for connectors or pipes
 		for(int i = 0; i < input_size; i++)
 		{
-			string temp = input.at(i);
-			if(temp == "||" || temp == "&&" || temp == ";")
-				connectors = true;
+			int inSize = input.at(i).size();
+			for(int j = 0; j < inSize; j++)
+			{
+				char temp = input.at(i).at(j);
+				if(temp == '&' || temp == ';')
+					connectors = true;
 				
-			else if(temp == "<" || temp == ">" || temp == "|")
-				pipes = true;
+				else if(temp == '>' || temp == '<')
+					pipes = true;
+		
+				else if(temp == '|')
+				{
+					if(j > 0)
+					{	
+						if(input.at(i).at(j - 1) == '|')
+						{
+							connectors = true;
+							pipes = false;
+						}
 
-			else if(temp == "cd")
+						else
+							pipes = true;
+					}
+				}
+				
+				//check for comment and save the locations (i, j)
+				else if(temp == '#')
+				{
+					comment = true;
+					loc_i = i;
+					loc_j = j;
+				}
+			}
+	
+			if(input.at(i) == "cd")
 				cd = true;
 		}
+		
+		cout << "input" << endl;
+		for(int i = 0; i < input_size; i++)
+			cout << input.at(i) << " ";
+		cout << endl;
 
-		//AFTER ONE ITERATION, THE PATH IS DIFFERENT AND WEIRD -> because the original PATH was changed(security issue)
+		//check if there is a comment, if there is, pop back all the things after that
+		if(comment)
+		{
+			int comI_size = input.size();
+			comI_size -= loc_i;
+
+			for(int i = 0; i < comI_size; i++)
+				input.pop_back();
+			
+			int last = input.size();
+			last--;
+
+			int comJ_size = input.at(last).size();
+			comJ_size -= loc_j;
+
+			string com_s = "";
+			for(int j = 0; j < comJ_size; j++)
+				com_s += input.at(last).at(j);
+			input.at(last) = com_s;
+		}
+
+		cout << "input" << endl;
+		for(int i = 0; i < input_size; i++)
+			cout << input.at(i) << " ";
+		cout << endl;
+
+		//AFTER ONE ITERATION, THE PATH IS DIFFERENT AND WEIRD
+		// because the original PATH was changed(security issue)
 		//after getting path from getenv, need to copy the content to other pointer
 		//then change that other pointer so the original content can be saved
 		char* path = getenv("PATH");
@@ -644,8 +721,8 @@ int main(int argc, char ** argv)
 			//piping(input, pathV);
 	
 		//if there is a connector, call the function 
-		else if(connectors);
-			//call connectors
+		else if(connectors)
+			connect(input, pathV);
 
 		//if there is cd, call the function to change directory
 		else if(cd)
@@ -674,4 +751,127 @@ int main(int argc, char ** argv)
 	}//the closing bracket for if on the very top
 
 	return 0;
+}
+
+//declare connect function for connector
+//take in input and path vector
+void connect(vector<string> input, vector<string> pathV)
+{
+		int inputSize = input.size();
+
+		//check the content of input
+		/*cout << "input" << endl;
+		for(int i = 0; i < inputSize; i++)
+			cout << input.at(i) << endl;*/
+
+		//check the content of path
+		/*cout << "path" << endl;
+		for(int i = 0; i < pathSize; i++)
+			cout << pathV.at(i) << endl;*/
+			
+		//declare variable
+		char ** cmd = new char*[inputSize + 1];
+	
+		bool front = false;
+		string front_t;
+		int count = 0;
+		int con = 0;
+
+		//parse the command first
+		for(int i = 0; i < inputSize; i++)
+		{
+			string temp = "";
+			int inSize = input.at(i).size();
+			
+			//if in the last iteration, there was a connector in the front
+			if(front)
+			{
+				//reset front bool and store the command read
+				front = false;
+				temp = front_t;
+			}
+
+			else
+			{
+				//iterate through each char in the string to check connector
+				for(int j = 0; j < inSize; j++)	
+				{
+					char temp1 = input.at(i).at(j);
+					//cout << temp1 << " " << flush;
+					
+					//if it is not a connector, push the char to the temp string
+					if(temp1 != '&' && temp1 != '|' && temp1 != ';')
+						temp += temp1;
+
+					//if && connector is found
+					//set con to one and check if it is in the front
+					else if(temp1 == '&')
+					{
+						con = 1;
+						if(j == 0 && (inSize > 2))
+							front = true;
+					}
+				
+					//if || connector is found
+					//set con to two and check if it is in the front
+					else if(temp1 == '|')
+					{
+						con = 2;
+						if(j == 0 && (inSize > 2))
+							front = true;
+					}
+
+					//if ; connector is found
+					//set con to three and check if it is in the front
+					else if(temp1 == ';')
+					{
+						con = 3;
+						if(j == 0 && (inSize > 2))
+							front = true;
+					}
+
+				}
+			}
+
+			//if the connector is not in the front or is a regular command
+			//push the temp stirng to the command array
+			if(!front)
+			{
+				char* temp2 = new char;
+				strcpy(temp2, temp.c_str());
+				cmd[count] = temp2;
+				count++;
+			}
+
+			//if there is a connector
+			if(con != 0)
+			{
+				//put an end to the command array
+				cmd[count] = NULL;
+				//call execute function 
+				int exe = execute(cmd, pathV);
+				//if an error is returned 
+				if(exe != 0)
+				{
+					//output error message
+					cout << "Command not found" << endl;
+					//if the connector is ||, return when the first command fails
+					if(con == 2)
+						return;
+				}
+				//make the command array iterator zero
+				count = 0;
+			}	
+
+			//if the connector appear in the front of the word
+			//make the loop go back one to iterate again
+			//but with the already got information
+			if(front)
+			{
+				front_t = temp;
+				i--;
+			}
+
+		}
+
 }
