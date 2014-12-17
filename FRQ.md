@@ -7,17 +7,17 @@ FRQ:
 
 
 ####`LS`:
-ls -a 
+ls -a: 
 	get the current directory 
 	open the current directory 
 	output the files
 	close the working directory
 
-ls
+ls:
 	same as ls -a
 	but do not output the hidden file
 
-ls -l
+ls -l:
 	get the working directory
 	open the working directory
 	check the read/write permission
@@ -33,10 +33,10 @@ ls -l
 		6. last modified date & time (stat, st_mtime) (use `localtime`)
 		7. file name
 
-*use open to get the read/write permission
-*`printf` can be used to format [AWK Language: Printing Output](http://www.chemie.fu-berlin.de/chemnet/use/info/gawk/gawk_7.html)
+use open to get the read/write permission
+`printf` can be used to format [AWK Language: Printing Output](http://www.chemie.fu-berlin.de/chemnet/use/info/gawk/gawk_7.html)
 
-ls -R 
+ls -R:
 	get the current directory 
 	open the current directory
 	print out the files/save any directory inside this working directory
@@ -44,7 +44,7 @@ ls -R
 	print out the files inside that directory
 	close the working directory
 
-*if the output is weird ASCII character, try saving repeated filename in stack instead of heap
+if the output is weird ASCII character, try saving repeated filename in stack instead of heap
 
 #####FRQ: 
 1. [Howto: C Programming with Directories on Linux](http://www.thegeekstuff.com/2012/06/c-directory/)
@@ -87,6 +87,7 @@ Use `execv` or any syscall other than `execvp`
 1.`getenv` Introduction/instruction:  [Stackoverflow: Unix Path Searching C Function](http://stackoverflow.com/questions/147057/unix-path-searching-c-function)
 2. [`execve` Syscall Family Nanual Page](http://linux.die.net/man/3/execve)
 3. [Stackoverflow: System Call fork() and execv funtion](http://stackoverflow.com/questions/19147386/system-call-fork-and-execv-function)
+4. If `getenv` does not return correct path the second time, check if the path variable has been modified by accident. [Stackoverflow: const char...changed?](http://stackoverflow.com/questions/10249750/const-char-changed)
 
 Use Signal
 	When capture ^C, interrupt foreground job
@@ -105,9 +106,9 @@ Implement `cd`
 	Change the current directory using [`chdir`]
 
 Current Working Directory:
-1. [Stackoverflow: Getting Absolute Path of a File](http://stackoverflow.com/questions/229012/getting-absolute-path-of-a-file)
+	1. [Stackoverflow: Getting Absolute Path of a File](http://stackoverflow.com/questions/229012/getting-absolute-path-of-a-file)
 
 `chdir()`:
-1. [Stackoverflow: Why is chdir() not successful?](http://stackoverflow.com/questions/16841365/why-is-chdir-not-successful?rq=1)
-2. [Stackoverflow: chdir() - No Such File or Directory](http://stackoverflow.com/questions/13591065/chdir-no-such-file-or-directory?rq=1)
+	1. [Stackoverflow: Why is chdir() not successful?](http://stackoverflow.com/questions/16841365/why-is-chdir-not-successful?rq=1)
+	2. [Stackoverflow: chdir() - No Such File or Directory](http://stackoverflow.com/questions/13591065/chdir-no-such-file-or-directory?rq=1)
 
