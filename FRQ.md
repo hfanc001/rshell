@@ -33,7 +33,7 @@
 		6. last modified date & time (stat, st_mtime) (use `localtime`)
 		7. file name
 
-use open to get the read/write permission
+use [open](http://linux.die.net/man/2/open) to get the read/write permission
 `printf` can be used to format [AWK Language: Printing Output](http://www.chemie.fu-berlin.de/chemnet/use/info/gawk/gawk_7.html)
 
 #####`ls -R`
@@ -44,7 +44,7 @@ use open to get the read/write permission
 	print out the files inside that directory
 	close the working directory
 
-if the output is weird ASCII character, try saving repeated filename in stack instead of heap
+If the output is weird ASCII character, try saving repeated filename in stack instead of heap
 
 #####FAQ in ls: 
 1. [Howto: C Programming with Directories on Linux](http://www.thegeekstuff.com/2012/06/c-directory/)
@@ -59,7 +59,7 @@ if the output is weird ASCII character, try saving repeated filename in stack in
 ###`Piping`:
 ------------
 #####`dup`
-	Used to open new input/output redirection with the initialized input/output test file
+	Use [dup()](http://linux.die.net/man/2/dup) or [dup2()](http://linux.die.net/man/2/dup2) to open new input/output redirection with the initialized input/output test file
 
 #####FAQ in dup:
 1. Pipe Explanation [Stackoverflow: Can Someone Explain What dup() in C Does?](http://stackoverflow.com/questions/7861611/can-someone-explain-what-dup-in-c-does?rq=1)
@@ -84,10 +84,10 @@ if the output is weird ASCII character, try saving repeated filename in stack in
 
 ###`Signal`:
 ------------
-Do not use `execvp`
-Use `getenv` to find PATH
+Do not use `execvp()`
+Use [getenv()](http://linux.die.net/man/3/getenv) to find PATH
 Check if the file is executable
-Use `execv` or any syscall other than `execvp`
+Use [execv()](http://linux.die.net/man/3/execv) or any syscall other than `execvp`
 
 #####FAQ in	getting path and using exec:
 1.`getenv` Introduction/instruction:  [Stackoverflow: Unix Path Searching C Function](http://stackoverflow.com/questions/147057/unix-path-searching-c-function)
@@ -96,9 +96,11 @@ Use `execv` or any syscall other than `execvp`
 4. If `getenv` does not return correct path the second time, check if the path variable has been modified by accident. [Stackoverflow: const char...changed?](http://stackoverflow.com/questions/10249750/const-char-changed)
 
 #####Use Signal
-	When capture ^C, interrupt foreground job
-	Include `signal.h`
-	Use [`raise`](http://linux.die.net/man/3/raise) and [`signal`](http://linux.die.net/man/2/signal)
+When capture ^C, interrupt foreground job
+
+Include `signal.h`
+
+Use [raise()](http://linux.die.net/man/3/raise) and [signal()](http://linux.die.net/man/2/signal)
 	
 #####FAQ in `signal`:
 1. Signal Introduction: [The Geek Stuff: Linux Signals - Example C Program to Catch Signals(SIGINT, SIGKILL, SIGSTOP)](http://www.thegeekstuff.com/2012/03/catch-signals-sample-c-code/)
@@ -110,7 +112,7 @@ Use `execv` or any syscall other than `execvp`
 #####Implement `cd`
 	Display current working directory 
 	if `cd` is entered
-	Change the current directory using [`chdir`]
+	Change the current directory using [chdir()](http://linux.die.net/man/2/chdir)
 
 #####FAQ in `cd`:
 #######Current Working Directory:
