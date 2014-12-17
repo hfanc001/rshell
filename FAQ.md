@@ -1,6 +1,6 @@
 ####`Rshell`:
 -------------
-#####FAQ in `rshell`:
+#####FAQ:
 1. Shell introduction: [Writing Your Own Shell](http://linuxgazette.net/111/ramankutty.html)
 2. Strtok introduction: [Fresh2refresh C Programming Tutorial: C- strtok() Function](http://fresh2refresh.com/c/c-strings/c-strtok-function/)
 
@@ -46,7 +46,7 @@ use [open](http://linux.die.net/man/2/open) to get the read/write permission
 
 If the output is weird ASCII character, try saving repeated filename in stack instead of heap
 
-#####FAQ in ls: 
+#####FAQ: 
 1. [Howto: C Programming with Directories on Linux](http://www.thegeekstuff.com/2012/06/c-directory/)
 2. [Stackoverflow: How to implement Unix ls -l Command in C](http://stackoverflow.com/questions/857156/how-to-implement-unix-ls-l-command-in-c)
 3. [Stackoverflow: Implementing ls command in C](http://stackoverflow.com/questions/14576725/implementing-ls-command-in-c) (output formatting source code)
@@ -61,7 +61,7 @@ If the output is weird ASCII character, try saving repeated filename in stack in
 #####`dup`
 Use [dup()](http://linux.die.net/man/2/dup) or [dup2()](http://linux.die.net/man/2/dup2) to open new input/output redirection with the initialized input/output test file
 
-#####FAQ in dup:
+#####FAQ:
 1. Pipe Explanation [Stackoverflow: Can Someone Explain What dup() in C Does?](http://stackoverflow.com/questions/7861611/can-someone-explain-what-dup-in-c-does?rq=1)
 2. [Advance Bash-Scripting Guide: Chapter 20. I/O Redirection](http://www.tldp.org/LDP/abs/html/io-redirection.html)
 2. [Stackoverflow: Having trouble with fork(), pipe(), dup2(), and exec() in C](http://stackoverflow.com/questions/916900/having-trouble-with-fork-pipe-dup2-and-exec-in-c?rq=1)
@@ -77,7 +77,7 @@ Use [dup()](http://linux.die.net/man/2/dup) or [dup2()](http://linux.die.net/man
 	`>` is for overwriting the current data in file
 	`>>` is to append text to a file
 	
-#####FAQ in redirection: 	
+#####FAQ: 	
 1. [Redirection[Bash-hackers]](http://wiki.bash-hackers.org/syntax/redirection)	
 2. [Cprogramming.com: Appending Text to Existing Text File](http://cboard.cprogramming.com/c-programming/103570-appending-text-existing-text-file.html)
 3. Mode definition for open: [Stackoverflow: what does mode_t 0644 mean?](http://stackoverflow.com/questions/18415904/what-does-mode-t-0644-mean)
@@ -92,7 +92,7 @@ Check if the file is executable using [access()](http://linux.die.net/man/2/acce
 
 Use [execv()](http://linux.die.net/man/3/execv) or any syscall other than `execvp`
 
-#####FAQ in	getting path and using exec:
+#####FAQ:
 1.`getenv` Introduction/instruction:  [Stackoverflow: Unix Path Searching C Function](http://stackoverflow.com/questions/147057/unix-path-searching-c-function)
 2. [`execve` Syscall Family Nanual Page](http://linux.die.net/man/3/execve)
 3. [Stackoverflow: System Call fork() and execv funtion](http://stackoverflow.com/questions/19147386/system-call-fork-and-execv-function)
@@ -105,7 +105,7 @@ Include `signal.h`
 
 Use [raise()](http://linux.die.net/man/3/raise) and [signal()](http://linux.die.net/man/2/signal)
 	
-#####FAQ in `signal`:
+#####FAQ:
 1. Signal Introduction: [The Geek Stuff: Linux Signals - Example C Program to Catch Signals(SIGINT, SIGKILL, SIGSTOP)](http://www.thegeekstuff.com/2012/03/catch-signals-sample-c-code/)
 2. All the signal handlers [YoLinux: C/C++ Signal Handling](http://www.yolinux.com/TUTORIALS/C++Signals.html)
 3. [The GNU C Library: Signla Handling](http://www.cs.utah.edu/dept/old/texinfo/glibc-manual-0.02/library_21.html)
