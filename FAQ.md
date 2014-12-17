@@ -68,14 +68,14 @@ Use [dup()](http://linux.die.net/man/2/dup) or [dup2()](http://linux.die.net/man
 3. [Stackoverflow: Implementation of multiple pipes in C](http://stackoverflow.com/questions/8389033/implementation-of-multiple-pipes-in-c?lq=1)
 
 #####Input redirection
-	check if there is `<` in the command
+	check if there is < in the command
 	open the inputfile
 	redirection to the inputfile for the first command
 
 #####Output redireciton
-	check if there is `>` or `>>` in the command 
-	`>` is for overwriting the current data in file
-	`>>` is to append text to a file
+	check if there is > or >> in the command 
+	> is for overwriting the current data in file
+	>> is to append text to a file
 	
 #####FAQ: 	
 1. [Redirection[Bash-hackers]](http://wiki.bash-hackers.org/syntax/redirection)	
@@ -113,9 +113,9 @@ Use [raise()](http://linux.die.net/man/3/raise) and [signal()](http://linux.die.
 5. [Cprogramming: SIGNAL Suspend?](http://cboard.cprogramming.com/c-programming/121383-signal-suspended.html)
 
 #####Implement `cd`
-	Display current working directory 
-	if `cd` is entered
-	Change the current directory using [chdir()](http://linux.die.net/man/2/chdir)
+Display current working directory 
+	
+If `cd` is entered, change the current directory using [chdir()](http://linux.die.net/man/2/chdir)
 
 #####FAQ:
 1. [Stackoverflow: Getting Absolute Path of a File](http://stackoverflow.com/questions/229012/getting-absolute-path-of-a-file)
