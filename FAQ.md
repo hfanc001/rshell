@@ -117,11 +117,8 @@ Use [raise()](http://linux.die.net/man/3/raise) and [signal()](http://linux.die.
 	if `cd` is entered
 	Change the current directory using [chdir()](http://linux.die.net/man/2/chdir)
 
-#####FAQ in `cd`:
-######Current Working Directory:
+#####FAQ:
 1. [Stackoverflow: Getting Absolute Path of a File](http://stackoverflow.com/questions/229012/getting-absolute-path-of-a-file)
-
-######`chdir()`:
-1. [Stackoverflow: Why is chdir() not successful?](http://stackoverflow.com/questions/16841365/why-is-chdir-not-successful?rq=1)
-2. [Stackoverflow: chdir() - No Such File or Directory](http://stackoverflow.com/questions/13591065/chdir-no-such-file-or-directory?rq=1)
+2. [Stackoverflow: Why is chdir() not successful?](http://stackoverflow.com/questions/16841365/why-is-chdir-not-successful?rq=1)
+3. [Stackoverflow: chdir() - No Such File or Directory](http://stackoverflow.com/questions/13591065/chdir-no-such-file-or-directory?rq=1)
 
