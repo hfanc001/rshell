@@ -51,7 +51,7 @@ If the output is weird ASCII character, try saving repeated filename in stack in
 2. [Stackoverflow: How to implement Unix ls -l Command in C](http://stackoverflow.com/questions/857156/how-to-implement-unix-ls-l-command-in-c)
 3. [Stackoverflow: Implementing ls command in C](http://stackoverflow.com/questions/14576725/implementing-ls-command-in-c) (output formatting source code)
 4. [Unix LS Command: 15 Practical Examples](http://www.thegeekstuff.com/2009/07/linux-ls-command-examples/)
-5. Check read/write permission, [`access` Man Page](http://linux.die.net/man/2/access)
+5. To check read/write permission, use [access()](http://linux.die.net/man/2/access)
 6. Check file permission [Stackoverflow: Printing file permissions like "ls -l" using stat(2) in C] (http://stackoverflow.com/questions/10323060/printing-file-permissions-like-ls-l-using-stat2-in-c)
 7. Check path name:
 	[Stackoverflow: How can I check whether this is directory-path or any filename-path] (http://stackoverflow.com/questions/8427436/how-can-i-check-whether-this-is-directory-path-or-any-filename-path)
@@ -59,7 +59,7 @@ If the output is weird ASCII character, try saving repeated filename in stack in
 ###`Piping`:
 ------------
 #####`dup`
-	Use [dup()](http://linux.die.net/man/2/dup) or [dup2()](http://linux.die.net/man/2/dup2) to open new input/output redirection with the initialized input/output test file
+Use [dup()](http://linux.die.net/man/2/dup) or [dup2()](http://linux.die.net/man/2/dup2) to open new input/output redirection with the initialized input/output test file
 
 #####FAQ in dup:
 1. Pipe Explanation [Stackoverflow: Can Someone Explain What dup() in C Does?](http://stackoverflow.com/questions/7861611/can-someone-explain-what-dup-in-c-does?rq=1)
@@ -80,13 +80,16 @@ If the output is weird ASCII character, try saving repeated filename in stack in
 #####FAQ in redirection: 	
 1. [Redirection[Bash-hackers]](http://wiki.bash-hackers.org/syntax/redirection)	
 2. [Cprogramming.com: Appending Text to Existing Text File](http://cboard.cprogramming.com/c-programming/103570-appending-text-existing-text-file.html)
-3. Mode definition for open [Stackoverflow: what does mode_t 0644 mean?](http://stackoverflow.com/questions/18415904/what-does-mode-t-0644-mean)
+3. Mode definition for open: [Stackoverflow: what does mode_t 0644 mean?](http://stackoverflow.com/questions/18415904/what-does-mode-t-0644-mean)
 
 ###`Signal`:
 ------------
 Do not use `execvp()`
+
 Use [getenv()](http://linux.die.net/man/3/getenv) to find PATH
-Check if the file is executable
+
+Check if the file is executable using [access()](http://linux.die.net/man/2/access)
+
 Use [execv()](http://linux.die.net/man/3/execv) or any syscall other than `execvp`
 
 #####FAQ in	getting path and using exec:
@@ -115,10 +118,10 @@ Use [raise()](http://linux.die.net/man/3/raise) and [signal()](http://linux.die.
 	Change the current directory using [chdir()](http://linux.die.net/man/2/chdir)
 
 #####FAQ in `cd`:
-#######Current Working Directory:
-	1. [Stackoverflow: Getting Absolute Path of a File](http://stackoverflow.com/questions/229012/getting-absolute-path-of-a-file)
+######Current Working Directory:
+1. [Stackoverflow: Getting Absolute Path of a File](http://stackoverflow.com/questions/229012/getting-absolute-path-of-a-file)
 
-#######`chdir()`:
-	1. [Stackoverflow: Why is chdir() not successful?](http://stackoverflow.com/questions/16841365/why-is-chdir-not-successful?rq=1)
-	2. [Stackoverflow: chdir() - No Such File or Directory](http://stackoverflow.com/questions/13591065/chdir-no-such-file-or-directory?rq=1)
+######`chdir()`:
+1. [Stackoverflow: Why is chdir() not successful?](http://stackoverflow.com/questions/16841365/why-is-chdir-not-successful?rq=1)
+2. [Stackoverflow: chdir() - No Such File or Directory](http://stackoverflow.com/questions/13591065/chdir-no-such-file-or-directory?rq=1)
 
